@@ -1,3 +1,9 @@
+<!--
+  ~ This Source Code Form is subject to the terms of the Mozilla Public
+  ~ License, v. 2.0. If a copy of the MPL was not distributed with this
+  ~ file, You can obtain one at https://mozilla.org/MPL/2.0/.
+-->
+
 # Debugging
 
 Extensions written in gdext can be debugged using LLDB, in a similar manner to other Rust programs. The primary difference is that LLDB will

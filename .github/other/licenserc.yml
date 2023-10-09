@@ -1,0 +1,30 @@
+# This Source Code Form is subject to the terms of the Mozilla Public
+# License, v. 2.0. If a copy of the MPL was not distributed with this
+# file, You can obtain one at https://mozilla.org/MPL/2.0/.
+
+# File format: see https://github.com/apache/skywalking-eyes/blob/main/test/testdata/.licenserc_language_config_test.yaml
+
+header:
+  license:
+    spdx-id: MPL-2.0
+
+  paths:
+    - '**/*.rs'
+    - '**/*.gd'
+    - '**/*.sh'
+    - '**/*.md'
+    - '.github/**/*.yml'
+
+  paths-ignore:
+    - 'ReadMe.md'
+    - '.github/ISSUE_TEMPLATE'
+
+  comment: on-failure
+
+  language:
+    GDScript:
+      extensions: ['.gd', '.sh']
+      comment_style_id: 'Hashtag'
+    Rust:
+      extensions: ['.rs']
+      comment_style_id: 'SlashAsterisk'

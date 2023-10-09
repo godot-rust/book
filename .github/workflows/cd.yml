@@ -1,8 +1,13 @@
+# This Source Code Form is subject to the terms of the Mozilla Public
+# License, v. 2.0. If a copy of the MPL was not distributed with this
+# file, You can obtain one at https://mozilla.org/MPL/2.0/.
+
 name: "Deploy to GitHub Pages"
 
 on:
   push:
     branches: [master]
+  pull_request:
 
 env:
   # Use fixed versions for now, replace with 'latest' to auto-use latest
@@ -14,12 +19,13 @@ env:
 
 # Sets permissions of the GITHUB_TOKEN to allow deployment to GitHub Pages
 permissions:
-  contents: read
+#  contents: read
+  contents: write
   pages: write
   id-token: write
 
 jobs:
-  build-and-deploy:
+  build:
     runs-on: ubuntu-latest
 
     steps:
@@ -48,9 +54,37 @@ jobs:
       run: mdbook build
 
     - name: "Upload Pages artifact"
+      if: github.ref == 'refs/heads/master'
       uses: actions/upload-pages-artifact@v1
       with:
         path: book
 
     - name: "Deploy to GitHub Pages"
+      if: github.ref == 'refs/heads/master'
       uses: actions/deploy-pages@v2
+
+
+  license-guard:
+    runs-on: ubuntu-20.04
+    steps:
+      - uses: actions/checkout@v3
+
+      - name: "Check license headers"
+        uses: apache/skywalking-eyes/header@v0.5.0
+        with:
+          # log: debug # optional: set the log level. The default value is `info`.
+          config: .github/other/licenserc.yml
+          # token: # optional: the token that license eye uses when it needs to comment on the pull request.
+          # Set to empty ("") to disable commenting on pull request. The default value is ${{ github.token }}
+          # mode: # optional: Which mode License-Eye should be run in. Choices are `check` or `fix`. The default value is `check`.
+          mode: check
+#          mode: fix
+
+#      - name: "Commit changes"
+#        uses: EndBug/add-and-commit@v9
+#        env:
+#          GITHUB_TOKEN: ${{ secrets.GITHUB_TOKEN }}
+#        with:
+#          author_name: 'Godot-Rust Automation'
+#          author_email: 'actions@github.com'
+#          message: 'Auto-apply license headers'
