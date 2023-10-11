@@ -7,7 +7,7 @@
     },
     // Unordered list bullets: - + *.
     "ul-style": {
-        "style": "consistent"
+        "style": "dash"
     },
     "ul-indent": {
         "indent": 2
