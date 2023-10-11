@@ -17,6 +17,17 @@ $ mdbook serve --open
 ```
 
 
+## Formatting and linting
+
+We use [markdownlint] to enforce a consistent style across the Markdown files.
+It is automatically run during CI, but if you have the `npm` toolchain, you can also run it locally:
+
+```bash
+npm install --global markdownlint-cli2
+./lint.sh
+```
+
+
 ## Contributing
 
 This repository is for documentation only. Please open pull requests targeting the gdext library itself in the [main repo][gdext].
@@ -28,9 +39,10 @@ Please read the corresponding contributing guidelines in `Contributing.md`.
 Like gdext itself, the gdext book is licensed under [MPL 2.0][mpl].
 
 [book-web]: https://godot-rust.github.io/book
-[gdnative-book]: https://github.com/godot-rust/gdnative-book
-[mdBook]: https://github.com/rust-lang-nursery/mdBook
-[mdbook-toc]: https://github.com/badboy/mdbook-toc
-[mdbook-admonish]: https://github.com/tommilligan/mdbook-admonish
 [gdext]: https://github.com/godot-rust/gdext
+[gdnative-book]: https://github.com/godot-rust/gdnative-book
+[markdownlint]: https://github.com/DavidAnson/markdownlint
+[mdbook-admonish]: https://github.com/tommilligan/mdbook-admonish
+[mdbook-toc]: https://github.com/badboy/mdbook-toc
+[mdBook]: https://github.com/rust-lang-nursery/mdBook
 [mpl]: https://www.mozilla.org/en-US/MPL

@@ -2,7 +2,7 @@
 # License, v. 2.0. If a copy of the MPL was not distributed with this
 # file, You can obtain one at https://mozilla.org/MPL/2.0/.
 
-name: "Deploy to GitHub Pages"
+name: "Book CI"
 
 on:
   push:
@@ -19,8 +19,7 @@ env:
 
 # Sets permissions of the GITHUB_TOKEN to allow deployment to GitHub Pages
 permissions:
-#  contents: read
-  contents: write
+  contents: read
   pages: write
   id-token: write
 
@@ -62,6 +61,25 @@ jobs:
     - name: "Deploy to GitHub Pages"
       if: github.ref == 'refs/heads/master'
       uses: actions/deploy-pages@v2
+
+
+  markdown-lint:
+    runs-on: ubuntu-latest
+    steps:
+    - uses: actions/checkout@v3
+
+    - name: "Install markdownlint-cli2"
+      run: npm install -g markdownlint-cli2
+
+    - name: "Run lint"
+      run: ./lint.sh
+
+    # Disabled because behavior differs slightly from markdownlint (cli)
+#    - name: "Run lint"
+#      uses: docker://avtodev/markdown-lint:v1 # fastest way; alternative: avto-dev/markdown-lint@v1
+#      with:
+#        args: ReadMe.md "src/**/*.md"
+#        config: .github/other/.markdownlint.jsonc
 
 
   license-guard:
