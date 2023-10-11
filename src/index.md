@@ -8,20 +8,22 @@
 
 Welcome to the **godot-rust book**! This is a work-in-progress user guide for **gdext**, the Rust binding for Godot 4.
 
-If you're new to Rust, before getting started, it is highly recommended that you familiarize yourself with concepts outlined in the officially maintained [Rust Book](https://doc.rust-lang.org/book/).
+If you're new to Rust, before getting started, it is highly recommended that you familiarize yourself with concepts outlined
+in the officially maintained [Rust Book](https://doc.rust-lang.org/book/).
 
 To read the book about gdnative (Godot 3 binding), follow [this link](../gdnative-book).
+
 
 ## Terminology
 
 To avoid confusion, here is an explanation of names and technologies you may encounter over time.
 
-* **godot-rust**: The entire project, encompassing Rust bindings for Godot 3 and 4, as well as related efforts (book, community, etc.).
-* [**GDExtension**]: C API provided by Godot 4.
-* [**GDNative**]: C API provided by Godot 3.
-* **gdext** (lowercase): the Rust binding for GDExtension (Godot 4) -- what this book focuses on.
-* **gdnative** (lowercase): the Rust binding for GDNative (Godot 3). 
-* **Extension**: An extension is a C library developed using gdext. It can be loaded by Godot 4.
+- **godot-rust**: The entire project, encompassing Rust bindings for Godot 3 and 4, as well as related efforts (book, community, etc.).
+- [**GDExtension**]: C API provided by Godot 4.
+- [**GDNative**]: C API provided by Godot 3.
+- **gdext** (lowercase): the Rust binding for GDExtension (Godot 4) -- what this book focuses on.
+- **gdnative** (lowercase): the Rust binding for GDNative (Godot 3).
+- **Extension**: An extension is a C library developed using gdext. It can be loaded by Godot 4.
 
 
 ## Currently supported features

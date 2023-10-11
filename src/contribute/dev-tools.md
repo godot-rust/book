@@ -6,7 +6,7 @@
 
 # Dev tools and testing
 
-The library comes with a handful of tools and tricks to ease development. 
+The library comes with a handful of tools and tricks to ease development.
 This page goes into different aspects of the contributing experience.
 
 <!-- toc -->
@@ -18,7 +18,7 @@ The script `check.sh` in the project root can be used to mimic a minimal version
 It's useful to run this before you commit, push or create a pull request:
 
 ```bash
-$ ./check.sh
+./check.sh
 ```
 
 At the time of writing, this will run formatting, clippy, unit tests and integration tests. More checks may be added in the future.
@@ -27,7 +27,7 @@ Run `./check.sh --help` to see all available options.
 If you like, you can set this as a pre-commit hook in your local clone of the repository:
 
 ```bash
-$ ln -sf check.sh .git/hooks/pre-commit
+ln -sf check.sh .git/hooks/pre-commit
 ```
 
 
@@ -35,7 +35,6 @@ $ ln -sf check.sh .git/hooks/pre-commit
 
 Besides [published docs][API Docs], API documentation can also be generated locally using `./check.sh doc`.
 Use `dok` instead of `doc` to open the page in the browser.
-
 
 
 ### Unit tests
@@ -48,7 +47,7 @@ Unit tests also include [doctests], which are Rust code snippets embedded in the
 As additional flags might be needed, the preferred way to run unit tests is through the `check.sh` script:
 
 ```bash
-$ ./check.sh test
+./check.sh test
 ```
 
 
@@ -95,7 +94,7 @@ fn i_need_to_debug_this() {
 You can run the integration tests like this:
 
 ```bash
-$ ./check.sh itest
+./check.sh itest
 ```
 
 Just like when compiling the crate, the `GODOT4_BIN` environment variable can be used to supply the path and filename of your Godot executable.
@@ -107,7 +106,7 @@ Otherwise, a binary named `godot4` in your PATH is used.
 `rustfmt` is used to format code. `check.sh` only warns about formatting issues, but does not fix them. To do that, run:
 
 ```bash
-$ cargo fmt
+cargo fmt
 ```
 
 
@@ -116,8 +115,9 @@ $ cargo fmt
 `clippy` is used for additional lint warnings not implemented in `rustc`. This, too, is best run through `check.sh`:
 
 ```bash
-$ ./check.sh clippy
+./check.sh clippy
 ```
+
 
 ## Continuous Integration
 
@@ -147,6 +147,7 @@ Don't forget to undo this before opening a PR! You may want to keep it in a sepa
 
 ## Build configurations
 
+
 ### `real` type
 
 Certain types in Godot use either a single or double-precision float internally, such as `Vector2`.
@@ -154,8 +155,9 @@ When working with these types, we use the `real` type instead of choosing either
 As a result, our code is portable between Godot binaries compiled with `precision=single` and `precision=double`.
 
 To run the testing suite with `double-precision` enabled you may add `--double` to a `check.sh` invocation:
+
 ```bash
-$ ./check.sh --double
+./check.sh --double
 ```
 
 [doctests]: https://doc.rust-lang.org/rustdoc/write-documentation/documentation-tests.html

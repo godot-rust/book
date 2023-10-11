@@ -9,7 +9,7 @@
 By default, `gdext` uses the latest stable release of Godot. This is desired in most cases, but it means that you cannot run your extension in
 an older Godot version. Furthermore, you cannot benefit from modified Godot versions (e.g. with custom modules).
 
-If these are features you need, this page will walk you through the necessary steps. 
+If these are features you need, this page will walk you through the necessary steps.
 Read [Compatibility and stability] first and make sure you understand the concept of API and runtime versions.
 
 
@@ -44,7 +44,6 @@ Note that we do not give any support or compatibility guarantees for custom-buil
 
 Note that this requires the `bindgen`, as such you may need to install the LLVM toolchain.
 Consult the [setup page][setup-llvm] for more information.
-
 
 
 [Compatibility and stability]: compatibility.md

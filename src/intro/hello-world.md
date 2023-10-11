@@ -10,6 +10,7 @@ This page shows you how to develop your own small extension library and load it 
 The tutorial is heavily inspired by [Creating your first script][tutorial-begin] from the official Godot documentation.
 It is recommended to follow that alongside this tutorial, in case you're interested how certain GDScript concepts map to Rust.
 
+
 ## Table of contents
 <!-- toc -->
 
@@ -22,6 +23,7 @@ Save the changes and consider versioning each step of the tutorial in Git.
 Once you have a Godot project, you can register GDExtension libraries that it should use. These libraries are called _extensions_
 and loaded during Godot engine startup -- both when opening the editor and when launching your game. The registration requires two files.
 
+
 ### `.gdextension` file
 
 First, add `res://HelloWorld.gdextension`, which is the equivalent of `.gdnlib` for GDNative.
@@ -29,6 +31,7 @@ First, add `res://HelloWorld.gdextension`, which is the equivalent of `.gdnlib` 
 The `[configuration]` section should be copied as-is.  
 The `[libraries]` section should be updated to match the paths of your dynamic Rust libraries.
 `{myCrate}` can be replaced with the name of your crate.
+
 ```ini
 [configuration]
 entry_symbol = "gdext_rust_init"
@@ -50,14 +53,18 @@ For exporting your project, you'll need to use paths inside `res://`.
 ```
 
 ```admonish note
-If you specify your cargo compilation target via the `--target` flag or a `.cargo/config.toml` file, the rust library will be placed in a path name that includes target architecture, and the `.gdextension` library paths will need to match. E.g. for M1 Macs (`macos.debug.arm64` and `macos.release.arm64`) the path would be `"res://../rust/target/aarch64-apple-darwin/debug/lib{myCrate}.dylib"`
+If you specify your cargo compilation target via the `--target` flag or a `.cargo/config.toml` file, the rust library will be placed in a 
+path name that includes target architecture, and the `.gdextension` library paths will need to match. For example, for M1 Macs 
+(`macos.debug.arm64` and `macos.release.arm64`), the path would be `"res://../rust/target/aarch64-apple-darwin/debug/lib{myCrate}.dylib"`.
 ```
+
 
 ### `extension_list.cfg`
 
 A second file `res://.godot/extension_list.cfg` should be generated once you open the Godot editor for the first time.
 If not, you can also manually create it, simply containing the Godot path to your `.gdextension` file:
-```
+
+```text
 res://HelloWorld.gdextension
 ```
 
@@ -65,11 +72,13 @@ res://HelloWorld.gdextension
 ## Cargo project
 
 In your terminal, create a new Cargo project with your chosen crate name:
+
 ```bash
 cargo new {myCrate} --lib
 ```
 
 Then, open Cargo.toml and add the following:
+
 ```toml
 [lib]
 crate-type = ["cdylib"]
@@ -93,6 +102,7 @@ Our C library needs to expose an _entry point_ to Godot: a C function that can b
 Setting this up requires quite some low-level FFI code, which is why gdext abstracts it for you.
 
 In your `lib.rs`, add the following:
+
 ```rust
 use godot::prelude::*;
 
@@ -122,6 +132,7 @@ Rust does not natively support inheritance, but the gdext API emulates it to a c
 ### Class declaration
 
 In this example, we declare a class called `Player`, which inherits [`Sprite2D`][sprite2d-api] (a node type):
+
 ```rust
 use godot::prelude::*;
 use godot::engine::Sprite2D;
@@ -144,13 +155,13 @@ Let's break this down.
 2. The `#[derive]` attribute registers `Player` as a class in the Godot engine.
    See [API docs][derive-godotclass] for details about `#[derive(GodotClass)]`.
 
- ```admonish info
- `#[derive(GodotClass)]` _automatically_ registers the class -- you don't need an explicit 
- `add_class()` registration call, or a `.gdns` file as it was the case with GDNative.
- 
- You will however need to restart the Godot editor to take effect.
- ```
+   ```admonish info
+   `#[derive(GodotClass)]` _automatically_ registers the class -- you don't need an explicit 
+   `add_class()` registration call, or a `.gdns` file as it was the case with GDNative.
    
+   You will however need to restart the Godot editor to take effect.
+   ```
+
 3. The optional `#[class]` attribute configures how the class is registered. In this case, we specify that `Player` inherits Godot's
    `Sprite2D` class. If you don't specify the `base` key, the base class will implicitly be `RefCounted`, just as if you omitted the
    `extends` keyword in GDScript.
@@ -158,9 +169,9 @@ Let's break this down.
 4. We define two fields `speed` and `angular_speed` for the logic. These are regular Rust fields, no magic involved. More about their use later.
 
 5. The `#[base]` attribute declares the `sprite` field, which allows `self` to access the base instance (via composition, as Rust does not have
-   native inheritance). 
+   native inheritance).
 
-   - The field must have type `Base<T>`. 
+   - The field must have type `Base<T>`.
    - The name can be freely chosen. Here it's `sprite`, but `base` is also a common convention.
    - You do not _have to_ declare this field. If it is absent, you cannot access the base object from within `self`.
      This is often not a problem, e.g. in data bundles inheriting `RefCounted`.
@@ -176,7 +187,7 @@ Use version control (git) to check for unwanted changes in `.tscn` files.
 
 ### Method declaration
 
-Now let's add some logic. We start with overriding the `init` method, also known as the constructor. 
+Now let's add some logic. We start with overriding the `init` method, also known as the constructor.
 This corresponds to GDScript's `_init()` function.
 
 ```rust
@@ -195,6 +206,7 @@ impl Sprite2DVirtual for Player {
     }
 }
 ```
+
 Again, those are multiple pieces working together, let's go through them one by one.
 
 1. `#[godot_api]` - this lets gdext know that the following `impl` block is part of the Rust API to expose to Godot.
@@ -204,7 +216,7 @@ Again, those are multiple pieces working together, let's go through them one by 
    specific class, as well as general-purpose functionality such as `init` (the constructor) or `to_string` (String conversion).
    The trait has no required methods.
 
-3. The `init` constructor is an associated function ("static method" in other languages) that takes the base instance as argument and returns 
+3. The `init` constructor is an associated function ("static method" in other languages) that takes the base instance as argument and returns
    a constructed instance of `Self`. While the base is usually just forwarded, the constructor is the place to initialize all your other fields.
    In this example, we assign initial values `400.0` and `PI`.
 
@@ -281,28 +293,31 @@ The result should be a sprite that rotates with an offset.
 
 ![rotating translated sprite](https://docs.godotengine.org/en/stable/_images/scripting_first_script_rotating_godot.gif)
 
+
 ### Custom Rust APIs
 
 Say you want to add some functionality to your `Player` class, which can be called from GDScript. For this, you have a separate `impl` block,
 again annotated with `#[godot_api]`. However, this time we are using an _inherent_ `impl` (i.e. without a trait name).
 
 Concretely, we add a function to increase the speed, and a signal to notify other objects of the speed change.
+
 ```rust
 #[godot_api]
 impl Player {
-	#[func]
-	fn increase_speed(&mut self, amount: f64) {
-		self.speed += amount;
-		self.sprite.emit_signal("speed_increased".into(), &[]);
-	}
+    #[func]
+    fn increase_speed(&mut self, amount: f64) {
+        self.speed += amount;
+        self.sprite.emit_signal("speed_increased".into(), &[]);
+    }
 
-	#[signal]
-	fn speed_increased();
+    #[signal]
+    fn speed_increased();
 }
 ```
+
 `#[godot_api]` takes again the role of exposing the API to the Godot engine. But there are also two new attributes:
 
-- `#[func]` exposes a function to Godot. The parameters and return types are mapped to their corresponding GDScript types. 
+- `#[func]` exposes a function to Godot. The parameters and return types are mapped to their corresponding GDScript types.
 - `#[signal]` declares a signal. A signal can be emitted with the `emit_signal` method (which every Godot class provides, since it is inherited
   from `Object`).
 
@@ -312,8 +327,6 @@ That's it for the _Hello World_ tutorial! The following chapters will go into mo
 
 
 [derive-godotclass]: https://godot-rust.github.io/docs/gdext/master/godot/prelude/derive.GodotClass.html
-[godot-command-line]: https://docs.godotengine.org/en/stable/tutorials/editor/command_line_tutorial.html
-[no-reload]: https://github.com/godotengine/godot/issues/66231
 [sprite2d-api]: https://godot-rust.github.io/docs/gdext/master/godot/engine/struct.Sprite2D.html
 [tutorial-begin]: https://docs.godotengine.org/en/stable/getting_started/step_by_step/scripting_first_script.html
 [tutorial-full-script]: https://docs.godotengine.org/en/stable/getting_started/step_by_step/scripting_first_script.html#complete-script

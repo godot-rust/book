@@ -8,17 +8,18 @@
 
 To use gdext, we need a few technologies.
 
+
 ## Godot Engine
 
 While you can write Rust code without having the Godot engine, we highly recommend to install Godot for quick feedback loops.
 For the rest of the tutorial, we assume that you have Godot 4 installed and available either:
-* in your `PATH` as `godot4`,
-* or an environment variable called `GODOT4_BIN`, containing the path to the Godot executable.
+
+- in your `PATH` as `godot4`,
+- or an environment variable called `GODOT4_BIN`, containing the path to the Godot executable.
 
 Binaries of Godot 4 can be downloaded [from the official website][godot-download].
 
 If you plan to target Godot versions different from the latest stable release, please read [Compatibility and stability][compatibility].
-
 
 
 ## Rust
@@ -37,7 +38,7 @@ rustc --version
 cargo -V
 ```
 
-If you use Windows, check out [Working with Rust on Windows][rustup-windows]. 
+If you use Windows, check out [Working with Rust on Windows][rustup-windows].
 
 
 ## LLVM

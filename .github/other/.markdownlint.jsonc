@@ -1,0 +1,70 @@
+// https://github.com/DavidAnson/markdownlint/blob/main/doc/Rules.md
+
+{
+    "default": true,
+    "heading-style": {
+        "style": "atx"
+    },
+    // Unordered list bullets: - + *.
+    "ul-style": {
+        "style": "dash"
+    },
+    "ul-indent": {
+        "indent": 2
+    },
+    // Lists 1. 2. 3. or 1. 1. 1.
+    "ol-prefix": {
+        "style": "ordered"
+    },
+    "no-hard-tabs": {
+        "code_blocks": true,
+        "ignore_code_languages": ["gdscript"],
+        "spaces_per_tab": 4
+    },
+    "no-multiple-blanks": {
+        // Must not be smaller to allow for "blanks-around-headers" minimum.
+        "maximum": 2
+    },
+    "blanks-around-headings": {
+        "lines_above": 2,
+        "lines_below": 1
+    },
+    "line-length": {
+        "line_length": 150,
+        "strict": true,
+        "code_blocks": true,
+        // Code same line, due to admonish blocks. Real code should be max 100, but we can't check this.
+        "code_block_line_length": 150,
+        "tables": false
+    },
+    // Punct at end of titles
+    "no-trailing-punctuation": {
+        "punctuation": ".,;:!。，；：！"
+    },
+    // Code blocks surrounded by empty lines.
+    "blanks-around-fences": {
+        // Except when part of a list (to allow "tight lists")
+        "list_items": false
+    },
+    "proper-names": {
+        "names": ["Godot", "GDScript", "Rust", "GDExtension", "gdext", "godot-rust"],
+        "code_blocks": false
+    },
+    // Indented vs ```-fenced.
+    "code-block-style": {
+        "style": "fenced"
+    },
+    "code-fence-style": {
+        // Would allow "tilde" for ~~~rs style.
+        "style": "backtick"
+    },
+    "emphasis-style": {
+        "style": "underscore"
+    },
+    "strong-style": {
+        "style": "asterisk"
+    }
+    // If [links] inside code blocks are not recognized, and --fix removes footers, disable this.
+    // (Links in code blocks are required by our admonish plugin).
+    // "reference-links-images": false
+}
