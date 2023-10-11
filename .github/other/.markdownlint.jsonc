@@ -12,6 +12,10 @@
     "ul-indent": {
         "indent": 2
     },
+    // Lists 1. 2. 3. or 1. 1. 1.
+    "ol-prefix": {
+        "style": "ordered"
+    },
     "no-hard-tabs": {
         "code_blocks": true,
         "ignore_code_languages": ["gdscript"],
@@ -36,10 +40,6 @@
     // Punct at end of titles
     "no-trailing-punctuation": {
         "punctuation": ".,;:!。，；：！"
-    },
-    // Lists 1. 2. 3. or 1. 1. 1.
-    "ol-prefix": {
-        "style": "one"
     },
     // Code blocks surrounded by empty lines.
     "blanks-around-fences": {

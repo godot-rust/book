@@ -1,19 +1,22 @@
 # The godot-rust book
 
-The godot-rust book is a user guide for **gdext**, the Rust bindings to Godot 4. The book is still work-in-progress, and contributions are very welcome.
+The godot-rust book is a user guide for **gdext**, the Rust bindings to Godot 4.
+The book is still work-in-progress, and contributions are very welcome.
 
-An online version of the book is available at [godot-rust.github.io/book][book-web].  
+An online version of the book is available at [godot-rust.github.io/book][book-web].
 For the gdnative book, check out [gdnative-book].
 
 The book is built with [mdBook] and the plugins [mdbook-toc] and [mdbook-admonish]. To install them and build the book locally, you can run:
+
 ```bash
-$ cargo install mdbook mdbook-toc mdbook-admonish
-$ mdbook build
+cargo install mdbook mdbook-toc mdbook-admonish
+mdbook build
 ```
 
 To run a local server with automatic updates while editing the book, use:
+
 ```bash
-$ mdbook serve --open
+mdbook serve --open
 ```
 
 

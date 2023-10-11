@@ -16,8 +16,8 @@ you will only have symbols for stack frames in Rust code.
 
 ## Launching with VS Code
 
-Here is an example launch configuration for Visual Studio Code. Launch configurations should be added to  `./.vscode/launch.json` relative
-to your project's root. This example assumes you have the [CodeLLDB](https://marketplace.visualstudio.com/items?itemName=vadimcn.vscode-lldb) extension installed, which is common for Rust development.
+Here is an example launch configuration for Visual Studio Code. Launch configurations should be added to  `./.vscode/launch.json`, relative
+to your project's root. This example assumes you have the [CodeLLDB] extension installed, which is common for Rust development.
 
 ```jsonc
 {
@@ -61,7 +61,8 @@ as it includes the required `com.apple.security.get-task-allow` key not currentl
 
 ```xml
 <?xml version="1.0" encoding="UTF-8"?>
-<!DOCTYPE plist PUBLIC "-//Apple//DTD PLIST 1.0//EN" "http://www.apple.com/DTDs/PropertyList-1.0.dtd">
+<!DOCTYPE plist 
+  PUBLIC "-//Apple//DTD PLIST 1.0//EN" "http://www.apple.com/DTDs/PropertyList-1.0.dtd">
 <plist version="1.0">
     <dict>
         <key>com.apple.security.cs.allow-dyld-environment-variables</key>
@@ -87,8 +88,11 @@ as it includes the required `com.apple.security.get-task-allow` key not currentl
 Once this file is created, you can run
 
 ```bash
-codesign -s - --deep --force --options=runtime --entitlements ./editor.entitlements /Applications/Godot.app
+codesign -s - --deep --force --options=runtime \
+    --entitlements ./editor.entitlements /Applications/Godot.app
 ```
 
 in Terminal to complete the re-signing process. It is recommended to check this file into version control, since each developer needs to
 re-sign their local installation if you have a team. This process should only be necessary once per Godot installation though.
+
+[CodeLLDB]: https://marketplace.visualstudio.com/items?itemName=vadimcn.vscode-lldb

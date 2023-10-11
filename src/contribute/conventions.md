@@ -99,18 +99,18 @@ We use separators starting with  `// ---` to visually divide sections of related
 1. Anything that is not intended to be accessible by the user, but must be `pub` for technical reasons, should be marked as `#[doc(hidden)]`.
    * This does [**not** constitute part of the public API][lib-public-api].
 
-1. We do not use the `prelude` inside the project, except in examples and doctests.
+2. We do not use the `prelude` inside the project, except in examples and doctests.
 
-1. Inside `impl` blocks, we _roughly_ try to follow the order:
+3. Inside `impl` blocks, we _roughly_ try to follow the order:
    * Type aliases in traits (`type`)
    * Constants (`const`)
    * Constructors and associated functions
    * Public methods
    * Private methods (`pub(crate)`, private, `#[doc(hidden)]`)
 
-1. Inside files, there is no strict order yet, except `use` and `mod` at the top. Prefer to declare public-facing symbols before private ones.
+4. Inside files, there is no strict order yet, except `use` and `mod` at the top. Prefer to declare public-facing symbols before private ones.
 
-1. Use flat import statements. If multiple paths have different prefixes, put them on separate lines. Avoid `self`.
+5. Use flat import statements. If multiple paths have different prefixes, put them on separate lines. Avoid `self`.
    ```rs
    // Good:
    use crate::module;
@@ -126,7 +126,7 @@ We use separators starting with  `// ---` to visually divide sections of related
 
 1. Avoid tuple-enums `enum E { Var(u32, u32) }` and tuple-structs `struct S(u32, u32)` with more than 1 field. Use named fields instead.
 
-1. Derive order is `#[derive(GdextTrait, ExternTrait, Default, Copy, Clone, Eq, PartialEq, Ord, PartialOrd, Hash, Debug)]`.
+2. Derive order is `#[derive(GdextTrait, ExternTrait, Default, Copy, Clone, Eq, PartialEq, Ord, PartialOrd, Hash, Debug)]`.
    * `GdextTrait` is a custom derive defined by gdext itself (in any of the crates).
    * `ExternTrait` is a custom derive by a third-party crate, e.g. `nanoserde`.
    * The standard traits follow order _construction, comparison, hashing, debug display_.
@@ -137,12 +137,12 @@ We use separators starting with  `// ---` to visually divide sections of related
 
 1. Getters don't have a `get_` prefix.
 
-1. Use `self` instead of `&self` for `Copy` types, unless they are really big (such as `Transform3D`).
+2. Use `self` instead of `&self` for `Copy` types, unless they are really big (such as `Transform3D`).
 
-1. For `Copy` types, avoid in-place mutation `vector.normalize()`.  
+3. For `Copy` types, avoid in-place mutation `vector.normalize()`.  
    Instead, use `vector = vector.normalized()`. The past tense indicates a copy.
 
-1. Annotate with `#[must_use]` when ignoring the return value is likely an error.  
+4. Annotate with `#[must_use]` when ignoring the return value is likely an error.  
    Example: builder APIs.
 
 

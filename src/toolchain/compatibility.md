@@ -22,8 +22,8 @@ The two versions can be different, but there are certain constraints (see [below
 
 ### Philosophy
 
-We take compatibility with the engine seriously, in an attempt to build an ecosystem of extensions that are interoperable with multiple Godot versions.
-Nothing is more annoying than updating the engine and recompiling 10 plugins/extensions.
+We take compatibility with the engine seriously, in an attempt to build an ecosystem of extensions that are interoperable with multiple
+Godot versions. Nothing is more annoying than updating the engine and recompiling 10 plugins/extensions.
 
 This is sometimes difficult, because:
 
@@ -58,14 +58,14 @@ We do **not** invest effort in maintaining compatibility with:
 1. Godot in-development versions, except for the latest `master` branch.
    * Not that we may take some time to catch-up with the latest changes, so please don't report issues within a few days after
      upstream changes have landed.
-1. Non-stable releases (alpha, beta, RC).
-1. Third-party bindings or GDExtension APIs (C#, C++, Python, ...).
+2. Non-stable releases (alpha, beta, RC).
+3. Third-party bindings or GDExtension APIs (C#, C++, Python, ...).
    * These may have their own versioning guarantees and release cycles; and there may be specific bugs to such an integration.
      If you find an issue with gdext and another binding, reproduce it in GDScript to make sure it's relevant for us.
    * We do however maintain compatibility with Godot, so if integrations go through the engine (e.g. Rust calls a method whose
      implementation is in C#), this should work.
-1. Godot with non-standard build flags (e.g. disabled modules).
-1. Godot forks or engines running third-party modules.
+4. Godot with non-standard build flags (e.g. disabled modules).
+5. Godot forks or engines running third-party modules.
 
 
 ## Rust API stability

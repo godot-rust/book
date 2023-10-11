@@ -53,7 +53,9 @@ For exporting your project, you'll need to use paths inside `res://`.
 ```
 
 ```admonish note
-If you specify your cargo compilation target via the `--target` flag or a `.cargo/config.toml` file, the rust library will be placed in a path name that includes target architecture, and the `.gdextension` library paths will need to match. E.g. for M1 Macs (`macos.debug.arm64` and `macos.release.arm64`) the path would be `"res://../rust/target/aarch64-apple-darwin/debug/lib{myCrate}.dylib"`
+If you specify your cargo compilation target via the `--target` flag or a `.cargo/config.toml` file, the rust library will be placed in a 
+path name that includes target architecture, and the `.gdextension` library paths will need to match. For example, for M1 Macs 
+(`macos.debug.arm64` and `macos.release.arm64`), the path would be `"res://../rust/target/aarch64-apple-darwin/debug/lib{myCrate}.dylib"`.
 ```
 
 
@@ -62,7 +64,7 @@ If you specify your cargo compilation target via the `--target` flag or a `.carg
 A second file `res://.godot/extension_list.cfg` should be generated once you open the Godot editor for the first time.
 If not, you can also manually create it, simply containing the Godot path to your `.gdextension` file:
 
-```
+```text
 res://HelloWorld.gdextension
 ```
 
@@ -153,12 +155,12 @@ Let's break this down.
 2. The `#[derive]` attribute registers `Player` as a class in the Godot engine.
    See [API docs][derive-godotclass] for details about `#[derive(GodotClass)]`.
 
- ```admonish info
- `#[derive(GodotClass)]` _automatically_ registers the class -- you don't need an explicit 
- `add_class()` registration call, or a `.gdns` file as it was the case with GDNative.
- 
- You will however need to restart the Godot editor to take effect.
- ```
+   ```admonish info
+   `#[derive(GodotClass)]` _automatically_ registers the class -- you don't need an explicit 
+   `add_class()` registration call, or a `.gdns` file as it was the case with GDNative.
+   
+   You will however need to restart the Godot editor to take effect.
+   ```
 
 3. The optional `#[class]` attribute configures how the class is registered. In this case, we specify that `Player` inherits Godot's
    `Sprite2D` class. If you don't specify the `base` key, the base class will implicitly be `RefCounted`, just as if you omitted the
