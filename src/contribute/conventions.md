@@ -23,10 +23,10 @@ In particular, we use the following tools:
   * [**skywalking-eyes**] to enforce license headers.
   * [**cargo-deny**] and [**cargo-machete**] for dependency verification.
 
-In addition, we have unit tests (`#[test]`), doctests and Godot integration tests (`#[itest]`). 
+In addition, we have unit tests (`#[test]`), doctests and Godot integration tests (`#[itest]`).
 See [Dev tools] for more information.
 
-[**AddressSanitizer**]: https://clang.llvm.org/docs/AddressSanitizer.html 
+[**AddressSanitizer**]: https://clang.llvm.org/docs/AddressSanitizer.html
 [**cargo-deny**]: https://embarkstudios.github.io/cargo-deny
 [**cargo-machete**]: https://github.com/bnjbvr/cargo-machete
 [**clippy**]: https://doc.rust-lang.org/stable/clippy/usage.html
@@ -40,7 +40,7 @@ See [Dev tools] for more information.
 
 ## API design principles
 
-Different Rust libraries have different goals, which is reflected in API design choices. gdext is written in Rust, but interoperates with 
+Different Rust libraries have different goals, which is reflected in API design choices. gdext is written in Rust, but interoperates with
 a C++/GDScript game engine, which means that we sometimes need to go unconventional ways to achieve good user experiences.
 This may sometimes be surprising for Rust developers.
 
@@ -48,12 +48,12 @@ We envision the following core principles as a guideline for API design:
 
 1. **Simplicity**  
    Prefer self-explanatory, straightforward interfaces.
-   * Avoid abstractions that don't add value to the user. 
+   * Avoid abstractions that don't add value to the user.
      Do not over-engineer prematurely just because it's possible; follow [YAGNI][wiki-yagni]. Avoid [premature optimization][wiki-premature-opt].
    * Examples to avoid: traits that are not used polymorphically, type-state pattern, many generic parameters,
      layers of wrapper types/functions that simply delegate logic.
    * Sometimes, runtime errors are better than compile-time errors. Most users are building a game, where fast iteration is key.
-     Use `Option`/`Result` when errors are recoverable, and panics when the user must fix their code. 
+     Use `Option`/`Result` when errors are recoverable, and panics when the user must fix their code.
      See also [Ergonomics and panics][lib-ergonomics-panics].
 
 2. **Maintainability**  
@@ -97,12 +97,12 @@ We use separators starting with  `// ---` to visually divide sections of related
 ### Code organization
 
 1. Anything that is not intended to be accessible by the user, but must be `pub` for technical reasons, should be marked as `#[doc(hidden)]`.
-   * This does [**not** constitute part of the public API][lib-public-api]. 
+   * This does [**not** constitute part of the public API][lib-public-api].
 
 1. We do not use the `prelude` inside the project, except in examples and doctests.
 
 1. Inside `impl` blocks, we _roughly_ try to follow the order:
-   * Type aliases in traits (`type`) 
+   * Type aliases in traits (`type`)
    * Constants (`const`)
    * Constructors and associated functions
    * Public methods
@@ -141,7 +141,7 @@ We use separators starting with  `// ---` to visually divide sections of related
 
 1. For `Copy` types, avoid in-place mutation `vector.normalize()`.  
    Instead, use `vector = vector.normalized()`. The past tense indicates a copy.
- 
+
 1. Annotate with `#[must_use]` when ignoring the return value is likely an error.  
    Example: builder APIs.
 

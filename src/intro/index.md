@@ -20,11 +20,10 @@ However, we won't reiterate basic Godot concepts -- so if you choose that approa
 ```
 
 In addition to this book, you can use the following resources to learn more about the project:
+
 * The [official API documentation][api-docs].
 * A small example game [Dodge the Creeps][dodge-the-creeps].
 
 
 [api-docs]: https://godot-rust.github.io/docs/gdext
 [dodge-the-creeps]: https://github.com/godot-rust/gdext/tree/master/examples/dodge-the-creeps
-[godot-tutorial]: https://docs.godotengine.org/en/stable/about/introduction.html
-[rust-book]: https://doc.rust-lang.org/book

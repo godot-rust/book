@@ -16,7 +16,6 @@ We're talking about _objects_ and the way they integrate into the Godot engine.
 <!-- toc -->
 
 
-
 ## Terminology
 
 To avoid confusion, whenever we talk about objects, we mean _instances of Godot classes_. This amounts to `Object` (the hierarchy's root)
@@ -28,7 +27,6 @@ even if Rust technically calls them structs. In the same vein, _inheritance_ ref
 
 Objects do **not** include built-in types such as `Vector2`, `Color`, `Transform3D`, `Array`, `Dictionary`, `Variant` etc.
 These types, although sometimes called "built-in classes", are not real classes, and we generally do not refer to their instances as _objects_.
-
 
 
 ### Inheritance
@@ -53,19 +51,20 @@ Each Rust class has a Godot base class. You cannot inherit other Rust classes.
 It is also the most powerful and versatile type that the library provides.
 
 In particular, its responsibilities include:
-* Holding references to _all_ Godot objects, whether they are engine types like `Node2D` or your own `#[derive(GodotClass)]` structs in Rust.
-* Tracking memory management of types that are reference-counted.
-* Safe access to user-defined Rust objects through interior mutability.
-* Detecting destroyed objects and preventing UB (double-free, dangling pointer, etc.).
-* Providing FFI conversions between Rust and engine representations, for engine-provided and user-exposed APIs.
+
+- Holding references to _all_ Godot objects, whether they are engine types like `Node2D` or your own `#[derive(GodotClass)]` structs in Rust.
+- Tracking memory management of types that are reference-counted.
+- Safe access to user-defined Rust objects through interior mutability.
+- Detecting destroyed objects and preventing UB (double-free, dangling pointer, etc.).
+- Providing FFI conversions between Rust and engine representations, for engine-provided and user-exposed APIs.
 
 A few practical examples:
 
-1. Retrieve a node relative to current -- type inferred as `Gd<Node3D>`: 
+1. Retrieve a node relative to current -- type inferred as `Gd<Node3D>`:
     ```rust
     let child = self.sprite.get_node_as::<Node3D>("Child");
     ```
-   
+
 2. Load a scene and instantiate it as a `RigidBody2D`:
     ```rust
     // mob_scene is declared as a field of type Gd<PackedScene>
@@ -87,19 +86,20 @@ A few practical examples:
 
 ## Object lifetime
 
+
 ### Construction
 
 During the [Hello World](hello-world.md) tutorial, we already briefly touched on the `init` function, which can be used to initialize
 custom Rust classes.
 
-`init` is called whenever someone requests instantiation of the class. 
+`init` is called whenever someone requests instantiation of the class.
 This typically happens in two scenarios, let's again assume a class `Player`:
 
 - GDScript code calls `Player.new()`.
 - Rust code creates a `Gd<Player>` object.
 
 If `T` is a user-defined type, then a `Gd<T>` object can be created in multiple ways. Check [the `Gd` API docs][gd] for the most up-to-date
-constructor list. 
+constructor list.
 
 ```admonish note
 `init` cannot take custom parameters. There are however a few ways around that.
@@ -109,7 +109,7 @@ constructor list.
 - Another alternative is to use a third-party class such as `PlayerFactory`, which has a method accepting parameters and returning a
   fully-constructed `Player` instance.
 ```
-    
+
 If your `T` contains a `#[base]` field, you cannot create a standalone `T` object -- you must encapsulate it in `Gd<T>`.
 You can also not extract a `T` from a `Gd<T>` smart pointer anymore; since it has potentially been shared with the Godot engine, this would
 not be a safe operation.
@@ -123,5 +123,4 @@ using [`free()`][gd-free].
 
 
 [gd-free]: https://godot-rust.github.io/docs/gdext/master/godot/obj/struct.Gd.html#method.free
-[gd-with-base]: https://godot-rust.github.io/docs/gdext/master/godot/obj/struct.Gd.html#method.with_base
 [gd]: https://godot-rust.github.io/docs/gdext/master/godot/obj/struct.Gd.html
