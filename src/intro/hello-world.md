@@ -327,6 +327,8 @@ That's it for the _Hello World_ tutorial! The following chapters will go into mo
 
 
 [derive-godotclass]: https://godot-rust.github.io/docs/gdext/master/godot/prelude/derive.GodotClass.html
+[godot-command-line]: https://docs.godotengine.org/en/stable/tutorials/editor/command_line_tutorial.html
+[no-reload]: https://github.com/godotengine/godot/issues/66231
 [sprite2d-api]: https://godot-rust.github.io/docs/gdext/master/godot/engine/struct.Sprite2D.html
 [tutorial-begin]: https://docs.godotengine.org/en/stable/getting_started/step_by_step/scripting_first_script.html
 [tutorial-full-script]: https://docs.godotengine.org/en/stable/getting_started/step_by_step/scripting_first_script.html#complete-script

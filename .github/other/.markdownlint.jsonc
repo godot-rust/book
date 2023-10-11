@@ -63,8 +63,8 @@
     },
     "strong-style": {
         "style": "asterisk"
-    }
-    // If [links] inside code blocks are not recognized, and --fix removes footers, disable this.
+    },
+    // Disabled because [links] inside code blocks are not recognized, and --fix would remove footers.
     // (Links in code blocks are required by our admonish plugin).
-    // "reference-links-images": false
+    "link-image-reference-definitions": false
 }
