@@ -25,16 +25,17 @@ additional-css = ["config/mdbook-admonish.css"]
 [output.html.redirect]
 
 # Godot 4: gdext -> one level up
+"gdext/index.html" = "/book/index.html"
 "gdext/intro/index.html" = "/book/intro/index.html"
 "gdext/intro/setup.html" = "/book/intro/setup.html"
 "gdext/intro/hello-world.html" = "/book/intro/hello-world.html"
 "gdext/intro/objects.html" = "/book/intro/objects.html"
 "gdext/advanced/index.html" = "/book/toolchain/index.html"
 "gdext/advanced/compatibility.html" = "/book/toolchain/compatibility.html"
-"gdext/advanced/godot.html-version" = "/book/toolchain/godot-version.html"
+"gdext/advanced/godot-version.html" = "/book/toolchain/godot-version.html"
 "gdext/advanced/debugging.html" = "/book/toolchain/debugging.html"
 "gdext/contribute/index.html" = "/book/contribute/index.html"
-"gdext/contribute/dev.html-tools" = "/book/contribute/dev-tools.html"
+"gdext/contribute/dev-tools.html" = "/book/contribute/dev-tools.html"
 "gdext/contribute/conventions.html" = "/book/contribute/conventions.html"
 
 # Godot 3: gdnative -> new /gdnative-book prefix
