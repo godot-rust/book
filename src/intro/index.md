@@ -10,8 +10,8 @@ This chapter guides you through the process of setting up **gdext** and developi
 
 
 ```admonish note
-To read this book, we assume intermediate Rust knowledge. If you are new to Rust, reading the [Rust Book][rust-book] first
-is highly encouraged. You won't need to know 100% of the language, but you should know basic concepts (type system, generics,
+To read this book, we assume intermediate Rust knowledge. If you are new to Rust, reading the [Rust Book][rust-book] first is highly encouraged.
+You won't need to know 100% of the language, but you should know basic concepts (type system, generics,
 traits, borrow checking, safety).
 
 Some familiarity with Godot is also necessary, although it is possible to learn gdext together with Godot. 

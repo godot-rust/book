@@ -6,7 +6,7 @@
 
 # Setup
 
-To use gdext, we need a few technologies.
+To use gdext, we need a few items.
 
 
 ## Godot Engine
@@ -17,15 +17,59 @@ For the rest of the tutorial, we assume that you have Godot 4 installed and avai
 - in your `PATH` as `godot4`,
 - or an environment variable called `GODOT4_BIN`, containing the path to the Godot executable.
 
-Binaries of Godot 4 can be downloaded [from the official website][godot-download].
 
+### Godot from pre-built binaries
+
+Binaries of Godot 4 can be downloaded [from the official website][godot-download].
+For beta and older versions, you can also check the [Archive][godot-download-archive].
+
+
+### Installing Godot via command-line
+
+```bash
+#-- Linux --#
+# For Ubuntu or Debian-based distros
+apt install godot
+
+# For Fedora/RHEL
+dnf install godot
+
+# Distro-independent through Flatpak
+flatpak install flathub org.godotengine.Godot
+
+
+#-- Windows --#
+# Windows installations can be made through WinGet
+winget install --id=GodotEngine.GodotEngine -e
+
+
+#-- macOS --#
+brew install godot
+```
+
+```admonish note
 If you plan to target Godot versions different from the latest stable release, please read [Compatibility and stability][compatibility].
+```
 
 
 ## Rust
 
 [rustup] is the recommended way to install the Rust toolchain, including the compiler, standard library and Cargo (the package manager).
 This page contains installation instructions for your platform.
+
+
+### Installing Rustup via command-line
+
+```bash
+#-- Linux (distro-independent) --#
+curl --proto '=https' --tlsv1.2 -sSf https://sh.rustup.rs | sh
+
+#-- Windows --#
+winget install --id=Rustlang.Rustup  -e
+
+#-- macOS --#
+brew install rustup
+```
 
 After installation of rustup and the `stable` toolchain, check that they were installed properly:
 
@@ -39,6 +83,12 @@ cargo -V
 ```
 
 If you use Windows, check out [Working with Rust on Windows][rustup-windows].
+
+---
+
+From this point on, you're ready to beguin using the library.
+
+---
 
 
 ## LLVM
@@ -64,7 +114,8 @@ clang -v
 
 
 [compatibility]: ../advanced/compatibility.md
-[godot-download]: https://godotengine.org/download
+[godot-download]: https://godotengine.org/download/
+[godot-download-archive]: https://godotengine.org/download/archive/
 [godot-version]: ../advanced/godot-version.md
 [llvm-bindgen]: https://rust-lang.github.io/rust-bindgen/requirements.html
 [llvm]: https://releases.llvm.org
