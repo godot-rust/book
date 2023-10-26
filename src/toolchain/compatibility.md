@@ -56,7 +56,7 @@ _runtime version **>=** API version_.
 We do **not** invest effort in maintaining compatibility with:
 
 1. Godot in-development versions, except for the latest `master` branch.
-   - Not that we may take some time to catch-up with the latest changes, so please don't report issues within a few days after
+   - Note that we may take some time to catch up with the latest changes, so please don't report issues within a few days after
      upstream changes have landed.
 2. Non-stable releases (alpha, beta, RC).
 3. Third-party bindings or GDExtension APIs (C#, C++, Python, ...).
