@@ -95,6 +95,11 @@ The main crate of gdext is called `godot`. At this point, it is still hosted on 
 To fetch the latest changes, you can regularly run a `cargo update` (possibly breaking). Keep your `Cargo.lock` file under version control,
 so that it's easy to revert updates.
 
+```admonish note
+It may be a advisable to put a [.gdignore][gd-ignore] file at the top-level of your rust project directory or within your `/target` dir.
+This is because for some Windows build targets, `cargo build` produces an object file with the `.obj` extension rather than the typical `.o`
+Godot will attempt to import this compiled binary as an Wavefront OBJ file (a common 3D model file, also using the extension `.obj`), and will fail to build due to a 'corrupted file' error.
+```
 
 ## Rust entry point
 
@@ -332,3 +337,4 @@ That's it for the _Hello World_ tutorial! The following chapters will go into mo
 [sprite2d-api]: https://godot-rust.github.io/docs/gdext/master/godot/engine/struct.Sprite2D.html
 [tutorial-begin]: https://docs.godotengine.org/en/stable/getting_started/step_by_step/scripting_first_script.html
 [tutorial-full-script]: https://docs.godotengine.org/en/stable/getting_started/step_by_step/scripting_first_script.html#complete-script
+[gd-ignore]: https://docs.godotengine.org/en/stable/tutorials/best_practices/project_organization.html#ignoring-specific-folders
