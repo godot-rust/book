@@ -101,6 +101,7 @@ This is because for some Windows build targets, `cargo build` produces an object
 Godot will attempt to import this compiled binary as an Wavefront OBJ file (a common 3D model file, also using the extension `.obj`), and will fail to build due to a 'corrupted file' error.
 ```
 
+
 ## Rust entry point
 
 Our C library needs to expose an _entry point_ to Godot: a C function that can be called through the GDExtension.
