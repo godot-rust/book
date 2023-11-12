@@ -98,7 +98,8 @@ so that it's easy to revert updates.
 ```admonish note
 It may be a advisable to put a [.gdignore][gd-ignore] file at the top-level of your rust project directory or within your `/target` dir.
 This is because for some Windows build targets, `cargo build` produces an object file with the `.obj` extension rather than the typical `.o`
-Godot will attempt to import this compiled binary as an Wavefront OBJ file (a common 3D model file, also using the extension `.obj`), and will fail to build due to a 'corrupted file' error.
+Godot will attempt to import this compiled binary as an Wavefront OBJ file (a common 3D model file, also using the extension `.obj`),
+and will fail to build due to a 'corrupted file' error.
 ```
 
 
