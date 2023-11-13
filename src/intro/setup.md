@@ -6,7 +6,7 @@
 
 # Setup
 
-To use gdext, we need a few items.
+To use gdext, we need a few technologies.
 
 
 ## Godot Engine
@@ -27,7 +27,7 @@ For beta and older versions, you can also check the [Archive][godot-download-arc
 ### Installing Godot via command-line
 
 ```bash
-#-- Linux --#
+# --- Linux ---
 # For Ubuntu or Debian-based distros
 apt install godot
 
@@ -38,12 +38,12 @@ dnf install godot
 flatpak install flathub org.godotengine.Godot
 
 
-#-- Windows --#
+# --- Windows ---
 # Windows installations can be made through WinGet
 winget install --id=GodotEngine.GodotEngine -e
 
 
-#-- macOS --#
+# --- macOS ---
 brew install godot
 ```
 
@@ -61,13 +61,13 @@ This page contains installation instructions for your platform.
 ### Installing Rustup via command-line
 
 ```bash
-#-- Linux (distro-independent) --#
+# Linux (distro-independent)
 curl --proto '=https' --tlsv1.2 -sSf https://sh.rustup.rs | sh
 
-#-- Windows --#
+# Windows
 winget install --id=Rustlang.Rustup  -e
 
-#-- macOS --#
+# macOS
 brew install rustup
 ```
 
@@ -83,12 +83,6 @@ cargo -V
 ```
 
 If you use Windows, check out [Working with Rust on Windows][rustup-windows].
-
----
-
-From this point on, you're ready to beguin using the library.
-
----
 
 
 ## LLVM

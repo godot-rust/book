@@ -14,25 +14,29 @@ maintained[Rust Book](https://doc.rust-lang.org/book/).
 To read the book about gdnative (Godot 3 binding), follow [this link](../gdnative-book).
 
 
-## The basics
+## The purpose of godot-rust
 
-A **library** in its most basic form is a **package of functions**. Godot has several of its own built-in libraries, but like most other programs made
-as a creation tool, it also has the capacity to extend its functionality by accessing collections of libraries made outside of Godot. Those are
-called **extensions**, they usually come in separate files -- typically in the form of file extensions such as `.so` if you're on Linux, `.dll` if
-you're on Windows, or `.dylib` on macOS.
+Godot is a batteries-included game engine that fosters a productive and fun gamedev workflow. It ships GDScript as a built-in scripting
+language and also provides official support for C++ and C# bindings. Its GDExtension mechanism allows more languages to be integrated,
+in our case Rust.
 
-You can expose your extension to Godot using a `.gdextension` file, which contains information about the dynamic library file's location and the
-minimum required Godot version.
-
-The job of a language binding is that we go the other way and we instead treat Godot itself like a library, so that we can have most of the
-interactions of the engine happen in our language of choice. In practice, Godot is still the host engine of our game, so we have to expose things back
-to Godot so that it can use and make available in the editor.
+Rust brings a modern, robust and performant experience to game development. If you are interested in scalability, strong type systems or
+just enjoy Rust as a language, you may consider combining it with Godot, to combine the best of both worlds.
 
 
-# About the extension
+## About this project
+
+godot-rust is a [community-developed][github-contributors] open source project. It is maintained independently of Godot itself, but we are in
+close contact with engine developers, to foster a steady exchange of ideas. This has allowed us to address a lot of Rust's needs upstream, but
+also led to improvements of the engine itself in several cases.
 
 
-## Terminology
+### Currently supported features
+
+For an up-to-date overview of implementation status, consult [issue #24][features].
+
+
+### Terminology
 
 To avoid confusion, here is an explanation of names and technologies you may encounter over the course of this book:
 
@@ -45,12 +49,7 @@ To avoid confusion, here is an explanation of names and technologies you may enc
 - **Extension**: An extension is a C library developed using gdext. It can be loaded by Godot 4.
 
 
-## Currently supported features
-
-For an up-to-date overview of implementation status, consult [issue #24][features].
-
-
-## GDExtension API: what's new
+### GDExtension API: what's new
 
 This section briefly mentions the difference between the native interfaces in Godot 3 and 4 from a functional point of view, without going into Rust.
 
@@ -94,3 +93,4 @@ That said, there are some notable differences:
 [ref-godot-rust]: https://godot-rust.github.io/
 [github-gdext]: https://github.com/godot-rust/gdext
 [github-gdnative]: https://github.com/godot-rust/gdnative
+[github-contributors]: https://github.com/godot-rust/gdext/graphs/contributors
