@@ -290,10 +290,10 @@ Now let's add some logic. We start with overriding the `init` method, also known
 This corresponds to GDScript's `_init()` function.
 
 ```rust
-use godot::engine::Sprite2DVirtual;
+use godot::engine::ISprite2D;
 
 #[godot_api]
-impl Sprite2DVirtual for Player {
+impl ISprite2D for Player {
     fn init(sprite: Base<Sprite2D>) -> Self {
         godot_print!("Hello, world!"); // Prints to the Godot console
         
@@ -311,7 +311,7 @@ Again, those are multiple pieces working together, let's go through them one by 
 1. `#[godot_api]` - this lets gdext know that the following `impl` block is part of the Rust API to expose to Godot.
    This attribute is required here; accidentally forgetting it will cause a compile error.
 
-2. `impl Sprite2DVirtual` - each of the engine classes has a `{ClassName}Virtual` trait, which comes with virtual functions for that
+2. `impl ISprite2D` - each of the engine classes has a `I{ClassName}` trait, which comes with virtual functions for that
    specific class, as well as general-purpose functionality such as `init` (the constructor) or `to_string` (String conversion).
    The trait has no required methods.
 
@@ -323,10 +323,10 @@ Now that initialization is sorted out, we can move on to actual logic. We would 
 the `process()` method. This corresponds to GDScript's `_process()`. If you need a fixed framerate, use `physics_process()` instead.
 
 ```rust
-use godot::engine::Sprite2DVirtual;
+use godot::engine::ISprite2D;
 
 #[godot_api]
-impl Sprite2DVirtual for Player {
+impl ISprite2D for Player {
     fn init(base: Base<Sprite2D>) -> Self { /* as before */ }
 
     fn physics_process(&mut self, delta: f64) {
@@ -361,10 +361,10 @@ Check out the [command-line tutorial][godot-command-line] for more information.
 We now add a translation component to the sprite, following [the upstream tutorial][tutorial-full-script].
 
 ```rust
-use godot::engine::Sprite2DVirtual;
+use godot::engine::ISprite2D;
 
 #[godot_api]
-impl Sprite2DVirtual for Player {
+impl ISprite2D for Player {
     fn init(base: Base<Sprite2D>) -> Self { /* as before */ }
 
     fn physics_process(&mut self, delta: f64) {
@@ -376,13 +376,13 @@ impl Sprite2DVirtual for Player {
         
         self.sprite.rotate((self.angular_speed * delta) as f32);
 
-        let rotation = self.sprite.get_rotation();
+        let rotation = self.sprite.rotation();
         let velocity = Vector2::UP.rotated(rotation) * self.speed as f32;
         self.sprite.translate(velocity * delta as f32);
         
         // or verbose: 
         // self.sprite.set_position(
-        //     self.sprite.get_position() + velocity * delta as f32
+        //     self.sprite.position() + velocity * delta as f32
         // );
     }
 }
