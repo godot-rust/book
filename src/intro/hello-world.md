@@ -192,11 +192,12 @@ res://HelloWorld.gdextension
 
 ## Your first Rust extension
 
-```admonish note
-It may be a advisable to put a [.gdignore][gd-ignore] file at the top-level of your rust project directory or within your `/target` dir.
-This is because for some Windows build targets, `cargo build` produces an object file with the `.obj` extension rather than the typical `.o`
-Godot will attempt to import this compiled binary as an Wavefront OBJ file (a common 3D model file, also using the extension `.obj`),
-and will fail to build due to a 'corrupted file' error.
+```admonish note title=".gdignore"
+If you do not follow the [recommended gdext project directory setup][directory-setup] of having separate `rust/` and `godot/` directories
+and instead place your rust source directly within your godot project,
+then please consider adding a [.gdignore][gd-ignore] file at the root folder of your Rust code.
+This avoids cases where the Rust Compiler may produce a file in your rust folder with an ambiguous extension such as `.obj`,
+which the Godot Editor may inappropriately attempt to import, resulting in an error and preventing you from building your project.
 ```
 
 
@@ -447,4 +448,5 @@ That's it for the _Hello World_ tutorial! The following chapters will go into mo
 [tutorial-begin]: https://docs.godotengine.org/en/stable/getting_started/step_by_step/scripting_first_script.html
 [tutorial-full-script]: https://docs.godotengine.org/en/stable/getting_started/step_by_step/scripting_first_script.html#complete-script
 [gd-ignore]: https://docs.godotengine.org/en/stable/tutorials/best_practices/project_organization.html#ignoring-specific-folders
+[directory-setup]: https://godot-rust.github.io/book/intro/hello-world.html#directory-setup
 [wikipedia-ffi]: https://en.wikipedia.org/wiki/Foreign_function_interface
