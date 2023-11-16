@@ -8,37 +8,53 @@
 
 Welcome to the **godot-rust book**! This is a work-in-progress user guide for **gdext**, the Rust binding for Godot 4.
 
-If you're new to Rust, before getting started, it is highly recommended that you familiarize yourself with concepts outlined
-in the officially maintained [Rust Book](https://doc.rust-lang.org/book/).
+If you're new to Rust, before getting started, it is highly recommended that you familiarize yourself with concepts outlined in the officially
+maintained[Rust Book](https://doc.rust-lang.org/book/).
 
 To read the book about gdnative (Godot 3 binding), follow [this link](../gdnative-book).
 
 
-## Terminology
+## The purpose of godot-rust
 
-To avoid confusion, here is an explanation of names and technologies you may encounter over time.
+Godot is a batteries-included game engine that fosters a productive and fun gamedev workflow. It ships GDScript as a built-in scripting
+language and also provides official support for C++ and C# bindings. Its GDExtension mechanism allows more languages to be integrated,
+in our case Rust.
 
-- **godot-rust**: The entire project, encompassing Rust bindings for Godot 3 and 4, as well as related efforts (book, community, etc.).
-- [**GDExtension**]: C API provided by Godot 4.
-- [**GDNative**]: C API provided by Godot 3.
-- **gdext** (lowercase): the Rust binding for GDExtension (Godot 4) -- what this book focuses on.
-- **gdnative** (lowercase): the Rust binding for GDNative (Godot 3).
-- **Extension**: An extension is a C library developed using gdext. It can be loaded by Godot 4.
+Rust brings a modern, robust and performant experience to game development. If you are interested in scalability, strong type systems or
+just enjoy Rust as a language, you may consider combining it with Godot, to combine the best of both worlds.
 
 
-## Currently supported features
+## About this project
+
+godot-rust is a [community-developed][github-contributors] open source project. It is maintained independently of Godot itself, but we are in
+close contact with engine developers, to foster a steady exchange of ideas. This has allowed us to address a lot of Rust's needs upstream, but
+also led to improvements of the engine itself in several cases.
+
+
+### Currently supported features
 
 For an up-to-date overview of implementation status, consult [issue #24][features].
 
 
-## GDExtension API: what's new
+### Terminology
 
-This section briefly mentions the difference between the native interfaces in Godot 3 and 4 from a functional point of view,
-without going into Rust.
+To avoid confusion, here is an explanation of names and technologies you may encounter over the course of this book:
 
-While the underlying FFI (foreign function interface) layer has been completely rewritten, a lot of concepts remain the same
-from a user point of view. In particular, Godot's approach with a node-based scene graph, composed of classes in an inheritance
-relation, has not changed.
+- [**godot-rust**][ref-godot-rust]: The entire project, encompassing Rust bindings for Godot 3 and 4,
+  as well as related efforts (book, community, etc.).
+- [**GDExtension**][ref-godot-gdext]: C API provided by Godot 4.
+- [**GDNative**][ref-godot-gdnative]: C API provided by Godot 3.
+- [**gdext**][github-gdext] (lowercase): the Rust binding for GDExtension (Godot 4) -- what this book focuses on.
+- [**gdnative**][github-gdnative] (lowercase): the Rust binding for GDNative (Godot 3).
+- **Extension**: An extension is a C library developed using gdext. It can be loaded by Godot 4.
+
+
+### GDExtension API: what's new
+
+This section briefly mentions the difference between the native interfaces in Godot 3 and 4 from a functional point of view, without going into Rust.
+
+While the underlying FFI (foreign function interface) layer has been completely rewritten, a lot of concepts remain the same from a user point of
+view. In particular, Godot's approach with a node-based scene graph, composed of classes in an inheritance relation, has not changed.
 
 That said, there are some notable differences:
 
@@ -72,5 +88,9 @@ That said, there are some notable differences:
 [issue #66231]: https://github.com/godotengine/godot/issues/66231
 [extension-library-doc]: https://godot-rust.github.io/docs/gdext/master/godot/init/trait.ExtensionLibrary.html#method.editor_run_behavior
 
-[**GDNative**]: https://docs.godotengine.org/en/3.5/tutorials/scripting/gdnative/what_is_gdnative.html
-[**GDExtension**]: https://docs.godotengine.org/en/stable/tutorials/scripting/gdextension/what_is_gdextension.html
+[ref-godot-gdnative]: https://docs.godotengine.org/en/3.5/tutorials/scripting/gdnative/what_is_gdnative.html
+[ref-godot-gdext]: https://docs.godotengine.org/en/stable/tutorials/scripting/gdextension/what_is_gdextension.html
+[ref-godot-rust]: https://godot-rust.github.io/
+[github-gdext]: https://github.com/godot-rust/gdext
+[github-gdnative]: https://github.com/godot-rust/gdnative
+[github-contributors]: https://github.com/godot-rust/gdext/graphs/contributors
