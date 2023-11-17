@@ -192,6 +192,14 @@ res://HelloWorld.gdextension
 
 ## Your first Rust extension
 
+```admonish note title=".gdignore"
+If you do not follow the [recommended gdext project directory setup][directory-setup] of having separate `rust/` and `godot/` directories
+and instead place your rust source directly within your godot project,
+then please consider adding a [.gdignore][gd-ignore] file at the root folder of your Rust code.
+This avoids cases where the Rust Compiler may produce a file in your rust folder with an ambiguous extension such as `.obj`,
+which the Godot Editor may inappropriately attempt to import, resulting in an error and preventing you from building your project.
+```
+
 
 ### Rust entry point
 
@@ -439,4 +447,6 @@ That's it for the _Hello World_ tutorial! The following chapters will go into mo
 [issue-no-reload]: https://github.com/godotengine/godot/issues/66231
 [tutorial-begin]: https://docs.godotengine.org/en/stable/getting_started/step_by_step/scripting_first_script.html
 [tutorial-full-script]: https://docs.godotengine.org/en/stable/getting_started/step_by_step/scripting_first_script.html#complete-script
+[gd-ignore]: https://docs.godotengine.org/en/stable/tutorials/best_practices/project_organization.html#ignoring-specific-folders
+[directory-setup]: https://godot-rust.github.io/book/intro/hello-world.html#directory-setup
 [wikipedia-ffi]: https://en.wikipedia.org/wiki/Foreign_function_interface
