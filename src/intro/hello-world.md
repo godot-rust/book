@@ -384,7 +384,7 @@ impl ISprite2D for Player {
         
         self.sprite.rotate((self.angular_speed * delta) as f32);
 
-        let rotation = self.sprite.rotation();
+        let rotation = self.sprite.get_rotation();
         let velocity = Vector2::UP.rotated(rotation) * self.speed as f32;
         self.sprite.translate(velocity * delta as f32);
         
