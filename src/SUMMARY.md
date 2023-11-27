@@ -15,6 +15,7 @@
   - [Compatibility and stability](toolchain/compatibility.md)
   - [Selecting a Godot version](toolchain/godot-version.md)
   - [Debugging](toolchain/debugging.md)
+  - [Export to Web](toolchain/export-web.md)
 - [Contributing to gdext](contribute/index.md)
   - [Dev tools and testing](contribute/dev-tools.md)
   - [Code and API conventions](contribute/conventions.md)
