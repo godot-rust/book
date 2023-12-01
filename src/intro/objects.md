@@ -103,7 +103,7 @@ constructor list.
 
 ```admonish note
 `init` cannot take custom parameters. There are however a few ways around that.
-- From Rust code, simply call [`Gd::with_base()`][gd-with-base].
+- From Rust code, simply call [`Gd::from_init_fn()`][gd-from-init-fn].
 - From GDScript, you can write a custom method such as `post_init()`, which late-initializes fields. This will reduce type safety though,
   needing `Option` for fields whose values aren't available at initialization time.
 - Another alternative is to use a third-party class such as `PlayerFactory`, which has a method accepting parameters and returning a
@@ -122,5 +122,6 @@ Keep in mind that node classes in Godot are manually-managed. When outside the s
 using [`free()`][gd-free].
 
 
+[gd-from-init-fn]: https://godot-rust.github.io/docs/gdext/master/godot/obj/struct.Gd.html#method.from_init_fn
 [gd-free]: https://godot-rust.github.io/docs/gdext/master/godot/obj/struct.Gd.html#method.free
 [gd]: https://godot-rust.github.io/docs/gdext/master/godot/obj/struct.Gd.html
