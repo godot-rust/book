@@ -363,7 +363,7 @@ While it's possible to open the Godot editor and press the launch button every t
 workflow. Unfortunately there is [a GDExtension limitation][issue-no-reload] that prevents recompilation while the editor is open 
 (at least on Windows systems -- it tends to work better on Linux and macOS).
 
-However, if you don't need to modify anything in the editor itself, you can launch Godot from the command line or even your IDE.
+However, if you don't need to modify anything in the editor itself, you can launch Godot from the command-line or even your IDE.
 Check out the [command-line tutorial][godot-command-line] for more information.
 ```
 
