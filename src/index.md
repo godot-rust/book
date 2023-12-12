@@ -9,7 +9,7 @@
 Welcome to the **godot-rust book**! This is a work-in-progress user guide for **gdext**, the Rust binding for Godot 4.
 
 If you're new to Rust, before getting started, it is highly recommended that you familiarize yourself with concepts outlined in the officially
-maintained[Rust Book](https://doc.rust-lang.org/book/).
+maintained [Rust Book](https://doc.rust-lang.org/book/).
 
 To read the book about gdnative (Godot 3 binding), follow [this link](../gdnative-book).
 
@@ -21,7 +21,7 @@ language and also provides official support for C++ and C# bindings. Its GDExten
 in our case Rust.
 
 Rust brings a modern, robust and performant experience to game development. If you are interested in scalability, strong type systems or
-just enjoy Rust as a language, you may consider combining it with Godot, to combine the best of both worlds.
+just enjoy Rust as a language, you may consider using it with Godot, to combine the best of both worlds.
 
 
 ## About this project
