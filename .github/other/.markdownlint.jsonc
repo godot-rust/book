@@ -50,6 +50,13 @@
         "names": ["Godot", "GDScript", "Rust", "GDExtension", "gdext", "godot-rust"],
         "code_blocks": false
     },
+    "no-inline-html": {
+        "allowed_elements": ["br"]
+    },
+    // Horizontal rules: --- or ***.
+    "hr-style": {
+        "style": "---"
+    },
     // Indented vs ```-fenced.
     "code-block-style": {
         "style": "fenced"
