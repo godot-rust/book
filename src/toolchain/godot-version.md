@@ -56,7 +56,7 @@ location.
 You can do this by configuring Cargo to set `GODOT4_BIN` to a relative path for you, in `.cargo/config.toml`.
 
 In the root of your Rust project, create `.cargo/config.toml` with the example content shown below, modifying the editor path as needed to find
-your binary. The path you set will be resolved relative to the location of the `.cargo` directory.
+your binary. The path you set will be resolved relatively to the location of the `.cargo` directory.
 
 ```toml
 [env]
