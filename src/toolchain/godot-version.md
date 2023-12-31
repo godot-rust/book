@@ -49,8 +49,8 @@ Consult the [setup page][setup-llvm] for more information.
 
 ### Setting `GODOT4_BIN` to a relative path
 
-If you have multiple Godot workspaces on a machine, you may want a workspace-independent method of setting the `GODOT4_BIN` environment variable
-so the matching Godot editor binary for that workspace is always used in the build process, without having to set `GODOT4_BIN` differently for each
+If you have multiple Godot workspaces on a machine, you may want a workspace-independent method of setting the `GODOT4_BIN` environment variable.
+This way, the matching Godot editor binary for that workspace is always used in the build process, without having to set `GODOT4_BIN` differently for each
 location.
 
 You can do this by configuring Cargo to set `GODOT4_BIN` to a relative path for you, in `.cargo/config.toml`.
