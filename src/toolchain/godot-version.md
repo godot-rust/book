@@ -47,7 +47,30 @@ Note that this requires the `bindgen`, as such you may need to install the LLVM 
 Consult the [setup page][setup-llvm] for more information.
 
 
+### Setting `GODOT4_BIN` to a relative path
+
+If you have multiple Godot workspaces on a machine, you may want a workspace-independent method of setting the `GODOT4_BIN` environment variable.
+This way, the matching Godot editor binary for that workspace is always used in the build process, without having to set `GODOT4_BIN` differently
+for each location.
+
+You can do this by configuring Cargo to set `GODOT4_BIN` to a relative path for you, in `.cargo/config.toml`.
+
+In the root of your Rust project, create `.cargo/config.toml` with the example content shown below, modifying the editor path as needed to find
+your binary. The path you set will be resolved relatively to the location of the `.cargo` directory.
+
+```toml
+[env]
+GODOT4_BIN = { value = "../godot/bin/godot.linuxbsd.editor.x86_64", relative = true, force = true }
+```
+
+(If you want to override `config.toml` by setting `GODOT4_BIN` in your environment, remove `force = true`.)
+
+Test your change by running `cargo build`.
+
+See [The Cargo Book](https://doc.rust-lang.org/cargo/reference/config.html) for more information on customizing your build environment with
+`config.toml`.
+
+
 [Compatibility and stability]: compatibility.md
 [compat-guarantees]: compatibility.md#current-guarantees
 [setup-llvm]: ../intro/setup.md#llvm
-
