@@ -275,8 +275,8 @@ Let's break this down.
 
 4. We define two fields `speed` and `angular_speed` for the logic. These are regular Rust fields, no magic involved. More about their use later.
 
-5. The `#[base]` attribute declares the `sprite` field, which allows `self` to access the base instance (via composition, as Rust does not have
-   native inheritance).
+5. The `#[base]` attribute declares the `sprite` field, which allows `self` to access the base instance (via `base()` or `base_mut()` as Rust does
+   not have native inheritance).
 
    - The field must have type `Base<T>`.
      - `T` must match the declared base class, e.g. `#[class(base=Sprite2D)]` implies `Base<Sprite2D>`.
@@ -342,7 +342,7 @@ impl ISprite2D for Player {
         // In GDScript, this would be: 
         // rotation += angular_speed * delta
         
-        self.sprite.rotate((self.angular_speed * delta) as f32);
+        self.base_mut().rotate((self.angular_speed * delta) as f32);
         // The 'rotate' method requires a f32, 
         // therefore we convert 'self.angular_speed * delta' which is a f64 to a f32
     }
@@ -351,6 +351,11 @@ impl ISprite2D for Player {
 
 GDScript uses property syntax here; Rust requires explicit method calls instead. Also, access to base class methods -- such as `rotate()`
 in this example -- is done via the `#[base]` field.
+
+```admonish warning
+  Make sure you are not using the `self.sprite` field directly. Use `base()` or `base_mut()` instead, otherwise you won't be able to access and call
+    the base class methods.
+```
 
 This is a point where you can compile your code, launch Godot and see the result. The sprite should rotate at a constant speed.
 
@@ -383,15 +388,15 @@ impl ISprite2D for Player {
         // var velocity = Vector2.UP.rotated(rotation) * speed
         // position += velocity * delta
         
-        self.sprite.rotate((self.angular_speed * delta) as f32);
+        self.base_mut().rotate((self.angular_speed * delta) as f32);
 
-        let rotation = self.sprite.get_rotation();
+        let rotation = self.base().get_rotation();
         let velocity = Vector2::UP.rotated(rotation) * self.speed as f32;
-        self.sprite.translate(velocity * delta as f32);
+        self.base_mut().translate(velocity * delta as f32);
         
         // or verbose: 
-        // self.sprite.set_position(
-        //     self.sprite.position() + velocity * delta as f32
+        // self.base_mut().set_position(
+        //     self.base().position() + velocity * delta as f32
         // );
     }
 }
@@ -415,7 +420,7 @@ impl Player {
     #[func]
     fn increase_speed(&mut self, amount: f64) {
         self.speed += amount;
-        self.sprite.emit_signal("speed_increased".into(), &[]);
+        self.base_mut().emit_signal("speed_increased".into(), &[]);
     }
 
     #[signal]

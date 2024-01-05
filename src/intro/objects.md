@@ -63,7 +63,7 @@ A few practical examples:
 
 1. Retrieve a node relative to current -- type inferred as `Gd<Node3D>`:
     ```rust
-    let child = self.sprite.get_node_as::<Node3D>("Child");
+    let child = self.base().get_node_as::<Node3D>("Child");
     ```
 
 2. Load a scene and instantiate it as a `RigidBody2D`:
