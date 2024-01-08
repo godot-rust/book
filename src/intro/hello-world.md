@@ -251,7 +251,7 @@ struct Player {
     angular_speed: f64,
 
     #[base]
-    sprite: Base<Sprite2D>
+    base: Base<Sprite2D>
 }
 ```
 
@@ -262,8 +262,8 @@ Let's break this down.
 2. The `#[derive]` attribute registers `Player` as a class in the Godot engine.
    See [API docs][api-derive-godotclass] for details about `#[derive(GodotClass)]`.
 
-   ```admonish info
-   `#[derive(GodotClass)]` _automatically_ registers the class -- you don't need an explicit 
+   ```admonish info title="Auto-registration"
+   `#[derive(GodotClass)]` _automatically_ registers the class -- you don't need an explicit
    `add_class()` registration call, or a `.gdns` file as it was the case with GDNative.
    
    Before Godot 4.2, you will need to restart the Godot editor for it to take effect.
@@ -275,17 +275,18 @@ Let's break this down.
 
 4. We define two fields `speed` and `angular_speed` for the logic. These are regular Rust fields, no magic involved. More about their use later.
 
-5. The `#[base]` attribute declares the `sprite` field, which allows `self` to access the base instance (via composition, as Rust does not have
-   native inheritance).
+5. The `#[base]` attribute declares the `base` field, which allows `self` to access the base instance (via composition, as Rust does not have
+   native inheritance). This enables two methods that can be accessed as `self.base()` and `self.base_mut()` on your type (through an extension
+   trait).
 
    - The field must have type `Base<T>`.
-     - `T` must match the declared base class, e.g. `#[class(base=Sprite2D)]` implies `Base<Sprite2D>`.
-   - The name can be freely chosen. Here it's `sprite`, but `base` is also a common convention.
+     - `T` must match the declared base class. For example, `#[class(base=Sprite2D)]` implies `Base<Sprite2D>`.
+   - The name can be freely chosen, but `base` is a common convention.
    - You do not _have to_ declare this field. If it is absent, you cannot access the base object from within `self`.
      This is often not a problem, e.g. in data bundles inheriting `RefCounted`.
 
-```admonish warning
-When adding an instance of your `Player` class to the scene, make sure to select node type `Player` and not its base `Sprite2D`.
+```admonish warning title="Correct node type"
+When adding an instance of your `Player` class to the scene, make sure to select node type `Player` **and not its base `Sprite2D`**.
 Otherwise, your Rust logic will not run.
 
 If Godot fails to load a Rust class (e.g. due to an error in your extension), it may silently replace it with its base class.
@@ -303,13 +304,13 @@ use godot::engine::ISprite2D;
 
 #[godot_api]
 impl ISprite2D for Player {
-    fn init(sprite: Base<Sprite2D>) -> Self {
+    fn init(base: Base<Sprite2D>) -> Self {
         godot_print!("Hello, world!"); // Prints to the Godot console
         
         Self {
             speed: 400.0,
             angular_speed: std::f64::consts::PI,
-            sprite
+            base,
         }
     }
 }
@@ -342,7 +343,7 @@ impl ISprite2D for Player {
         // In GDScript, this would be: 
         // rotation += angular_speed * delta
         
-        self.sprite.rotate((self.angular_speed * delta) as f32);
+        self.base_mut().rotate((self.angular_speed * delta) as f32);
         // The 'rotate' method requires a f32, 
         // therefore we convert 'self.angular_speed * delta' which is a f64 to a f32
     }
@@ -351,6 +352,11 @@ impl ISprite2D for Player {
 
 GDScript uses property syntax here; Rust requires explicit method calls instead. Also, access to base class methods -- such as `rotate()`
 in this example -- is done via the `#[base]` field.
+
+```admonish warning title="Direct field access"
+Do not use the `self.base` field directly. Use `self.base()` or `self.base_mut()` instead, otherwise you won't be able to access and call
+the base class methods.
+```
 
 This is a point where you can compile your code, launch Godot and see the result. The sprite should rotate at a constant speed.
 
@@ -383,15 +389,16 @@ impl ISprite2D for Player {
         // var velocity = Vector2.UP.rotated(rotation) * speed
         // position += velocity * delta
         
-        self.sprite.rotate((self.angular_speed * delta) as f32);
+        self.base_mut().rotate((self.angular_speed * delta) as f32);
 
-        let rotation = self.sprite.get_rotation();
+        let rotation = self.base().get_rotation();
         let velocity = Vector2::UP.rotated(rotation) * self.speed as f32;
-        self.sprite.translate(velocity * delta as f32);
+        self.base_mut().translate(velocity * delta as f32);
         
         // or verbose: 
-        // self.sprite.set_position(
-        //     self.sprite.position() + velocity * delta as f32
+        // let this = self.base_mut();
+        // this.set_position(
+        //     this.position() + velocity * delta as f32
         // );
     }
 }
@@ -415,7 +422,7 @@ impl Player {
     #[func]
     fn increase_speed(&mut self, amount: f64) {
         self.speed += amount;
-        self.sprite.emit_signal("speed_increased".into(), &[]);
+        self.base_mut().emit_signal("speed_increased".into(), &[]);
     }
 
     #[signal]
