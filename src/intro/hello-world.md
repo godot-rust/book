@@ -343,7 +343,8 @@ impl ISprite2D for Player {
         // In GDScript, this would be: 
         // rotation += angular_speed * delta
         
-        self.base_mut().rotate((self.angular_speed * delta) as f32);
+        let radians = (self.angular_speed * delta) as f32;
+        self.base_mut().rotate(radians);
         // The 'rotate' method requires a f32, 
         // therefore we convert 'self.angular_speed * delta' which is a f64 to a f32
     }
@@ -389,7 +390,8 @@ impl ISprite2D for Player {
         // var velocity = Vector2.UP.rotated(rotation) * speed
         // position += velocity * delta
         
-        self.base_mut().rotate((self.angular_speed * delta) as f32);
+        let radians = (self.angular_speed * delta) as f32;
+        self.base_mut().rotate(radians);
 
         let rotation = self.base().get_rotation();
         let velocity = Vector2::UP.rotated(rotation) * self.speed as f32;
