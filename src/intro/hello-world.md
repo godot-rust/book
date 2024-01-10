@@ -262,13 +262,6 @@ Let's break this down.
 2. The `#[derive]` attribute registers `Player` as a class in the Godot engine.
    See [API docs][api-derive-godotclass] for details about `#[derive(GodotClass)]`.
 
-   ```admonish info title="Auto-registration"
-   `#[derive(GodotClass)]` _automatically_ registers the class -- you don't need an explicit
-   `add_class()` registration call, or a `.gdns` file as it was the case with GDNative.
-   
-   Before Godot 4.2, you will need to restart the Godot editor for it to take effect.
-   ```
-
 3. The optional `#[class]` attribute configures how the class is registered. In this case, we specify that `Player` inherits Godot's
    `Sprite2D` class. If you don't specify the `base` key, the base class will implicitly be `RefCounted`, just as if you omitted the
    `extends` keyword in GDScript.
@@ -443,7 +436,7 @@ API attributes typically follow the GDScript keyword names: `class`, `func`, `si
 That's it for the _Hello World_ tutorial! The following chapters will go into more detail about the various features that gdext provides.
 
 
-[api-derive-godotclass]: https://godot-rust.github.io/docs/gdext/master/godot/prelude/derive.GodotClass.html
+[api-derive-godotclass]: https://godot-rust.github.io/docs/gdext/master/godot/register/derive.GodotClass.html
 [api-engine]: https://godot-rust.github.io/docs/gdext/master/godot/engine/index.html
 [api-extensionlibrary]: https://godot-rust.github.io/docs/gdext/master/godot/prelude/trait.ExtensionLibrary.html
 [api-godot]: https://godot-rust.github.io/docs/gdext/master/godot/index.html
