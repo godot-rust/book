@@ -24,8 +24,8 @@ struct ResourceType {
 }
 ```
 
-It is important to note that similar to defining custom resources in GDScript, marking this class as a "tool class"
-is required for expected functionality.
+It is important that similar to defining custom resources in GDScript, marking this class as a "tool class"
+is required to be usable within the editor.
 
 The above resource does not export any variables. While not all `Resource`s will require exported variables, most do.
 
