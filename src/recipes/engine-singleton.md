@@ -114,7 +114,7 @@ godot::engine::Engine::singleton()
     .get_singleton(StringName::from("MyEditorSingleton"));
 ```
 
-For more information on this method, refer to [the API docs][method-get-singleton]
+For more information on this method, refer to [the API docs][method-get-singleton].
 
 [method-get-singleton]: https://godot-rust.github.io/docs/gdext/master/godot/engine/struct.Engine.html#method.get_singleton
 
