@@ -49,5 +49,5 @@ Use an [ `is_editor_hint` guard][editor-guard] if you don't want some code execu
 
 [Read more information on guard clauses in computer science.][guard-csci]
 
-[editor-guard]: https://godot-rust.github.io/docs/gdext/master/godot/engine/struct.Engine.html#method.is_editor_hint
-[guard-csci]: https://en.wikipedia.org/wiki/Guard_(computer_science)
+[api-engine-iseditorhint]: https://godot-rust.github.io/docs/gdext/master/godot/engine/struct.Engine.html#method.is_editor_hint
+[wiki-guard-csci]: https://en.wikipedia.org/wiki/Guard_(computer_science)
