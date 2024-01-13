@@ -41,16 +41,15 @@ impl IEditorPlugin for MyEditorPlugin {
 }
 ```
 
-```admonish hint
 Since this is an `EditorPlugin`, it will be automatically added to the scene tree root. This means it can access the scene tree 
 at runtime. Additionally, it is safe to access the `EditorInterface` singleton through this node, 
 which allows adding different GUI elements to the editor directly. This can be helpful if you have an 
 advanced GUI you want to implement.
 
+```admonish hint title="Gameplay-only code"
 Use an [ `is_editor_hint` guard][editor-guard] if you don't want some code executing during runtime of the game.
 
 [Read more information on guard clauses in computer science.][guard-csci]
-```
 
 [editor-guard]: https://godot-rust.github.io/docs/gdext/master/godot/engine/struct.Engine.html#method.is_editor_hint
 [guard-csci]: https://en.wikipedia.org/wiki/Guard_(computer_science)
