@@ -23,19 +23,21 @@ Note that the path is based off of the `res://` path, like all other resources f
 installation path for your tool. It is recommended to make this in the "addons" folder because this will clearly signify to users that it is
 a directory of third party resources and code and that they likely shouldn't mess with it unless they are certain of what they are doing.
 
-Read more about the reasoning behind this in Godot's [documentation on installing plugins][godot-addons-doc].
+Read more about the reasoning behind this in Godot's [documentation on installing plugins][godot-addons-doc]. Also read 
+["Making Plugins"][godot-making-plugins]
 ```
-<!-- Would it be better to link to the "Making Plugins" page instead? 
-	::https://docs.godotengine.org/en/stable/tutorials/plugins/editor/making_plugins.html -->
+
 [godot-addons-doc]: https://docs.godotengine.org/en/stable/tutorials/plugins/editor/installing_plugins.html#finding-plugins
+[godot-making-plugins]: https://docs.godotengine.org/en/stable/tutorials/plugins/editor/making_plugins.html
+
 
 ## Formatting for custom icons
 
-The Godot docs have a [page dedicated][gdocs-icons] to tools and resources for creating custom icons. The long and short of it is:
+The Godot docs have a [page dedicated][godot-icons] to tools and resources for creating custom icons. The long and short of it is:
 
 - make it an SVG
 - make it use square aspect ratio and size (16x16 pixels is the referenced size)
-- And refer to the [Godot icon colors mappings][ggit-colors].
+- And refer to the [Godot icon colors mappings][gh-godot-colors].
   - Use the light mode colors, Godot only supports light to dark, and not dark to light color conversions.
 
 ```admonish help
@@ -45,7 +47,7 @@ theme colors.
 Details on how to use her reference page is included [here][qos-info].
 ```
 
-[gdocs-icons]: https://docs.godotengine.org/en/stable/contributing/development/editor/creating_icons.html
-[ggit-colors]:https://github.com/godotengine/godot/blob/master/editor/editor_themes.cpp#L62-L174
+[godot-icons]: https://docs.godotengine.org/en/stable/contributing/development/editor/creating_icons.html
+[gh-godot-colors]:https://github.com/godotengine/godot/blob/master/editor/editor_themes.cpp#L62-L174
 [qos-colors]: https://queenofsquiggles.github.io/tech/godot-icon-colours/
 [qos-info]: https://queenofsquiggles.github.io/tech/godot-icon-colours/#how-to-use-this
