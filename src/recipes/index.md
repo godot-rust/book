@@ -13,7 +13,7 @@
 With godot-rust, you are able to define custom `Resource` classes which are then available to the end user.
 
 
-## `EditorPlugin`
+## Editor plugins
 
 `EditorPlugin` types are loaded during editor and runtime and are able to access the editor as well as the scene tree. This type follows the same
 functionality that a typical `EditorPlugin` class written in GDScript would, but crucially with access to the _entire Rust ecosystem_.
