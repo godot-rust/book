@@ -7,8 +7,8 @@
 
 # Custom Resources
 
-Custom `Resource`s are exposed for the end user to use within their development, but cannot provide any functionality automatically.
-For example, you can create a custom `AudioStream` type that handles a new and interesting audio file type.
+Custom `Resource`s are exposed to the end user to use within their development. `Resource`s can store data that is easily edited from within
+the editor GUI. For example, you can create a custom `AudioStream` type that handles a new and interesting audio file type.
 
 
 ## Registering a `Resource`

@@ -39,9 +39,9 @@ impl IEditorPlugin for MyEditorPlugin {
 }
 ```
 
-Since this is an `EditorPlugin`, it will be automatically added to the scene tree root. This means it can access the scene tree 
-at runtime. Additionally, it is safe to access the `EditorInterface` singleton through this node, 
-which allows adding different GUI elements to the editor directly. This can be helpful if you have an 
+Since this is an `EditorPlugin`, it will be automatically added to the scene tree root. This means it can access the scene tree
+at runtime. Additionally, it is safe to access the `EditorInterface` singleton through this node,
+which allows adding different GUI elements to the editor directly. This can be helpful if you have an
 advanced GUI you want to implement.
 
 ```admonish hint title="Gameplay-only code"

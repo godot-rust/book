@@ -39,7 +39,7 @@ Godot provides _many_ built-in singletons in its API. You can find a full list [
 <!-- toc -->
 
 
-## Defining a Singleton
+## Defining a singleton
 
 Defining a singleton is the same as registering a custom class.
 
@@ -123,5 +123,5 @@ For more information on this method, refer to [the API docs][method-get-singleto
 
 Singletons cannot safely access the scene tree. At any given moment, they may exist without a scene tree being active.
 While it is technically possible to access the tree through hacky methods, it is **highly recommended** to use a
-custom `EditorPlugin` for this purpose. As you can register a custom "Autoload Singleton" which is crucially different
-from an Engine Singleton in that it is a Node (or child type) instanced on the SceneTree.
+custom `EditorPlugin` for this purpose. Creating an `EditorPlugin` allows for registering an "autoload singleton" which is a `Node` (or
+ derived) type and is automatically loaded into the `SceneTree` by Godot when the game starts.

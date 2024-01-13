@@ -7,8 +7,8 @@
 
 # Custom icons
 
-By default, all of your custom types will use the `Node` icon. While this can be serviceable, you will likely want to add custom
-icons, especially if you plan to distribute this to others!
+By default, all of your custom types will use the `Node` icon. While this can be serviceable, you will likely want to add custom icons,
+ especially if you plan to distribute this to others!
 
 All of the icons must be registered by class name in your `.gdextension` file.
 
@@ -19,12 +19,9 @@ MyClass = "res://addons/your_extension/file_name.svg"
 ```
 
 ```admonish hint
-Note that the path is based off of the `res://` path, like all other resources for Godot.
-This means that you will need to have a standard 
-installation path for your tool. It is recommended to make this in the "addons" folder because 
-this will clearly signify to users that it is a 
-directory of third party resources and code and that they likely shouldn't mess 
-with it unless they are certain of what they are doing.
+Note that the path is based off of the `res://` path, like all other resources for Godot. This means that you will need to have a standard
+installation path for your tool. It is recommended to make this in the "addons" folder because this will clearly signify to users that it is
+a directory of third party resources and code and that they likely shouldn't mess with it unless they are certain of what they are doing.
 ```
 
 
@@ -38,8 +35,8 @@ The Godot docs have a [page dedicated][gdocs-icons] to tools and resources for c
   - Use the light mode colors, Godot only supports light to dark, and not dark to light color conversions.
 
 ```admonish help
-QueenOfSquiggles has made a more readable version [on her personal blog][qos-colors] which includes color previews for the 
-light and dark theme colors.
+QueenOfSquiggles has made a more readable version [on her personal blog][qos-colors] which includes color previews for the light and dark
+theme colors.
 
 Details on how to use her reference page is included [here][qos-info].
 ```
