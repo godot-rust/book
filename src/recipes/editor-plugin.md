@@ -12,10 +12,8 @@ Using `EditorPlugin` types is very similar to the process used when [writing plu
 Unlike GDScript plugins, godot-rust plugins are registered automatically and cannot be enabled/disabled in the
 Project Settings plugins pane.
 
-<!-- This section may be unecessary? -->
 Plugins written in GDScript are automatically disabled if they have a code error, but because Rust is a compiled language,
-you cannot introduce compile-time errors because the library binary will simply not be emitted on the compiler finding an error.
-This is not the case for run-time errors.
+you cannot introduce compile-time errors.
 
 [gd-plugins]: https://docs.godotengine.org/en/stable/tutorials/plugins/editor/making_plugins.html
 
