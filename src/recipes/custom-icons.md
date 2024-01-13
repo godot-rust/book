@@ -5,7 +5,7 @@
   ~ file, You can obtain one at https://mozilla.org/MPL/2.0/.
 -->
 
-# Custom Icons
+# Custom icons
 
 By default, all of your custom types will use the `Node` icon. While this can be serviceable, you will likely want to add custom
 icons, especially if you plan to distribute this to others!
