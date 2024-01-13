@@ -22,8 +22,12 @@ MyClass = "res://addons/your_extension/file_name.svg"
 Note that the path is based off of the `res://` path, like all other resources for Godot. This means that you will need to have a standard
 installation path for your tool. It is recommended to make this in the "addons" folder because this will clearly signify to users that it is
 a directory of third party resources and code and that they likely shouldn't mess with it unless they are certain of what they are doing.
-```
 
+Read more about the reasoning behind this in Godot's [documentation on installing plugins][godot-addons-doc].
+```
+<!-- Would it be better to link to the "Making Plugins" page instead? 
+	::https://docs.godotengine.org/en/stable/tutorials/plugins/editor/making_plugins.html -->
+[godot-addons-doc]: https://docs.godotengine.org/en/stable/tutorials/plugins/editor/installing_plugins.html#finding-plugins
 
 ## Formatting for custom icons
 
