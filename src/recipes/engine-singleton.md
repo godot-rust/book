@@ -47,7 +47,6 @@ Defining a singleton is the same as registering a custom class.
 #[derive(GodotClass)]
 #[class(tool, init, base=Object)]
 struct MyEditorSingleton {
-    #[base]
     base: Base<Object>,
 }
 

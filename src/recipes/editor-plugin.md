@@ -24,7 +24,6 @@ you cannot introduce compile-time errors.
 #[derive(GodotClass)]
 #[class(tool, init, editor_plugin, base=EditorPlugin)]
 struct MyEditorPlugin {
-    #[base]
     base: Base<EditorPlugin>,
 }
 
