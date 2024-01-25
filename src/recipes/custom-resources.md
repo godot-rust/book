@@ -19,7 +19,6 @@ This workflow is similar to the [Hello World example][hello]:
 #[derive(GodotClass)]
 #[class(tool, init, base=Resource)]
 struct ResourceType {
-    #[base]
     base: Base<Resource>,
 }
 ```

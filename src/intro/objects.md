@@ -111,7 +111,7 @@ constructor list.
   fully-constructed `Player` instance.
 ```
 
-If your `T` contains a `#[base]` field, you cannot create a standalone `T` object -- you must encapsulate it in `Gd<T>`.
+If your `T` contains a `Base<T>` field, you cannot create a standalone `T` object -- you must encapsulate it in `Gd<T>`.
 You can also not extract a `T` from a `Gd<T>` smart pointer anymore; since it has potentially been shared with the Godot engine, this would
 not be a safe operation.
 

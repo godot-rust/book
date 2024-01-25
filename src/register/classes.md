@@ -88,19 +88,15 @@ store the instance of the Godot superclass (base class) as a field in our `Monst
 struct Monster {
     name: String,
     hitpoints: i32,
-    
-    #[base]
     base: Base<Node3D>,
 }
 ```
 
-The `#[base]` attribute is currently necessary (as of January 2024), but will likely disappear in the future.
-
 The important part is the `Base<T>` type. `T` must match the base class you specified in the `#[class(base=...)]` attribute.
 You can also use the associated type `Self::Base` for `T`.
 
-When you declare a base field in your struct, you can access the `Node` API through provided methods `self.base()` and `self.base_mut()`, but
-more on this later.
+When you declare a base field in your struct, the `#[derive]` procedural macro will automatically detect the `Base<T>` type.[^inference]
+This lets you access the `Node` API through provided methods `self.base()` and `self.base_mut()`, but more on this later.
 
 
 ## Default constructor
@@ -121,8 +117,6 @@ You can use `#[class(init)]` to generate a constructor for you. This is limited 
 struct Monster {
     name: String,
     hitpoints: i32,
-    
-    #[base]
     base: Base<Node3D>,
 }
 ```
@@ -157,8 +151,6 @@ We can provide a manually-defined constructor by overriding the trait's associat
 struct Monster {
     name: String,
     hitpoints: i32,
-    
-    #[base]
     base: Base<Node3D>,
 }
 
@@ -190,6 +182,14 @@ More on this topic in the next chapter.
 You learned how to define a Rust class and register it with Godot. You now know how to select a base class and how to define a constructor.
 The next chapter will allow you to implement logic by providing functions.
 
+<br>
+
+---
+
+[^inference] You can tweak the type detection using the `#[hint]` attribute, see [the corresponding docs][api-derive-godotclass-inference].
+
+
 [api-derive-godotclass]: https://godot-rust.github.io/docs/gdext/master/godot/register/derive.GodotClass.html
+[api-derive-godotclass-inference]: https://godot-rust.github.io/docs/gdext/master/godot/register/derive.GodotClass.html#fine-grained-inference-hints
 [api-godot-api]: https://godot-rust.github.io/docs/gdext/master/godot/register/attr.godot_api.html
 [godot-gdscript-classes]: https://docs.godotengine.org/en/stable/tutorials/scripting/gdscript/gdscript_basics.html#classes
