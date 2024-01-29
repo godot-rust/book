@@ -45,7 +45,7 @@ Defining a singleton is the same as registering a custom class.
 
 ```rust
 #[derive(GodotClass)]
-#[class(tool, init, base=Object)]
+#[class(init, base=Object)]
 struct MyEditorSingleton {
     base: Base<Object>,
 }
@@ -67,6 +67,7 @@ To achieve this, we can customize our init/shutdown routines by overriding `Exte
 ```rust
 struct MyExtension;
 
+#[gdextension]
 unsafe impl ExtensionLibrary for MyExtension {
     fn on_level_init(level: InitLevel) {
         if level == InitLevel::Scene {
@@ -81,15 +82,33 @@ unsafe impl ExtensionLibrary for MyExtension {
 
     fn on_level_deinit(level: InitLevel) {
         if level == InitLevel::Scene {
-            // Unregistering is needed to avoid memory leaks and 
-            // warnings, especially for hot reloading.
-            Engine::singleton().unregister_singleton(
-                StringName::from("MyEditorSingleton")
-            );
+            // Get the `Engine` instance and `StringName` for your singleton.
+            let mut engine = Engine::singleton();
+            let singleton_name = StringName::from("MyEditorSingleton");
+
+            // We need to retrieve the pointer to the singleton object,
+            // as it has to be freed manually - unregistering singleton 
+            // doesn't do it automatically.
+            let singleton = engine
+                .get_singleton(singleton_name.clone())
+                .expect("cannot retrieve the singleton");
+
+            // Unregistering singleton and freeing the object itself is needed 
+            // to avoid memory leaks and warnings, especially for hot reloading.
+            engine.unregister_singleton(singleton_name);
+            singleton.free();
         }
     }
 }
 ```
+
+```admonish warning title="Singletons inheriting from *RefCounted*"
+Use a manually-managed class as a base (often `Object` will be enough) for custom singletons to avoid prematurely freeing the object.
+If for any reason you need to have an instance of a reference-counted object registered as a singleton, this 
+[issue thread][refcounted-singleton-issue] presents some possible workarounds.
+```
+
+[refcounted-singleton-issue]: https://github.com/godot-rust/gdext/issues/522
 
 
 ## Calling from GDScript
