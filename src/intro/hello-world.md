@@ -161,7 +161,7 @@ The `[libraries]` section should be updated to match the paths of your dynamic R
 - The keys on the left are the build targets of the **Godot** project.
   - Consult [GDExtension docs][godot-build-targets] for more possible values.
 - The values on the right are the file paths to your dynamic library.
-  - The `res://` prefix represents the path to files **relative to your Godot directory**.
+  - The `res://` prefix represents the path to files **relative to your Godot directory**, regardless of where your `HelloWorld.gdextension` file is.
     You can learn more about Godot's resource paths [here][godot-resource-paths].
   - If you remember the file structure, the `godot` and `rust` directories are siblings, so we need to go up one level to reach `rust`.
 - You can add configurations for as many platforms as you like, if you plan to export your project to those later.
