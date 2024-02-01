@@ -44,8 +44,11 @@ project_dir
 We assume a Godot version of 4.1 or later. Feel free to download the latest stable one. You can download in-development ones,
 but we [do not provide official support for those][compatibility], so we recommend stable ones.
 
-Open the Godot project manager and create a blank Godot 4 project. Run the default scene to make sure everything is working.
-Save the changes and consider versioning each step of the tutorial in Git.
+Open the Godot project manager and create a new Godot 4 project in the godot/ subfolder. Add a Sprite2D to the center of a new scene.
+We recommend that you follow the [Official tutorial][tutorial-begin] and stop at the point where it asks you to create a script.
+We will show you how to do that part in Rust.
+
+Run your scene to make sure everything is working. Save the changes and consider versioning each step of the tutorial in Git.
 
 
 ## Create a Rust crate
@@ -279,6 +282,7 @@ Let's break this down.
 ```admonish warning title="Correct node type"
 When adding an instance of your `Player` class to the scene, make sure to select node type `Player` **and not its base `Sprite2D`**.
 Otherwise, your Rust logic will not run.
+We will guide you to make that change to your scene later, when you're ready to test it.
 
 If Godot fails to load a Rust class (e.g. due to an error in your extension), it may silently replace it with its base class.
 Use version control (git) to check for unwanted changes in `.tscn` files.
@@ -350,7 +354,12 @@ Do not use the `self.base` field directly. Use `self.base()` or `self.base_mut()
 the base class methods.
 ```
 
-This is a point where you can compile your code, launch Godot and see the result. The sprite should rotate at a constant speed.
+This is a point where you can see the result. Compile your code and launch the Godot editor.
+Right click on your Sprite2D in the scene tree, and choose "Change Type..."
+Find and choose the _Player_ node type, which will be a child of Sprite2D in the Change Type dialog that appears.
+
+Now, save your changes, and run the scene.
+The sprite should rotate at a constant speed.
 
 ![rotating sprite][img-sprite-rotating]
 
