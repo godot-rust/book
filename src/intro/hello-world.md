@@ -128,8 +128,8 @@ $ ls -l
 This file tells Godot how to load your compiled Rust extension. It contains the path to the dynamic library, as well as the
 entry point (function) to initialize it with.
 
-First, add an empty `.gdextension` file anywhere in your project folder. In case you're familiar with Godot 3, this is the equivalent of
-`.gdnlib`. In this case, we create `res://HelloWorld.gdextension` in the root folder of the project and fill it as follows:
+First, add an empty `.gdextension` file anywhere in your godot subfolder. In case you're familiar with Godot 3, this is the equivalent of
+`.gdnlib`. In this case, we create `res://HelloWorld.gdextension` at `project_dir/godot` and fill it as follows:
 
 ```ini
 [configuration]
