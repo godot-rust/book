@@ -44,7 +44,7 @@ project_dir
 We assume a Godot version of 4.1 or later. Feel free to download the latest stable one. You can download in-development ones,
 but we [do not provide official support for those][compatibility], so we recommend stable ones.
 
-Open the Godot project manager and create a new Godot 4 project in the godot/ subfolder. Add a Sprite2D to the center of a new scene.
+Open the Godot project manager and create a new Godot 4 project in the `godot/` subfolder. Add a Sprite2D to the center of a new scene.
 We recommend that you follow the [Official tutorial][tutorial-begin] and stop at the point where it asks you to create a script.
 We will show you how to do that part in Rust.
 
@@ -128,7 +128,7 @@ $ ls -l
 This file tells Godot how to load your compiled Rust extension. It contains the path to the dynamic library, as well as the
 entry point (function) to initialize it with.
 
-First, add an empty `.gdextension` file anywhere in your godot subfolder. In case you're familiar with Godot 3, this is the equivalent of
+First, add an empty `.gdextension` file anywhere in your `godot` subfolder. In case you're familiar with Godot 3, this is the equivalent of
 `.gdnlib`. In this case, we create `res://HelloWorld.gdextension` at `project_dir/godot` and fill it as follows:
 
 ```ini
@@ -198,7 +198,7 @@ res://HelloWorld.gdextension
 
 ```admonish note title=".gdignore"
 If you do not follow the [recommended gdext project directory setup][directory-setup] of having separate `rust/` and `godot/` directories
-and instead place your rust source directly within your godot project,
+and instead place your rust source directly within your Godot project,
 then please consider adding a [.gdignore][gd-ignore] file at the root folder of your Rust code.
 This avoids cases where the Rust Compiler may produce a file in your rust folder with an ambiguous extension such as `.obj`,
 which the Godot Editor may inappropriately attempt to import, resulting in an error and preventing you from building your project.
