@@ -44,7 +44,7 @@ project_dir
 We assume a Godot version of 4.1 or later. Feel free to download the latest stable one. You can download in-development ones,
 but we [do not provide official support for those][compatibility], so we recommend stable ones.
 
-Open the Godot project manager and create a new Godot 4 project in the `godot/` subfolder. Add a Sprite2D to the center of a new scene.
+Open the Godot project manager and create a new Godot 4 project in the `godot/` subfolder. Add a `Sprite2D` to the center of a new scene.
 We recommend that you follow the [Official tutorial][tutorial-begin] and stop at the point where it asks you to create a script.
 We will show you how to do that part in Rust.
 
