@@ -46,7 +46,6 @@ but we [do not provide official support for those][compatibility], so we recomme
 
 Open the Godot project manager and create a new Godot 4 project in the `godot/` subfolder. Add a `Sprite2D` to the center of a new scene.
 We recommend that you follow the [Official tutorial][tutorial-begin] and stop at the point where it asks you to create a script.
-We will show you how to do that part in Rust.
 
 Run your scene to make sure everything is working. Save the changes and consider versioning each step of the tutorial in Git.
 
@@ -129,7 +128,7 @@ This file tells Godot how to load your compiled Rust extension. It contains the 
 entry point (function) to initialize it with.
 
 First, add an empty `.gdextension` file anywhere in your `godot` subfolder. In case you're familiar with Godot 3, this is the equivalent of
-`.gdnlib`. In this case, we create `res://HelloWorld.gdextension` at `project_dir/godot` and fill it as follows:
+`.gdnlib`. In this case, we create `res://HelloWorld.gdextension` inside the `godot` subfolder and fill it as follows:
 
 ```ini
 [configuration]
@@ -355,11 +354,10 @@ the base class methods.
 ```
 
 This is a point where you can see the result. Compile your code and launch the Godot editor.
-Right click on your Sprite2D in the scene tree, and choose "Change Type..."
-Find and choose the _Player_ node type, which will be a child of Sprite2D in the Change Type dialog that appears.
+Right click on your `Sprite2D` in the scene tree, and choose "Change Type..."
+Find and choose the `Player` node type, which will be a child of `Sprite2D` in the Change Type dialog that appears.
 
-Now, save your changes, and run the scene.
-The sprite should rotate at a constant speed.
+Now, save your changes, and run the scene. The sprite should rotate at a constant speed.
 
 ![rotating sprite][img-sprite-rotating]
 
