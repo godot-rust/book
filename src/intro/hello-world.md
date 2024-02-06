@@ -44,8 +44,10 @@ project_dir
 We assume a Godot version of 4.1 or later. Feel free to download the latest stable one. You can download in-development ones,
 but we [do not provide official support for those][compatibility], so we recommend stable ones.
 
-Open the Godot project manager and create a blank Godot 4 project. Run the default scene to make sure everything is working.
-Save the changes and consider versioning each step of the tutorial in Git.
+Open the Godot project manager and create a new Godot 4 project in the `godot/` subfolder. Add a `Sprite2D` to the center of a new scene.
+We recommend that you follow the [Official tutorial][tutorial-begin] and stop at the point where it asks you to create a script.
+
+Run your scene to make sure everything is working. Save the changes and consider versioning each step of the tutorial in Git.
 
 
 ## Create a Rust crate
@@ -125,8 +127,8 @@ $ ls -l
 This file tells Godot how to load your compiled Rust extension. It contains the path to the dynamic library, as well as the
 entry point (function) to initialize it with.
 
-First, add an empty `.gdextension` file anywhere in your project folder. In case you're familiar with Godot 3, this is the equivalent of
-`.gdnlib`. In this case, we create `res://HelloWorld.gdextension` in the root folder of the project and fill it as follows:
+First, add an empty `.gdextension` file anywhere in your `godot` subfolder. In case you're familiar with Godot 3, this is the equivalent of
+`.gdnlib`. In this case, we create `res://HelloWorld.gdextension` inside the `godot` subfolder and fill it as follows:
 
 ```ini
 [configuration]
@@ -158,7 +160,7 @@ The `[libraries]` section should be updated to match the paths of your dynamic R
 - The keys on the left are the build targets of the **Godot** project.
   - Consult [GDExtension docs][godot-build-targets] for more possible values.
 - The values on the right are the file paths to your dynamic library.
-  - The `res://` prefix represents the path to files **relative to your Godot directory**.
+  - The `res://` prefix represents the path to files **relative to your Godot directory**, regardless of where your `HelloWorld.gdextension` file is.
     You can learn more about Godot's resource paths [here][godot-resource-paths].
   - If you remember the file structure, the `godot` and `rust` directories are siblings, so we need to go up one level to reach `rust`.
 - You can add configurations for as many platforms as you like, if you plan to export your project to those later.
@@ -195,7 +197,7 @@ res://HelloWorld.gdextension
 
 ```admonish note title=".gdignore"
 If you do not follow the [recommended gdext project directory setup][directory-setup] of having separate `rust/` and `godot/` directories
-and instead place your rust source directly within your godot project,
+and instead place your rust source directly within your Godot project,
 then please consider adding a [.gdignore][gd-ignore] file at the root folder of your Rust code.
 This avoids cases where the Rust Compiler may produce a file in your rust folder with an ambiguous extension such as `.obj`,
 which the Godot Editor may inappropriately attempt to import, resulting in an error and preventing you from building your project.
@@ -279,6 +281,7 @@ Let's break this down.
 ```admonish warning title="Correct node type"
 When adding an instance of your `Player` class to the scene, make sure to select node type `Player` **and not its base `Sprite2D`**.
 Otherwise, your Rust logic will not run.
+We will guide you to make that change to your scene later, when you're ready to test it.
 
 If Godot fails to load a Rust class (e.g. due to an error in your extension), it may silently replace it with its base class.
 Use version control (git) to check for unwanted changes in `.tscn` files.
@@ -350,7 +353,11 @@ Do not use the `self.base` field directly. Use `self.base()` or `self.base_mut()
 the base class methods.
 ```
 
-This is a point where you can compile your code, launch Godot and see the result. The sprite should rotate at a constant speed.
+This is a point where you can see the result. Compile your code and launch the Godot editor.
+Right click on your `Sprite2D` in the scene tree, and choose "Change Type..."
+Find and choose the `Player` node type, which will be a child of `Sprite2D` in the Change Type dialog that appears.
+
+Now, save your changes, and run the scene. The sprite should rotate at a constant speed.
 
 ![rotating sprite][img-sprite-rotating]
 
