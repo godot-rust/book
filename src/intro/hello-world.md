@@ -134,6 +134,7 @@ First, add an empty `.gdextension` file anywhere in your `godot` subfolder. In c
 [configuration]
 entry_symbol = "gdext_rust_init"
 compatibility_minimum = 4.1
+reloadable = true
 
 [libraries]
 linux.debug.x86_64 =     "res://../rust/target/debug/lib{YourCrate}.so"
@@ -154,6 +155,8 @@ The `[configuration]` section should be copied as-is.
   Opening the project with a version of Godot lower than this will prevent your extension from running.
   - If you build a plugin to be used by others, set this as low as possible for maximum ecosystem compatibility. This might however limit
     the features you can use.
+- Key `reloadable` specifies that the editor should reload the extension when the editor window looses and regains focus. See [Godot issue #80284][gdextension-reloadable] for more details.
+  - If Godot is crashing, you may want to try turning off or removing this setting.
 
 The `[libraries]` section should be updated to match the paths of your dynamic Rust libraries.
 
@@ -458,3 +461,4 @@ That's it for the _Hello World_ tutorial! The following chapters will go into mo
 [gd-ignore]: https://docs.godotengine.org/en/stable/tutorials/best_practices/project_organization.html#ignoring-specific-folders
 [directory-setup]: https://godot-rust.github.io/book/intro/hello-world.html#directory-setup
 [wikipedia-ffi]: https://en.wikipedia.org/wiki/Foreign_function_interface
+[gdextension-reloadable]: https://github.com/godotengine/godot/pull/80284
