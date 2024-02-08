@@ -155,7 +155,8 @@ The `[configuration]` section should be copied as-is.
   Opening the project with a version of Godot lower than this will prevent your extension from running.
   - If you build a plugin to be used by others, set this as low as possible for maximum ecosystem compatibility. This might however limit
     the features you can use.
-- Key `reloadable` specifies that the editor should reload the extension when the editor window loses and regains focus. See [Godot issue #80284][gdextension-reloadable] for more details.
+- Key `reloadable` specifies that the editor should reload the extension when the editor window loses and
+  regains focus. See [Godot issue #80284][gdextension-reloadable] for more details.
   - If Godot is crashing, you may want to try turning off or removing this setting.
 
 The `[libraries]` section should be updated to match the paths of your dynamic Rust libraries.
