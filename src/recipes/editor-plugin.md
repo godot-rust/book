@@ -27,6 +27,7 @@ struct MyEditorPlugin {
     base: Base<EditorPlugin>,
 }
 
+#[godot_api]
 impl IEditorPlugin for MyEditorPlugin {
     fn enter_tree(&mut self) {
         // Perform typical plugin operations here.
