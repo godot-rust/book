@@ -18,6 +18,7 @@
   - [Properties](register/properties.md)
   - [Signals](register/signals.md)
   - [Constants](register/constants.md)
+  - [Virtual functions](register/virtual-functions.md)
 - [Toolchain](toolchain/index.md)
   - [Compatibility and stability](toolchain/compatibility.md)
   - [Selecting a Godot version](toolchain/godot-version.md)
