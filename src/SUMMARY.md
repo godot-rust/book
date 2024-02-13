@@ -30,5 +30,6 @@
   - [Engine singletons](recipes/engine-singleton.md)
   - [Custom icons](recipes/custom-icons.md)
 - [Contributing to gdext](contribute/index.md)
+  - [Philosophy](contribute/philosophy.md)
   - [Dev tools and testing](contribute/dev-tools.md)
   - [Code and API conventions](contribute/conventions.md)

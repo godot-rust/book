@@ -39,46 +39,6 @@ See [Dev tools] for more information.
 [rustfmt-config]: https://rust-lang.github.io/rustfmt
 
 
-## API design principles
-
-Different Rust libraries have different goals, which is reflected in API design choices. gdext is written in Rust, but interoperates with
-a C++/GDScript game engine, which means that we sometimes need to go unconventional ways to achieve good user experiences.
-This may sometimes be surprising for Rust developers.
-
-We envision the following core principles as a guideline for API design:
-
-1. **Simplicity**  
-   Prefer self-explanatory, straightforward interfaces.
-   - Avoid abstractions that don't add value to the user.
-     Do not over-engineer prematurely just because it's possible; follow [YAGNI][wiki-yagni]. Avoid [premature optimization][wiki-premature-opt].
-   - Examples to avoid: traits that are not used polymorphically, type-state pattern, many generic parameters,
-     layers of wrapper types/functions that simply delegate logic.
-   - Sometimes, runtime errors are better than compile-time errors. Most users are building a game, where fast iteration is key.
-     Use `Option`/`Result` when errors are recoverable, and panics when the user must fix their code.
-     See also [Ergonomics and panics][lib-ergonomics-panics].
-
-2. **Maintainability**  
-   Every line of code added **must be maintained, potentially indefinitely**.
-   - Consider that it may not be you working with it in the future, but another contributor or maintainer, maybe a year from now.
-   - Try to see the bigger picture -- how important is a specific in the overall library? How much detail is necessary?
-     Balance the amount of code with its real-world impact for users.
-   - Document non-trivial thought processes and design choices as inline `//` comments.
-   - Document behavior, invariants and limitations in `///` doc comments.
-
-3. **Consistency**  
-   As a user, having a uniform experience when using different parts of the library is important.
-   This reduces the cognitive load of learning and using the library, requires less doc lookup and makes users more efficient.
-   - Look at existing code and try to understand its patterns and conventions.
-   - Before doing larger refactorings or changes of existing systems, try to understand the underlying design choices.
-
-See these as guidelines, not hard rules. If you are unsure, please don't hesitate to ask questions and discuss different ideas.
-
-```admonish tip
-We highly appreciate if contributors propose a rough design before spending large effort on implementation.
-This aligns ideas early and saves time on approaches that may not work.
-```
-
-
 ## Technicalities
 
 This section lists specific style conventions that have caused some confusion in the past.
@@ -170,7 +130,4 @@ This allows for a recognizable and consistent syntax across all proc-macro APIs.
 directly supported by the `KvParser` type in gdext, which makes it easy to parse and interpret attributes.
 
 
-[lib-ergonomics-panics]: https://godot-rust.github.io/docs/gdext/master/godot/#ergonomics-and-panics
 [lib-public-api]: https://godot-rust.github.io/docs/gdext/master/godot/#public-api
-[wiki-premature-opt]: https://en.wikipedia.org/wiki/Program_optimization#When_to_optimize
-[wiki-yagni]: https://en.wikipedia.org/wiki/YAGNI
