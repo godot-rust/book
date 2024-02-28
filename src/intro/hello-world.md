@@ -244,7 +244,7 @@ Rust does not natively support inheritance, but the gdext API emulates it to a c
 
 ### Class declaration
 
-In this example, we declare a class called `Player`, which inherits [`Sprite2D`][api-sprite2d] (a node type):
+In this example, we declare a class called `Player`, which inherits [`Sprite2D`][api-sprite2d] (a node type). Try adding this code into your `lib.rs` file:
 
 ```rust
 use godot::prelude::*;
