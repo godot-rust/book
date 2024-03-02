@@ -103,6 +103,80 @@ accessible from GDScript like before.
 You can also declare both attributes on the same field. This is in fact necessary as soon as you provide arguments to customize them.
 
 
+## Enums
+
+You can export Rust enums as properties. An exported enum appears as a drop-down field in the editor, with all available options.
+In order to do that, you need to derive three traits:
+
+- `GodotConvert` to define how the type is converted from/to Godot.
+- `Var` to allow using it as a `#[var]` property, so it can be accessed from Godot.
+- `Export` to allow using it as a `#[export]` property, so it appears in the editor UI.
+
+Godot does not have dedicated enum types, so you can map them either as integers (e.g. `i64`) or strings (`GString`). This can be
+configured using the `via` key of the `#[godot]` attribute.
+
+Exporting an enum can be done as follows:
+
+```rust
+#[derive(GodotConvert, Var, Export)]
+#[godot(via = GString)]
+pub enum Planet {
+    Earth, // first enumerator is default.
+    Mars,
+    Venus,
+}
+
+#[derive(GodotClass)]
+#[class(base=Node)]
+pub struct SpaceFarer {
+    #[export]
+    favorite_planet: Planet,
+}
+```
+
+The above will show up as follows in the editor UI:
+
+![Exported enum in the Godot editor UI](images/enum-export.png)
+
+Refactoring the Rust enum may impact already serialized scenes, so be mindful if you want to choose integers or strings as the underlying
+representation:
+
+- Integers enable renaming variants without breaking existing scenes, however new ones must be strictly added at the end, and existing
+  ones cannot be removed or reordered.
+- Strings allow free reordering and removing (if unused) and make debugging easier. However, you cannot rename them, and they take slightly
+  more space (only relevant if you have tens of thousands).
+
+Of course, it is always possible to adjust existing scene files, but this involves manual search&replace and is generally error-prone.
+
+```admonish warning title="Enums in GDScript"
+Enums are not first-class citizens in Godot. Even if you define them in GDScript, they are mostly syntactic sugar for constants.
+This declaration:
+~~~php
+enum Planet {
+    EARTH,
+    VENUS,
+    MARS,
+}
+
+@export var favorite_planet: Planet
+~~~
+is roughly the same as:
+~~~php
+const EARTH = 0
+const VENUS = 1
+const MARS = 2
+
+@export_enum("EARTH", "VENUS", "MARS") var favorite_planet = Planet.EARTH
+~~~
+However, the enum is not type-safe, you can just do this:
+~~~php
+var p: Planet = 5
+~~~
+Furthermore, unless you initialize the constants with string values, you cannot retrieve their names, making debugging harder. There is no
+reflection either, such as "get number of enum values" or "iterate over all of them". If you have the choice, consider keeping enums in Rust.
+```
+
+
 ## Advanced usage
 
 Both `#[var]` and `#[export]` attributes accept parameters to further customize how properties are registered in Godot.
