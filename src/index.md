@@ -47,7 +47,7 @@ To avoid confusion, here is an explanation of names and technologies you may enc
 - [**GDNative**][ref-godot-gdnative]: C API provided by Godot 3.
 - [**gdext**][github-gdext] (lowercase): the Rust binding for GDExtension (Godot 4) -- what this book focuses on.
 - [**gdnative**][github-gdnative] (lowercase): the Rust binding for GDNative (Godot 3).
-- **Extension**: An extension is a C library developed using gdext. It can be loaded by Godot 4.
+- **Extension**: An extension is a C library developed using GDExtension. It can be loaded by Godot 4.
 
 
 ### GDExtension API: what's new
