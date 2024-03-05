@@ -1,4 +1,4 @@
-<!--
+**<!--
   ~ Copyright (c) godot-rust; Bromeon and contributors.
   ~ This Source Code Form is subject to the terms of the Mozilla Public
   ~ License, v. 2.0. If a copy of the MPL was not distributed with this
@@ -47,7 +47,8 @@ To avoid confusion, here is an explanation of names and technologies you may enc
 - [**GDNative**][ref-godot-gdnative]: C API provided by Godot 3.
 - [**gdext**][github-gdext] (lowercase): the Rust binding for GDExtension (Godot 4) -- what this book focuses on.
 - [**gdnative**][github-gdnative] (lowercase): the Rust binding for GDNative (Godot 3).
-- **Extension**: An extension is a dynamic C library, developed by any language binding (Rust, C++, Swift, ...). It uses the GDExtension API and can be loaded by Godot 4.
+- **Extension**: An extension is a dynamic C library, developed by any language binding (Rust, C++, Swift, ...). It uses the GDExtension API and can
+  be loaded by Godot 4.
 
 
 ### GDExtension API: what's new
@@ -95,3 +96,4 @@ That said, there are some notable differences:
 [github-gdext]: https://github.com/godot-rust/gdext
 [github-gdnative]: https://github.com/godot-rust/gdnative
 [github-contributors]: https://github.com/godot-rust/gdext/graphs/contributors
+**
