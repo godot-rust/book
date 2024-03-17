@@ -22,12 +22,26 @@ See also [GDScript reference for functions][godot-gdscript-functions].
 
 ## Godot special functions
 
-The functions provided by the interface trait (beginning with `I`) are called _Godot special functions_.
+```admonish info title="Interface traits"
+Each engine class comes with an associated trait, which has the same name but is prefixed with the letter `I`, for "Interface".
+The trait has no required functions, but you can override any functions to customize the behavior towards Godot.
 
-You already saw a function being registered: the `init` constructor, which takes a base object and returns an instance of `Self`.
-Godot additionally provides several functions for you to override, to hook into the lifecycle of your object.
+Any `impl` block for the trait must be annotated with the `#[godot_api]` attribute macro.
+```
 
-Here is a small selection of lifecycle methods. For a complete list, see [`INode3D` docs][api-inode3d].
+```admonish info title="godot_api macro"
+The attribute proc-macro `#[godot_api]` is applied to `impl` blocks and marks their items for registration.
+It takes no arguments.
+
+See [API docs][api-godot-api] for detailed information.
+```
+
+Functions provided by the interface trait (beginning with `I`) are called _Godot special functions_. These can be overridden and allow you
+to influence the behavior of an object. Most common is a hook into the _lifecycle_ of your object, defining some logic that is run upon
+certain events like creation, scene-tree entering, or per-frame updates.
+
+In our case, the `Node3D` comes with the `INode3D` trait.
+Here is a small selection of its lifecycle methods. For a complete list, see [`INode3D` docs][api-inode3d].
 
 ```rs
 #[godot_api]
@@ -66,14 +80,13 @@ So let's implement `to_string()`, here again showing the class definition for qu
 #[class(base=Node3D)]
 struct Monster {
     name: String,
-    hitpoints: i32,
+    hitpoints: i3l1
+    
     base: Base<Node3D>,
 }
 
 #[godot_api]
-impl INode3D for Monster {   
-    ... // init etc.
-    
+impl INode3D for Monster {      
     fn to_string(&self) -> GString {
         let Self { name, hitpoints, .. } = &self;
         format!("Monster(name={name}, hp={hitpoints})").into()
@@ -123,77 +136,32 @@ As you see, the Rust types are automatically mapped to their GDScript counterpar
 `String`. Sometimes there are multiple possible mappings, e.g. Rust `u16` would also be mapped to `int` in GDScript.
 
 
-### Associated functions and constructors
+### Associated functions
 
 In addition to **methods** (taking `&self` or `&mut self`), you can also register **associated functions** (without a receiver). In GDScript,
 the latter are known as "static functions".
 
-Associated functions are often useful for user-defined constructors.
-
-Previously, we talked about the default constructor `init` not being very useful, as it leaves the `Monster` in an incorrect state.
-Let's provide a more suitable constructor, which accepts name and hitpoints as parameters.
-
-```rs
-// Default constructor from before.
-#[godot_api]
-impl INode3D for Monster {
-    fn init(base: Base<Node3D>) -> Self { ... }
-}
-
-// New custom constructor.
-#[godot_api]
-impl Monster {
-    #[func] // Note: the following is incorrect.
-    fn from_name_hp(name: GString, hitpoints: i32) -> Self { 
-        ...
-    }
-}
-```
-
-But now, how to fill in the blanks? `Self` requires a base object, how to obtain it? In fact, we cannot return `Self` here.
-
-```admonish info title="Passing around objects"
-When interacting with Godot from Rust, all objects (class instances) need to be transported inside the `Gd` smart pointer -- whether
-they appear as parameters or return types.
-
-The return types of `init` and a few other gdext-provided functions are an exception, because the library requires at this point that you
-have a _value_ of the raw object. You never need to return `Self` in your own defined functions (unless it's pure Rust code).
-
-For details, consult [the chapter about objects][book-objects] or the [`Gd<T>` API docs][api-gd].
-```
-
-So we need to return `Gd<Self>` instead of `Self`.
-
-To construct `Gd<Self>`, we can use [`Gd::from_init_fn()`][api-gd-from-init-fn], which takes a closure. This closure accepts a `Base` object
-and returns an instance of `Self`. In other words, it has the same signature as `init` -- this presents an alternative way of constructing
-Godot objects, while allowing to pass in addition context.
-
-The result of `Gd::from_init_fn()` is a `Gd<Self>` object, which can be directly returned by `Monster::from_name_hp()`.
+For example, we can add an associated function which generates a random monster name:
 
 ```rs
 #[godot_api]
 impl Monster {
     #[func]
-    fn from_name_hp(name: GString, hitpoints: i32) -> Gd<Self> {
-        // Function contains a single statement, the `Gd::from_init_fn()` call.
-        
-        Gd::from_init_fn(|base| {
-            // Accept a base of type Base<Node3D> and directly forward it.
-            Self {
-                name: name.into(), // Convert GString -> String.
-                hitpoints,
-                base,
-            }
-        })
+    fn random_name() -> GString {
+        // ...
     }
 }
 ```
 
-That's it! The just added associated function is now registered in GDScript and effectively works as a constructor:
+The above can then be called from GDScript as follows:
 
 ```php
-var monster = Monster.from_name_hp("Nomster", 100)
+var name: String = Monster.random_name()
 ```
+
+Of course, it is also possible to declare parameters.
+
+Associated functions are sometimes useful for user-defined constructors, as we will see in the next chapter.
 
 <!-- TODO: base() + base_mut() -->
 <!-- TODO: bind() + bind_mut() and their relation to &self/&mut self -->
@@ -204,14 +172,11 @@ var monster = Monster.from_name_hp("Nomster", 100)
 This page gave you an overview of registering functions with Godot:
 
 - Special methods that hook into the lifecycle of your object.
-- User-defined methods that query or modify the state of your instance.
-- Associated functions that serve as constructors.
+- User-defined methods and associated functions to expose a Rust API to Godot.
 
 These are just a few use cases, you are very flexible in how you design your interface between Rust and GDScript.
-In the next page, we will look into properties.
+In the next page, we will look into a special kind of functions: constructors.
 
-[godot-gdscript-functions]: https://docs.godotengine.org/en/stable/tutorials/scripting/gdscript/gdscript_basics.html#functions
+[api-godot-api]: https://godot-rust.github.io/docs/gdext/master/godot/register/attr.godot_api.html
 [api-inode3d]: https://godot-rust.github.io/docs/gdext/master/godot/engine/trait.INode3D.html
-[api-gd]: https://godot-rust.github.io/docs/gdext/master/godot/obj/struct.Gd.html
-[book-objects]: ../intro/objects.md
-[api-gd-from-init-fn]: https://godot-rust.github.io/docs/gdext/master/godot/obj/struct.Gd.html#method.from_init_fn
+[godot-gdscript-functions]: https://docs.godotengine.org/en/stable/tutorials/scripting/gdscript/gdscript_basics.html#functions
