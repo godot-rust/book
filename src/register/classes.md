@@ -99,88 +99,11 @@ When you declare a base field in your struct, the `#[derive]` procedural macro w
 This lets you access the `Node` API through provided methods `self.base()` and `self.base_mut()`, but more on this later.
 
 
-## Default constructor
-
-The constructor of any `GodotClass` object is called `init`. It is necessary to instantiate the object in Godot -- which is used by the scene
-tree or when you write `Monster.new()` in GDScript.
-
-There are two options to define the constructor: let gdext generate it or define it manually.
-
-
-### Library-generated
-
-You can use `#[class(init)]` to generate a constructor for you. This is limited to simple cases, and it calls `Default::default()` for each field.
-
-```rs
-#[derive(GodotClass)]
-#[class(init, base=Node3D)]
-struct Monster {
-    name: String,
-    hitpoints: i32,
-    base: Base<Node3D>,
-}
-```
-
-The above definition enables `Monster.new()` in GDScript, but any instance created like this would have an empty string as `name` and
-`0` as `hitpoints`.
-
-
-### Manually defined
-
-```admonish info title="Interface traits"
-Each engine class comes with an associated trait, which has the same name but is prefixed with the letter `I`, for "Interface".
-The trait has no required functions, but you can override any functions to customize the behavior towards Godot.
-
-Any `impl` block for the trait must be annotated with the `#[godot_api]` attribute macro.
-```
-
-```admonish info title="godot_api macro"
-The attribute proc-macro `#[godot_api]` is applied to `impl` blocks and marks their items for registration.
-It takes no arguments.
-
-See [API docs][api-godot-api] for detailed information.
-```
-
-In our case, the `Node3D` comes with the `INode3D` trait.
-
-We can provide a manually-defined constructor by overriding the trait's associated function `init`:
-
-```rs
-#[derive(GodotClass)]
-#[class(base=Node3D)] // No init here, since we define it ourselves.
-struct Monster {
-    name: String,
-    hitpoints: i32,
-    base: Base<Node3D>,
-}
-
-#[godot_api]
-impl INode3D for Monster {
-    fn init(base: Base<Node3D>) -> Self {
-        Self {
-            name: "Nomster".to_string(),
-            hitpoints: 100,
-            base,
-        }
-    }
-}
-```
-
-As you can see, the `init` function takes a `Base<Node3D>` as its one and only parameter. This is the base class instance, which is typically
-just forwarded to its corresponding field in the struct, here `base`.
-
-The `init` method always returns `Self`. You may notice that this is currently the only way to construct a `Monster` instance. As soon as your
-struct contains a base field, you can no longer provide your own constructor, as you can't provide a value for that field. This is by design and
-ensures that _if_ you need access to the base, that base comes from Godot directly.
-
-However, fear not: you can still provide all sorts of constructors, they just need to go through dedicated functions that internally call `init`.
-More on this topic in the next chapter.
-
-
 ## Conclusion
 
-You learned how to define a Rust class and register it with Godot. You now know how to select a base class and how to define a constructor.
-The next chapter will allow you to implement logic by providing functions.
+You have learned how to define a Rust class and register it with Godot. You now know that different base classes exist and how to select one.
+
+The next chapters cover functions and constructors.
 
 <br>
 
