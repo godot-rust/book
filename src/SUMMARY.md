@@ -15,6 +15,7 @@
 - [Registering Rust symbols](register/index.md)
   - [Classes](register/classes.md)
   - [Functions](register/functions.md)
+  - [Constructors](register/constructors.md)
   - [Properties](register/properties.md)
   - [Signals](register/signals.md)
   - [Constants](register/constants.md)
