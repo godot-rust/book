@@ -36,7 +36,7 @@ See [API docs][api-derive-godotclass] for detailed information.
 
 Let's define a simple class named `Monster`:
 
-```rs
+```rust
 #[derive(GodotClass)]
 struct Monster {
     name: String,
@@ -67,7 +67,7 @@ However, if you want your class to be part of the scene tree, you need to use `N
 
 Here, we use a more concrete node type, `Node3D`. This is done by specifying `#[class(base=Node3D)]` on the struct definition:
 
-```rs
+```rust
 #[derive(GodotClass)]
 #[class(base=Node3D)]
 struct Monster {
@@ -82,7 +82,7 @@ struct Monster {
 Since Rust does not have inheritance, we need to use composition to achieve the same effect. gdext provides a `Base<T>` type, which lets us
 store the instance of the Godot superclass (base class) as a field in our `Monster` class.
 
-```rs
+```rust
 #[derive(GodotClass)]
 #[class(base=Node3D)]
 struct Monster {

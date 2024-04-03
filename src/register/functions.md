@@ -43,7 +43,7 @@ certain events like creation, scene-tree entering, or per-frame updates.
 In our case, the `Node3D` comes with the `INode3D` trait.
 Here is a small selection of its lifecycle methods. For a complete list, see [`INode3D` docs][api-inode3d].
 
-```rs
+```rust
 #[godot_api]
 impl INode3D for Monster {
     // Instantiate the object.
@@ -75,7 +75,7 @@ in GDScript.
 
 So let's implement `to_string()`, here again showing the class definition for quick reference.
 
-```rs
+```rust
 #[derive(GodotClass)]
 #[class(base=Node3D)]
 struct Monster {
@@ -108,7 +108,7 @@ visible to Rust code.
 
 Let's add two methods to our `Monster` class: one that deals damage to the monster, and one that returns its name.
 
-```rs
+```rust
 #[godot_api]
 impl Monster {
     #[func]
@@ -143,7 +143,7 @@ the latter are known as "static functions".
 
 For example, we can add an associated function which generates a random monster name:
 
-```rs
+```rust
 #[godot_api]
 impl Monster {
     #[func]

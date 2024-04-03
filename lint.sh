@@ -19,6 +19,7 @@ show_help() {
 
 # If 'fix' is provided, append '--fix' to the end of the command
 if [[ "$1" == "fix" ]]; then
+  echo ">> Fix mode: apply fixes where possible."
   extra="--fix"
 elif [[ "$1" == "help" ]] || [[ "$1" == "--help" ]]; then
   show_help

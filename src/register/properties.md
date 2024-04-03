@@ -31,7 +31,7 @@ GDScript.
 Starting with the earlier struct declaration, we now add the `#[var]` attribute to the `name` field. We also change the type from `String` to
 `GString`, since this field is now directly interfacing Godot.
 
-```rs
+```rust
 #[derive(GodotClass)]
 #[class(init, base=Node3D)]
 struct Monster {
@@ -87,7 +87,7 @@ Making a property available to the editor is called _exporting_. Like the GDScri
 The following code not only makes the `name` field available to GDScript, but it also adds a property UI in the editor. This allows you to
 name every `Monster` instance individually, without any code!
 
-```rs
+```rust
 #[derive(GodotClass)]
 #[class(init, base=Node3D)]
 struct Monster {
