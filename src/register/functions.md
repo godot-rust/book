@@ -80,7 +80,7 @@ So let's implement `to_string()`, here again showing the class definition for qu
 #[class(base=Node3D)]
 struct Monster {
     name: String,
-    hitpoints: i3l1
+    hitpoints: i32
     
     base: Base<Node3D>,
 }
