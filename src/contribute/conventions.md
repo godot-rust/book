@@ -72,7 +72,7 @@ We use separators starting with  `// ---` to visually divide sections of related
 4. Inside files, there is no strict order yet, except `use` and `mod` at the top. Prefer to declare public-facing symbols before private ones.
 
 5. Use flat import statements. If multiple paths have different prefixes, put them on separate lines. Avoid `self`.
-   ```rs
+   ```rust
    // Good:
    use crate::module;
    use crate::module::{Type, function};

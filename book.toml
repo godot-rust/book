@@ -25,6 +25,9 @@ additional-css = ["config/mdbook-admonish.css"]
 
 [output.html.redirect]
 
+# Ongoing redirects due to chapter reorganization
+"book/intro/objects.html" = "/book/godot-api/objects.html"
+
 # Godot 4: gdext -> one level up
 "gdext/index.html" = "/book/index.html"
 "gdext/intro/index.html" = "/book/intro/index.html"

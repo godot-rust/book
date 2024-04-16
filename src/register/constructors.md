@@ -34,7 +34,7 @@ don't need Godot to default-construct your object.
 You can use `#[class(init)]` to generate a constructor for you. This is limited to simple cases, and it calls `Default::default()` for each
 field (except the `Base<T>` one, which is correctly wired up with the base object).
 
-```rs
+```rust
 #[derive(GodotClass)]
 #[class(init, base=Node3D)]
 struct Monster {
@@ -47,7 +47,7 @@ struct Monster {
 To provide another default value, use `#[init(default = value)]`. This should only be used for simple cases, as it may lead to difficult-to-read
 code and error messages. This API may also still change.
 
-```rs
+```rust
 #[derive(GodotClass)]
 #[class(init, base=Node3D)]
 struct Monster {
@@ -65,7 +65,7 @@ struct Monster {
 
 We can provide a manually-defined constructor by overriding the trait's associated function `init`:
 
-```rs
+```rust
 #[derive(GodotClass)]
 #[class(base=Node3D)] // No init here, since we define it ourselves.
 struct Monster {
@@ -107,7 +107,7 @@ You don't always need to provide a default constructor to Godot. Reasons to not 
 
 To disable the `init` constructor, you can use `#[class(no_init)]`:
 
-```rs
+```rust
 #[derive(GodotClass)]
 #[class(no_init, base=Node3D)]
 struct Monster {
@@ -127,7 +127,7 @@ The default constructor `init` is not always useful, as it may leave objects in 
 For example, a `Monster` will always have the same values for `name` and `hitpoints` upon construction, which may not be desired.
 Let's provide a more suitable constructor, which accepts those attributes as parameters.
 
-```rs
+```rust
 // Default constructor from before.
 #[godot_api]
 impl INode3D for Monster {
@@ -161,13 +161,17 @@ So we need to return `Gd<Self>` instead of `Self`.
 
 ### Objects with a base field
 
+If your class `T` contains a `Base<...>` field, you cannot create a standalone instance -- you must encapsulate it in `Gd<T>`.
+You can also not extract a `T` from a `Gd<T>` smart pointer anymore; since it has potentially been shared with the Godot engine, this would
+not be a safe operation.
+
 To construct `Gd<Self>`, we can use [`Gd::from_init_fn()`][api-gd-from-init-fn], which takes a closure. This closure accepts a `Base` object
 and returns an instance of `Self`. In other words, it has the same signature as `init` -- this presents an alternative way of constructing
 Godot objects, while allowing to pass in addition context.
 
 The result of `Gd::from_init_fn()` is a `Gd<Self>` object, which can be directly returned by `Monster::from_name_hp()`.
 
-```rs
+```rust
 #[godot_api]
 impl Monster {
     #[func]
@@ -200,7 +204,7 @@ For classes that don't have a base field, you can simply use [`Gd::from_object()
 This is often useful for _data bundles_, which don't define much logic but are an object-oriented way to bundle related data in a single
 type. Such classes are typically subclasses of `RefCounted` or `Resource`.
 
-```rs
+```rust
 #[derive(GodotClass)]
 #[class(no_init)] // We only provide a custom constructor.
 // Since there is no #[class(base)] key, the base class will default to RefCounted.
@@ -225,6 +229,23 @@ impl MonsterConfig {
 ```
 
 
+## Destructors
+
+You do not typically need to declare your own destructors, if you manage memory through [RAII][wiki-raii]. If you do however need custom
+cleanup logic, simply declare the `Drop` trait for your type:
+
+```rust
+impl Drop for Monster {
+    fn drop(&mut self) {
+        godot_print!("Monster '{}' is being destroyed!", self.name);
+    }
+}
+```
+
+`Drop::drop()` is invoked as soon as Godot orders the destruction of your `Gd<T>` smart pointer -- either if it is manually freed, or if the
+last reference to it goes out of scope.
+
+
 ## Conclusion
 
 Constructors allow to initialize Rust classes in various ways. You can generate, implement, or disable the default constructor `init`, and you
@@ -234,3 +255,4 @@ can provide as many custom constructors with different signatures as you like.
 [api-gd-from-object]: https://godot-rust.github.io/docs/gdext/master/godot/obj/struct.Gd.html#method.from_object
 [api-gd]: https://godot-rust.github.io/docs/gdext/master/godot/obj/struct.Gd.html
 [book-objects]: ../intro/objects.md
+[wiki-raii]: https://en.wikipedia.org/wiki/Resource_acquisition_is_initialization

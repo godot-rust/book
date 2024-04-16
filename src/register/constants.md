@@ -18,7 +18,7 @@ Constants are declared as `const` items in Rust, inside the inherent `impl` bloc
 
 The attribute `#[constant]` makes it available to Godot.
 
-```rs
+```rust
 #[godot_api]
 impl Monster {
     #[constant]

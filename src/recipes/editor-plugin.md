@@ -20,7 +20,7 @@ you cannot introduce compile-time errors.
 
 ## Creating an `EditorPlugin`
 
-```rs
+```rust
 #[derive(GodotClass)]
 #[class(tool, init, editor_plugin, base=EditorPlugin)]
 struct MyEditorPlugin {
