@@ -38,4 +38,4 @@ fi
 # do not quote $extra, it shouldn't be an argument if empty. 
 # do quote glob pattern, shell expands differently than tool itself.
 # keep in sync with CI arguments.
-markdownlint-cli2 --config .github/other/.markdownlint.jsonc ReadMe.md "src/**/*.md" $extra
+markdownlint-cli2 --config config/.markdownlint.jsonc ReadMe.md "src/**/*.md" $extra

@@ -57,6 +57,8 @@
     "hr-style": {
         "style": "---"
     },
+    // Allows **Header** instead of ## Header -- should not generally be used in the book, but is fine in select cases.
+    "no-emphasis-as-heading": false,
     // Indented vs ```-fenced.
     "code-block-style": {
         "style": "fenced"
