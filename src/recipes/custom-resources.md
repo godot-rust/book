@@ -31,5 +31,5 @@ The above resource does not export any variables. While not all resources requir
 The systems for registering functions, properties, and more are described in detail in the
 [Registering Rust symbols][register] section.
 
-[hello]: /intro/hello-world.md
-[register]: /register/index.html
+[hello]: ../intro/hello-world.md
+[register]: ../register/index.html
