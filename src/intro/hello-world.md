@@ -368,9 +368,9 @@ Now, save your changes, and run the scene. The sprite should rotate at a constan
 ```admonish tip
 **Launching the Godot application**
 
-While it's possible to open the Godot editor and press the launch button every time you made a change in Rust, this is not the most efficient
-workflow. Unfortunately there is [a GDExtension limitation][issue-no-reload] that prevents recompilation while the editor is open 
-(at least on Windows systems -- it tends to work better on Linux and macOS).
+Unfortunately there is [a GDExtension limitation][issue-no-reload] that prevents recompilation while the editor is open 
+before Godot 4.2. Since Godot 4.2, it is possible to hot-reload extensions. This means you can recompile your Rust code
+and Godot will pick up changes, without needing to restart the editor.
 
 However, if you don't need to modify anything in the editor itself, you can launch Godot from the command-line or even your IDE.
 Check out the [command-line tutorial][godot-command-line] for more information.
@@ -463,3 +463,4 @@ That's it for the _Hello World_ tutorial! The following chapters will go into mo
 [directory-setup]: https://godot-rust.github.io/book/intro/hello-world.html#directory-setup
 [wikipedia-ffi]: https://en.wikipedia.org/wiki/Foreign_function_interface
 [gdextension-reloadable]: https://github.com/godotengine/godot/pull/80284
+[godot-command-line]: https://docs.godotengine.org/en/stable/tutorials/editor/command_line_tutorial.html
