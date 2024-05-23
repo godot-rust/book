@@ -30,7 +30,7 @@ Here is an exhaustive list of all built-in types, by category. We use the GDScri
 - String types: `String`, `StringName`, `NodePath`
 - Ref-counted containers: `Array` (`Array[T]`), `Dictionary`
 - Packed arrays: `Packed*Array` for following element types:  
-  `Byte`, `Int32`, `Int64`, `Float32`, `Float64`, `Vector2`, `Vector3`, `Color`, `String`
+  `Byte`, `Int32`, `Int64`, `Float32`, `Float64`, `Vector2`, `Vector3`, `Vector4`[^packed-vec4], `Color`, `String`
 - Functional: `Callable`, `Signal`
 
 **Geometric types**
@@ -56,8 +56,8 @@ Most builtins have a 1:1 equivalent (e.g. `Vector2f`, `Color` etc.). The followi
 
 | GDScript type             | Rust type                             | Rust example expression   |
 |---------------------------|---------------------------------------|---------------------------|
-| `int`                     | `i64`                                 | `-12345`                  |
-| `float`                   | `f64`                                 | `3.14159`                 |
+| `int`                     | `i64`[^num-types]                     | `-12345`                  |
+| `float`                   | `f64`[^num-types]                     | `3.14159`                 |
 | `real`                    | `real` (either `f32` or `f64`)        | `real!(3.14159)`          |
 | `String`                  | `GString`                             | `"Some string".into()`    |
 | `StringName`              | `StringName`                          | `"MyClass".into()`        |
@@ -93,12 +93,12 @@ This can be used for _static_ C-strings, i.e. ones that remain allocated for the
 
 ## Arrays and dictionaries
 
-Godot's linear collection type is `Array<T>`. It is generic over its element type `T`, which can be one of the supported Godot types (generally
-anything that can be represented by `Variant`). A special type `VariantArray` is provided as an alias for `Array<Variant>`, which is used when
-the element type is dynamically typed.
+Godot's linear collection type is [`Array<T>`][api-array]. It is generic over its element type `T`, which can be one of the supported Godot types
+(generally anything that can be represented by `Variant`). A special type `VariantArray` is provided as an alias for `Array<Variant>`, which is
+used when the element type is dynamically typed.
 
-`Dictionary` is a key-value store, where both keys and values are `Variant`. Godot does currently not support generic dictionaries, although
-this feature is [under discussion][godot-generic-dicts].
+[`Dictionary`][api-dictionary] is a key-value store, where both keys and values are `Variant`. Godot currently does not support generic
+dictionaries, although this feature is [under discussion][godot-generic-dicts].
 
 Arrays and dictionaries can be constructed using three macros:
 
@@ -110,21 +110,22 @@ let c = dict!{"key": "value"};    // Dictionary
 
 Their API is similar, but not identical to Rust's standard types `Vec` and `HashMap`. An important difference is that `Array` and `Dictionary`
 are reference-counted, which means that `clone()` will not create an independent copy, but another reference to the same instance. Furthermore,
-since internal elements are stored as variants, they are not accessible by reference, which is why the `[]` operator (`Index/IndexMut` traits)
-is absent.
+since internal elements are stored as variants, they are not accessible by reference. This is why the `[]` operator (`Index/IndexMut` traits)
+is absent, and `at()` is provided instead, returning by value.
 
 ```rust
 let a = array![0, 11, 22];
 
 assert_eq!(a.len(), 3);
-assert_eq!(a.get(1), Some(11));  // Note: by value, not Some(&11).
 assert_eq!(a.at(1), 11);         // Panics on out-of-bounds.
+assert_eq!(a.get(1), Some(11));  // Also by value, not Some(&11).
 
 let mut b = a.clone();   // Increment reference-count.
 b.set(2, 33);            // Modify new ref.
 assert_eq!(a.at(2), 33); // Original array has changed.
 
 b.clear();
+assert!(b.is_empty());
 assert_eq!(b, Array::new()); // new() creates an empty array.
 ```
 
@@ -136,7 +137,8 @@ let c = dict! {
 };
 
 assert_eq!(c.len(), 3);
-assert_eq!(c.get("str"), Some(&"hello".into()));
+assert_eq!(c.at("str"), "hello".to_variant());    // Panics on missing key.
+assert_eq!(c.get("int"), Some(42.to_variant()));  // Option<Variant>, again by value.
 
 let mut d = c.clone();            // Increment reference-count.
 d.insert("float", 3.14);          // Modify new ref.
@@ -144,18 +146,21 @@ assert!(c.contains_key("float")); // Original dict has changed.
 ```
 
 To iterate, you can use `iter_shared()`. This method works almost like `iter()` on Rust collections, but the name highlights that you do not
-have unique access to the collection during iteration, since there might exist another reference. This also means it's your responsibility to
-ensure that the collection is not modified in unintended ways during iteration (which should be safe, but may lead to data inconsistencies).
+have unique access to the collection during iteration, since there might exist another reference to the collection. This also means it's your
+responsibility to ensure that the array/dictionary is not modified in unintended ways during iteration (which should be safe, but may lead to
+data inconsistencies).
 
 ```rust
 let a = array!["one", "two", "three"];
 let d = dict!{"one": 1, "two": 2.0, "three": Vector3::ZERO};
 
 for elem in a.iter_shared() {
+    // elem has type GString.
     println!("Element: {elem}");
-}bu
+}
 
 for (key, value) in d.iter_shared() {
+    // key and value both have type Variant.
     println!("Key: {key}, value: {value}");
 }
 ```
@@ -163,17 +168,25 @@ for (key, value) in d.iter_shared() {
 
 ## Packed arrays
 
-`Packed*Array` types are used for storing elements space-efficiently in contiguous memory ("packed"). The `*` stands for the element type, e.g.
-`PackedByteArray` or `PackedVector3Array`.
+[`Packed*Array`][api-packed-array] types are used for storing elements space-efficiently ("packed") in contiguous memory.
+The `*` stands for the element type, e.g. `PackedByteArray` or `PackedVector3Array`.
 
 ```rust
 // Create from slices.
 let bytes = PackedByteArray::from(&[0x0A, 0x0B, 0x0C]);
 let ints = PackedInt32Array::from(&[1, 2, 3]);
 
+// Get/set individual elements using Index and IndexMut operators.
+ints[1] = 5;
+assert_eq!(ints[1], &5);
+
 // Access as Rust shared/mutable slices.
 let bytes_slice: &[u8] = b.as_slice();
 let ints_slice: &mut [i32] = i.as_mut_slice();
+
+// Access sub-ranges of the array using the same type.
+let part: PackedByteArray = bytes.subarray(1, 3); // 1..3, or 1..=2
+assert_eq!(part.as_slice(), &[0x0B, 0x0C]);
 ```
 
 Unlike `Array`, packed arrays use copy-on-write instead of reference counting. When you clone a packed array, you get a new independent instance.
@@ -186,16 +199,26 @@ allocate its own memory and copy the data.
 
 **Footnotes**
 
-[^string-name-Rust]: When constructing `StringName` from `&str` or `String`, the conversion is rather expensive, since it has to go through a
-conversion to UTF-32. As Rust recently introduced C-string literals (`c"hello"`), we can now directly construct from them. This is more
+[^packed-vec4]: `PackedVector4Array` is only available since Godot version 4.3; added in [PR #85474][godot-packed-vector4].
+
+[^num-types]: Godot's `int` and `float` types are canonically mapped to `i64` and `f64` in Rust. However, some Godot APIs specify the domain of
+these types more specifically, so it's possible to encounter `i8`, `u64`, `f32` etc.
+
+[^string-name-Rust]: When constructing `StringName` from `&str` or `String`, the conversion is rather expensive, since UTF-8 is re-encoded as
+UTF-32. As Rust recently introduced C-string literals (`c"hello"`), we can now directly construct from them in case of ASCII. This is more
 efficient, but keeps memory allocated until shutdown, so don't use it for rarely used temporaries.
 See [API docs][api-stringname] and [issue #531][issue-stringname-perf] for more information.
 
+
+[api-array]: https://godot-rust.github.io/docs/gdext/master/godot/builtin/struct.Array.html
+[api-dictionary]: https://godot-rust.github.io/docs/gdext/master/godot/builtin/struct.Dictionary.html
 [api-gstring]: https://godot-rust.github.io/docs/gdext/master/godot/builtin/struct.GString.html
 [api-nodepath]: https://godot-rust.github.io/docs/gdext/master/godot/builtin/struct.NodePath.html
+[api-packed-array]: https://godot-rust.github.io/docs/gdext/master/godot/builtin/index.html#structs
 [api-stringname]: https://godot-rust.github.io/docs/gdext/master/godot/builtin/struct.StringName.html
 [godot-docs-builtins]: https://docs.godotengine.org/en/stable/tutorials/scripting/gdscript/gdscript_basics.html#basic-built-in-types
 [godot-generic-dicts]: https://github.com/godotengine/godot/pull/78656
 [godot-nullability-issue]: https://github.com/godotengine/godot-proposals/issues/162
+[godot-packed-vector4]: https://github.com/godotengine/godot/pull/85474
 [issue-stringname-perf]: https://github.com/godot-rust/gdext/issues/531
 [rust-c-strings]: https://doc.rust-lang.org/nightly/edition-guide/rust-2021/c-string-literals.html#c-string-literals

@@ -5,9 +5,12 @@
   ~ file, You can obtain one at https://mozilla.org/MPL/2.0/.
 -->
 
-# Virtual functions for scripts
+# Script-virtual functions
 
 The GDExtension API allows you to define virtual functions in Rust, which can be overridden in scripts attached to your objects.
+
+Note that these are conceptually different from virtual functions like `ready()`, which are defined _by Godot_ and overridden _by you_ (in Rust).
+Hence the emphasis on "script-virtual".
 
 ```admonish note title="Compatibility"
 This feature is available from Godot 4.3 onwards.  
@@ -179,7 +182,7 @@ paradigm revolves heavily around attaching scripts to nodes, this feature integr
 ## Limitations
 
 ```admonish warning title="Warning"
-Godot script virtual functions do not behave like OOP virtual functions in every aspect.  
+Godot script-virtual functions do not behave like OOP virtual functions in every aspect.  
 Make sure you understand the limitations.
 ```
 

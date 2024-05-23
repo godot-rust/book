@@ -146,7 +146,7 @@ let node = get_node_as::<Node2D>("path/to/MyScript");
 let args = &["string".to_variant(), 42.to_variant()];
 
 // Call the method dynamically.
-let val: Variant = node.call("my_method", args);
+let val: Variant = node.call("my_method".into(), args);
 
 // Convert to a known type (may panic; try_to() doensn't).
 let vec2 = val.to::<Vector2>();
@@ -156,7 +156,7 @@ If instead you want to handle the failure case, use [`Object::try_call()`][api-o
 or a `CallError` error.
 
 ```rust
-let result: Result<Variant, CallError> = node.try_call("my_method", args);
+let result: Result<Variant, CallError> = node.try_call("my_method".into(), args);
 
 match result {
     Ok(val) => {
