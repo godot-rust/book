@@ -70,7 +70,7 @@ A few practical examples (don't worry if you don't fully understand them yet, th
 
 1. Retrieve a node relative to current -- type inferred as `Gd<Node3D>`:
     ```rust
-    // retrieve Gd<Node3D>.
+    // Retrieve Gd<Node3D>.
     let child = self.base().get_node_as::<Node3D>("Child");
     ```
 
@@ -78,6 +78,7 @@ A few practical examples (don't worry if you don't fully understand them yet, th
     ```rust
     // mob_scene is declared as a field of type Gd<PackedScene>.
     self.mob_scene = load("res://Mob.tscn");
+    
     // instanced is of type Gd<RigidBody2D>.
     let mut instanced = self.mob_scene.instantiate_as::<RigidBody2D>();
     ```
@@ -88,7 +89,7 @@ A few practical examples (don't worry if you don't fully understand them yet, th
     impl Player {
         #[func]
         fn on_body_entered(&mut self, body: Gd<Node3D>) {
-            // Body holds the reference to the Node3D object that triggered the signal.
+            // body holds the reference to the Node3D object that triggered the signal.
         }
     }
     ```
