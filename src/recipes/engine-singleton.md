@@ -18,7 +18,7 @@ users as well.
 Read more about criticisms [here][singleton-crit].
 ```
 
-An engine singleton is registered through [`godot::engine::Engine`][api-engine].
+An engine singleton is registered through [`godot::classes::Engine`][api-engine].
 
 Custom engine singletons in Godot:
 
@@ -128,7 +128,7 @@ func _ready() -> void:
 You may also want to access your singleton from Rust as well.
 
 ```rust
-godot::engine::Engine::singleton()
+godot::classes::Engine::singleton()
     .get_singleton(StringName::from("MyEditorSingleton"));
 ```
 
