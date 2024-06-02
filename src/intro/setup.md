@@ -91,7 +91,7 @@ This was necessary in the past due to `bindgen`, which [depends on LLVM][llvm-bi
 However, we now provide pre-built artifacts, so that most users can simply add the Cargo dependency and start immediately.
 This also significantly reduces initial compile times, as `bindgen` was quite heavyweight with its many transitive dependencies.
 
-You will still need LLVM if you plan to use the `custom-godot` feature, for example if you have a forked version of Godot or custom
+You will still need LLVM if you plan to use the `api-custom` feature, for example if you have a forked version of Godot or custom
 modules. To just use a different API version of Godot, you do _not_ need LLVM though; see [Selecting a Godot version][godot-version].
 
 LLVM binaries can be downloaded from [llvm.org][llvm]. Once installed, you can check whether LLVM's clang compiler is available:

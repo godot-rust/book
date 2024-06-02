@@ -50,7 +50,7 @@ Here is an exhaustive list of all built-in types, by category. We use the GDScri
 ### Rust mapping
 
 Rust types in the gdext API represent the corresponding Godot types in the closest way possible. They are used in parameter and return type
-position of API functions, for example.
+position of API functions, for example. They are accessible through `godot::builtin`, and most symbols are also part of the prelude.
 
 Most builtins have a 1:1 equivalent (e.g. `Vector2f`, `Color` etc.). The following list highlights some noteworthy mappings:
 
@@ -178,7 +178,7 @@ let ints = PackedInt32Array::from(&[1, 2, 3]);
 
 // Get/set individual elements using Index and IndexMut operators.
 ints[1] = 5;
-assert_eq!(ints[1], &5);
+assert_eq!(ints[1], 5);
 
 // Access as Rust shared/mutable slices.
 let bytes_slice: &[u8] = b.as_slice();

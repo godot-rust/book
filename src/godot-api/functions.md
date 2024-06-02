@@ -17,7 +17,7 @@ GDScript, and this page will go into such differences.
 
 ## Godot classes
 
-Godot classes are located in the `godot::engine` module. Some often-used ones like `Node`, `RefCounted`, `Node3D` etc. are additionally
+Godot classes are located in the `godot::classes` module. Some often-used ones like `Node`, `RefCounted`, `Node3D` etc. are additionally
 re-exported in `godot::prelude`.
 
 The majority of Godot's functionality is exposed via functions inside classes. Please don't hesitate to check out the [API docs][api-classes].

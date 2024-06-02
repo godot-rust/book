@@ -248,7 +248,7 @@ In this example, we declare a class called `Player`, which inherits [`Sprite2D`]
 
 ```rust
 use godot::prelude::*;
-use godot::engine::Sprite2D;
+use godot::classes::Sprite2D;
 
 #[derive(GodotClass)]
 #[class(base=Sprite2D)]
@@ -298,7 +298,7 @@ Now let's add some logic. We start with overriding the `init` method, also known
 This corresponds to GDScript's `_init()` function.
 
 ```rust
-use godot::engine::ISprite2D;
+use godot::classes::ISprite2D;
 
 #[godot_api]
 impl ISprite2D for Player {
@@ -331,7 +331,7 @@ Now that initialization is sorted out, we can move on to actual logic. We would 
 the `process()` method. This corresponds to GDScript's `_process()`. If you need a fixed framerate, use `physics_process()` instead.
 
 ```rust
-use godot::engine::ISprite2D;
+use godot::classes::ISprite2D;
 
 #[godot_api]
 impl ISprite2D for Player {
@@ -379,7 +379,7 @@ Check out the [command-line tutorial][godot-command-line] for more information.
 We now add a translation component to the sprite, following [the upstream tutorial][tutorial-full-script].
 
 ```rust
-use godot::engine::ISprite2D;
+use godot::classes::ISprite2D;
 
 #[godot_api]
 impl ISprite2D for Player {
