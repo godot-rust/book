@@ -178,7 +178,7 @@ let ints = PackedInt32Array::from(&[1, 2, 3]);
 
 // Get/set individual elements using Index and IndexMut operators.
 ints[1] = 5;
-assert_eq!(ints[1], &5);
+assert_eq!(ints[1], 5);
 
 // Access as Rust shared/mutable slices.
 let bytes_slice: &[u8] = b.as_slice();
