@@ -12,9 +12,10 @@ This can be beneficial when working with custom datatypes and resources, althoug
 use the feature to change the inspector widgets for built-in types. You can design custom
 controls for specific properties, entire objects, and even separate controls associated
 with particular datatypes.
+For more info, see
+[docs.godotengine.org](https://docs.godotengine.org/en/stable/classes/class_editorinspectorplugin.html#class-editorinspectorplugin).
 
-This is implementation of
-[Godot docs](https://docs.godotengine.org/en/stable/tutorials/plugins/editor/inspector_plugins.html) on Rust.
+The [example](https://docs.godotengine.org/en/stable/tutorials/plugins/editor/inspector_plugins.html) in the Godot docs in Rust.
 
 Before:
 
@@ -24,7 +25,7 @@ After:
 
 ![After](./images/after.png)
 
-Add requires to Rust (in Rust folder, where is Cargo.toml):
+Add this dependency to Rust with the shell in the same directory as `Cargo.toml`.
 
 ```bash
 cargo add rand
@@ -41,7 +42,6 @@ Add the following imports at the beginning of the file
 
 ```rust
 use godot::{
-    classes,
     engine::{
         Button, EditorInspectorPlugin, EditorPlugin, EditorProperty, IEditorInspectorPlugin,
         IEditorPlugin, IEditorProperty,
@@ -62,7 +62,7 @@ To begin with, let's define the editor for properties:
 ```rust
 #[derive(GodotClass)]
 #[class(tool, init, base=EditorProperty)]
-struct RandomNumberEditor {
+struct RandomIntEditor {
     base: Base<EditorProperty>,
     button: Option<Gd<Button>>,
 }
@@ -72,7 +72,7 @@ After that, we need to add an implementation for the trait `IEditorProperty`:
 
 ```rust
 #[godot_api]
-impl IEditorProperty for RandomNumberEditor {
+impl IEditorProperty for RandomIntEditor {
     fn enter_tree(&mut self) {
         // Create button element
         let mut button = Button::new_alloc();
@@ -103,7 +103,7 @@ Let's add a handler for the button:
 
 ```rust
 #[godot_api]
-impl RandomNumberEditor {
+impl RandomIntEditor {
     #[func]
     fn handle_press(&mut self) {
         // Update value by button click
@@ -145,26 +145,26 @@ IEditorInspectorPlugin implementation:
 ```rust
 #[godot_api]
 impl IEditorInspectorPlugin for RandomInspectorPlugin {
-    fn parse_property(
+      fn parse_property(
         &mut self,
-        _: Gd<classes::Object>, // inspect object
-        type_: VariantType, // value type
-        name: GString, // property name
-        _: global::PropertyHint, // hint type
-        _: GString, // hit name
-        _: global::PropertyUsageFlags, // property usage flag
-        _: bool, // wide
+        _object: Gd<Object>, // object that inspecting
+        value_type: VariantType,
+        name: GString,
+        _hint_type: global::PropertyHint,
+        _hit_name: GString,
+        _flags: global::PropertyUsageFlags,
+        _wide: bool,
     ) -> bool {
-        if type_ == VariantType::INT {
-            let editor = RandomNumberEditor::new_alloc().to_variant().to();
-            self.base_mut().add_property_editor(name, editor);
+        if value_type == VariantType::INT {
+            self.base_mut()
+                .add_property_editor(name, RandomIntEditor::new_alloc().to_variant().to());
             return true;
         }
 
         false
     }
 
-    fn can_handle(&self, _: Gd<classes::Object>) -> bool {
+    fn can_handle(&self, _object: Gd<Object>) -> bool {
         true
     }
 }
@@ -178,7 +178,7 @@ This allows for specific control over where and how processing occurs.
 ## Add Editor Plugin
 
 Only one thing left to do: define the editor plugin that will kick off all this magic!
-This can be a generic EditorPlugin or a more specific InspectorEditorPlugin, depending
+This can be a generic `EditorPlugin` or a more specific `InspectorEditorPlugin`, depending
 on what you want to achieve.
 
 
@@ -231,7 +231,6 @@ ERROR: Cannot get class 'RandomInspectorPlugin'.
 // file: addon.rs
 
 use godot::{
-    classes,
     engine::{
         Button, EditorInspectorPlugin, EditorPlugin, EditorProperty, IEditorInspectorPlugin,
         IEditorPlugin, IEditorProperty,
@@ -272,37 +271,37 @@ struct RandomInspectorPlugin {
 impl IEditorInspectorPlugin for RandomInspectorPlugin {
     fn parse_property(
         &mut self,
-        _: Gd<classes::Object>,
-        type_: VariantType,
+        _object: Gd<Object>,
+        value_type: VariantType,
         name: GString,
-        _: global::PropertyHint,
-        _: GString,
-        _: global::PropertyUsageFlags,
-        _: bool,
+        _hint_type: global::PropertyHint,
+        _hit_name: GString,
+        _flags: global::PropertyUsageFlags,
+        _wide: bool,
     ) -> bool {
-        if type_ == VariantType::INT {
+        if value_type == VariantType::INT {
             self.base_mut()
-                .add_property_editor(name, RandomNumberEditor::new_alloc().to_variant().to());
+                .add_property_editor(name, RandomIntEditor::new_alloc().to_variant().to());
             return true;
         }
 
         false
     }
 
-    fn can_handle(&self, _: Gd<classes::Object>) -> bool {
+    fn can_handle(&self, _object: Gd<Object>) -> bool {
         true
     }
 }
 
 #[derive(GodotClass)]
 #[class(tool, init, base=EditorProperty)]
-struct RandomNumberEditor {
+struct RandomIntEditor {
     base: Base<EditorProperty>,
     button: Option<Gd<Button>>,
 }
 
 #[godot_api]
-impl RandomNumberEditor {
+impl RandomIntEditor {
     #[func]
     fn handle_press(&mut self) {
         let property_name = self.base().get_edited_property();
@@ -320,7 +319,7 @@ impl RandomNumberEditor {
 }
 
 #[godot_api]
-impl IEditorProperty for RandomNumberEditor {
+impl IEditorProperty for RandomIntEditor {
     fn enter_tree(&mut self) {
         let mut button = Button::new_alloc();
         button.connect(
