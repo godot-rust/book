@@ -7,9 +7,14 @@
 
 # Inspector plugins
 
-The inspector dock allows you to create custom widgets to edit properties through plugins. This can be beneficial when working with custom datatypes and resources, although you can use the feature to change the inspector widgets for built-in types. You can design custom controls for specific properties, entire objects, and even separate controls associated with particular datatypes.
+The inspector dock allows you to create custom widgets to edit properties through plugins.
+This can be beneficial when working with custom datatypes and resources, although you can
+use the feature to change the inspector widgets for built-in types. You can design custom
+controls for specific properties, entire objects, and even separate controls associated
+with particular datatypes.
 
-This is implementation of [Godot docs](https://docs.godotengine.org/en/stable/tutorials/plugins/editor/inspector_plugins.html) on rust.
+This is implementation of
+[Godot docs](https://docs.godotengine.org/en/stable/tutorials/plugins/editor/inspector_plugins.html) on Rust.
 
 Before:
 
@@ -19,19 +24,22 @@ After:
 
 ![After](./images/after.png)
 
-Add requires to rust (in rust folder, where is Cargo.toml):
-```sh
+Add requires to Rust (in Rust folder, where is Cargo.toml):
+
+```bash
 cargo add rand
 ```
 
 Add file `addon.rs` and import it in `lib.rs`:
-```rs
+
+```rust
 // file: lib.rs
 mod addon;
 ```
 
 Add the following imports at the beginning of the file
-```rs
+
+```rust
 use godot::{
     classes,
     engine::{
@@ -46,10 +54,12 @@ use rand::Rng;
 
 Since Rust is a statically typed language, we will proceed in reverse order unlike in Godot documentation, to avoid encountering errors unnecessarily.
 
+
 ## Add Property Editor
 
 To begin with, let's define the editor for properties:
-```rs
+
+```rust
 #[derive(GodotClass)]
 #[class(tool, init, base=EditorProperty)]
 struct RandomNumberEditor {
@@ -59,7 +69,8 @@ struct RandomNumberEditor {
 ```
 
 After that, we need to add an implementation for the trait `IEditorProperty`:
-```rs
+
+```rust
 #[godot_api]
 impl IEditorProperty for RandomNumberEditor {
     fn enter_tree(&mut self) {
@@ -89,7 +100,8 @@ impl IEditorProperty for RandomNumberEditor {
 ```
 
 Let's add a handler for the button:
-```rs
+
+```rust
 #[godot_api]
 impl RandomNumberEditor {
     #[func]
@@ -114,11 +126,13 @@ impl RandomNumberEditor {
 }
 ```
 
+
 ## Add Inspector plugin
 
 Now we need to connect this editor to fields with an integer type.
 To do this, we need to create an EditorInspectorPlugin.
-```rs
+
+```rust
 #[derive(GodotClass)]
 #[class(tool, init, base=EditorInspectorPlugin)]
 struct RandomInspectorPlugin {
@@ -127,7 +141,8 @@ struct RandomInspectorPlugin {
 ```
 
 IEditorInspectorPlugin implementation:
-```rs
+
+```rust
 #[godot_api]
 impl IEditorInspectorPlugin for RandomInspectorPlugin {
     fn parse_property(
@@ -155,14 +170,19 @@ impl IEditorInspectorPlugin for RandomInspectorPlugin {
 }
 ```
 
-If `parse_property` returns `true`, the editor will be created and replace the current representation; if not, it's necessary to return `false`. This allows for specific control over where and how processing occurs.
+If `parse_property` returns `true`, the editor will be created and replace the current
+representation; if not, it's necessary to return `false`.
+This allows for specific control over where and how processing occurs.
+
 
 ## Add Editor Plugin
 
-Only one thing left to do: define the editor plugin that will kick off all this magic! This can be a generic EditorPlugin or a more specific InspectorEditorPlugin, depending on what you want to achieve.
+Only one thing left to do: define the editor plugin that will kick off all this magic!
+This can be a generic EditorPlugin or a more specific InspectorEditorPlugin, depending
+on what you want to achieve.
 
 
-```rs
+```rust
 #[derive(GodotClass)]
 #[class(tool, init, editor_plugin, base=EditorPlugin)]
 struct RustEditorPlugin {
@@ -171,7 +191,7 @@ struct RustEditorPlugin {
 }
 ```
 
-```rs
+```rust
 #[godot_api]
 impl IEditorPlugin for RustEditorPlugin {
     fn enter_tree(&mut self) {
@@ -188,9 +208,11 @@ impl IEditorPlugin for RustEditorPlugin {
 }
 ```
 
+
 ```admonish danger title="Troubleshooting"
 Sometimes after compilation, you may encounter errors or panic. Most likely, all you need to do is simply **restart** the Godot Editor.
 ```
+
 Example error:
 
 ```log
@@ -201,121 +223,121 @@ ERROR: Cannot get class 'RandomInspectorPlugin'.
    at: (core/object/class_db.cpp:392)
 ```
 
+
 # Full code
 
-<details>
-  <summary>addon.rs</summary>
 
-  ```rs
-      use godot::{
-          classes,
-          engine::{
-              Button, EditorInspectorPlugin, EditorPlugin, EditorProperty, IEditorInspectorPlugin,
-              IEditorPlugin, IEditorProperty,
-          },
-          global,
-          prelude::*,
-      };
-      use rand::Rng;
+```rust
+// file: addon.rs
 
-      #[derive(GodotClass)]
-      #[class(tool, init, editor_plugin, base=EditorPlugin)]
-      struct RustEditorPlugin {
-          base: Base<EditorPlugin>,
-          random_inspector: Gd<RandomInspectorPlugin>,
-      }
+use godot::{
+    classes,
+    engine::{
+        Button, EditorInspectorPlugin, EditorPlugin, EditorProperty, IEditorInspectorPlugin,
+        IEditorPlugin, IEditorProperty,
+    },
+    global,
+    prelude::*,
+};
+use rand::Rng;
 
-      #[godot_api]
-      impl IEditorPlugin for RustEditorPlugin {
-          fn enter_tree(&mut self) {
-              self.random_inspector = RandomInspectorPlugin::new_gd();
-              self.to_gd()
-                  .add_inspector_plugin(self.random_inspector.to_variant().to());
-          }
+#[derive(GodotClass)]
+#[class(tool, init, editor_plugin, base=EditorPlugin)]
+struct RustEditorPlugin {
+    base: Base<EditorPlugin>,
+    random_inspector: Gd<RandomInspectorPlugin>,
+}
 
-          fn exit_tree(&mut self) {
-              self.to_gd()
-                  .remove_inspector_plugin(self.random_inspector.to_variant().to());
-          }
-      }
+#[godot_api]
+impl IEditorPlugin for RustEditorPlugin {
+    fn enter_tree(&mut self) {
+        self.random_inspector = RandomInspectorPlugin::new_gd();
+        self.to_gd()
+            .add_inspector_plugin(self.random_inspector.to_variant().to());
+    }
 
-      #[derive(GodotClass)]
-      #[class(tool, init, base=EditorInspectorPlugin)]
-      struct RandomInspectorPlugin {
-          base: Base<EditorInspectorPlugin>,
-      }
+    fn exit_tree(&mut self) {
+        self.to_gd()
+            .remove_inspector_plugin(self.random_inspector.to_variant().to());
+    }
+}
 
-      #[godot_api]
-      impl IEditorInspectorPlugin for RandomInspectorPlugin {
-          fn parse_property(
-              &mut self,
-              _: Gd<classes::Object>,
-              type_: VariantType,
-              name: GString,
-              _: global::PropertyHint,
-              _: GString,
-              _: global::PropertyUsageFlags,
-              _: bool,
-          ) -> bool {
-              if type_ == VariantType::INT {
-                  self.base_mut()
-                      .add_property_editor(name, RandomNumberEditor::new_alloc().to_variant().to());
-                  return true;
-              }
+#[derive(GodotClass)]
+#[class(tool, init, base=EditorInspectorPlugin)]
+struct RandomInspectorPlugin {
+    base: Base<EditorInspectorPlugin>,
+}
 
-              false
-          }
+#[godot_api]
+impl IEditorInspectorPlugin for RandomInspectorPlugin {
+    fn parse_property(
+        &mut self,
+        _: Gd<classes::Object>,
+        type_: VariantType,
+        name: GString,
+        _: global::PropertyHint,
+        _: GString,
+        _: global::PropertyUsageFlags,
+        _: bool,
+    ) -> bool {
+        if type_ == VariantType::INT {
+            self.base_mut()
+                .add_property_editor(name, RandomNumberEditor::new_alloc().to_variant().to());
+            return true;
+        }
 
-          fn can_handle(&self, _: Gd<classes::Object>) -> bool {
-              true
-          }
-      }
+        false
+    }
 
-      #[derive(GodotClass)]
-      #[class(tool, init, base=EditorProperty)]
-      struct RandomNumberEditor {
-          base: Base<EditorProperty>,
-          button: Option<Gd<Button>>,
-      }
+    fn can_handle(&self, _: Gd<classes::Object>) -> bool {
+        true
+    }
+}
 
-      #[godot_api]
-      impl RandomNumberEditor {
-          #[func]
-          fn handle_press(&mut self) {
-              let property_name = self.base().get_edited_property();
-              let num = rand::thread_rng().gen_range(0..100);
-              godot_print!("Randomize! {} for {}", num, property_name);
-              self.base_mut()
-                  .emit_changed(property_name, num.to_variant().to());
-              if let Some(mut button) = self.button.clone() {
-                  let text = format!("Randomize: {}", num);
-                  button.set_text(text.into());
-              } else {
-                  godot_error!("Button wasn't found in handle_press");
-              }
-          }
-      }
+#[derive(GodotClass)]
+#[class(tool, init, base=EditorProperty)]
+struct RandomNumberEditor {
+    base: Base<EditorProperty>,
+    button: Option<Gd<Button>>,
+}
 
-      #[godot_api]
-      impl IEditorProperty for RandomNumberEditor {
-          fn enter_tree(&mut self) {
-              let mut button = Button::new_alloc();
-              button.connect(
-                  "pressed".into(),
-                  self.base().callable("handle_press".to_godot()),
-              );
-              button.set_text("Randomize".into());
-              self.base_mut().add_child(button.to_variant().to());
-              self.button = Some(button);
-          }
+#[godot_api]
+impl RandomNumberEditor {
+    #[func]
+    fn handle_press(&mut self) {
+        let property_name = self.base().get_edited_property();
+        let num = rand::thread_rng().gen_range(0..100);
+        godot_print!("Randomize! {} for {}", num, property_name);
+        self.base_mut()
+            .emit_changed(property_name, num.to_variant().to());
+        if let Some(mut button) = self.button.clone() {
+            let text = format!("Randomize: {}", num);
+            button.set_text(text.into());
+        } else {
+            godot_error!("Button wasn't found in handle_press");
+        }
+    }
+}
 
-          fn exit_tree(&mut self) {
-              if let Some(button) = self.button.take() {
-                  self.base_mut().remove_child(button.to_variant().to());
-              } else {
-                  godot_error!("Button wasn't found in exit_tree");
-              }
-          }
-      }
-  ```
-</details>
+#[godot_api]
+impl IEditorProperty for RandomNumberEditor {
+    fn enter_tree(&mut self) {
+        let mut button = Button::new_alloc();
+        button.connect(
+            "pressed".into(),
+            self.base().callable("handle_press".to_godot()),
+        );
+        button.set_text("Randomize".into());
+        self.base_mut().add_child(button.to_variant().to());
+        self.button = Some(button);
+    }
+
+    fn exit_tree(&mut self) {
+        if let Some(button) = self.button.take() {
+            self.base_mut().remove_child(button.to_variant().to());
+        } else {
+            godot_error!("Button wasn't found in exit_tree");
+        }
+    }
+}
+```
