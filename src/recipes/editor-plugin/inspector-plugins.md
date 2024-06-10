@@ -177,7 +177,7 @@ representation; if not, it's necessary to return `false`.
 This allows for specific control over where and how processing occurs.
 
 
-## Add Editor Plugin
+## Adding an editor plugin
 
 Only one thing left to do: define the editor plugin that will kick off all this magic!
 This can be a generic `EditorPlugin` or a more specific `InspectorEditorPlugin`, depending
