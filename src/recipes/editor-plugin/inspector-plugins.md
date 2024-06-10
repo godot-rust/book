@@ -283,7 +283,7 @@ impl IEditorInspectorPlugin for RandomInspectorPlugin {
     ) -> bool {
         if value_type == VariantType::INT {
             self.base_mut()
-                .add_property_editor(name, RandomIntEditor::new_alloc().to_variant().to());
+                .add_property_editor(name, RandomIntEditor::new_alloc().upcast());
             return true;
         }
 
