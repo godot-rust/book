@@ -38,7 +38,7 @@ Add file `addon.rs` and import it in `lib.rs`:
 mod addon;
 ```
 
-Add the following imports at the beginning of the file
+Add the following imports at the beginning of the file:
 
 ```rust
 use godot::{
