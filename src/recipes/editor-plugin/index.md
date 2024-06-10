@@ -43,3 +43,5 @@ Since this is an `EditorPlugin`, it will be automatically added to the scene tre
 at runtime. Additionally, it is safe to access the `EditorInterface` singleton through this node,
 which allows adding different GUI elements to the editor directly. This can be helpful if you have an
 advanced GUI you want to implement.
+
+<!-- TODO: more plugins from https://docs.godotengine.org/en/stable/tutorials/plugins/editor/index.html -->
