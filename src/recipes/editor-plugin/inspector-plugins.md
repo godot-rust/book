@@ -74,15 +74,17 @@ After that, we need to add an implementation for the trait `IEditorProperty`:
 #[godot_api]
 impl IEditorProperty for RandomIntEditor {
     fn enter_tree(&mut self) {
-        // Create button element
+        // Create button element.
         let mut button = Button::new_alloc();
-        // Add handler for this button, handle_press will be define in another impl
+        
+        // Add handler for this button, handle_press will be define in another impl.
         button.connect(
             "pressed".into(),
             self.base().callable("handle_press".to_godot()),
         );
         button.set_text("Randomize".into());
-        // Save pointer to the button into struct
+        
+        // Save pointer to the button into struct.
         self.button = Some(button.clone());
         self.base_mut().add_child(button.to_variant().to());
     }
