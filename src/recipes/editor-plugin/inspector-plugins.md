@@ -200,14 +200,14 @@ struct RustEditorPlugin {
 #[godot_api]
 impl IEditorPlugin for RustEditorPlugin {
     fn enter_tree(&mut self) {
-        // create our inspector plugin and save it to next remove
+        // Create our inspector plugin and save it.
         let plugin = RandomInspectorPlugin::new_gd();
         self.random_inspector = plugin.clone();
         self.base_mut().add_inspector_plugin(plugin.upcast());
     }
 
     fn exit_tree(&mut self) {
-        // remove inspector plugin when editor plugin unmount
+        // Remove inspector plugin when editor plugin leaves scene tree.
         let plugin = self.random_inspector.clone();
         self.base_mut().remove_inspector_plugin(plugin.upcast());
     }
