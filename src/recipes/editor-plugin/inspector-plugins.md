@@ -308,11 +308,13 @@ impl RandomIntEditor {
     fn handle_press(&mut self) {
         let property_name = self.base().get_edited_property();
         let num = rand::thread_rng().gen_range(0..100);
-        godot_print!("Randomize! {} for {}", num, property_name);
+        godot_print!("Randomize {} for {}", num, property_name);
+        
         self.base_mut()
-            .emit_changed(property_name, num.to_variant().to());
+            .emit_changed(property_name, num.to_variant());
+            
         if let Some(mut button) = self.button.clone() {
-            let text = format!("Randomize: {}", num);
+            let text = format!("Randomize: {num}");
             button.set_text(text.into());
         } else {
             godot_error!("Button wasn't found in handle_press");
