@@ -277,8 +277,8 @@ impl IEditorInspectorPlugin for RandomInspectorPlugin {
         value_type: VariantType,
         name: GString,
         _hint_type: global::PropertyHint,
-        _hit_name: GString,
-        _flags: global::PropertyUsageFlags,
+        _hint_string: GString,
+        _usage_flags: global::PropertyUsageFlags,
         _wide: bool,
     ) -> bool {
         if value_type == VariantType::INT {
