@@ -141,7 +141,7 @@ struct RandomInspectorPlugin {
 }
 ```
 
-IEditorInspectorPlugin implementation:
+To add a property editor (which we implemented earlier), you need to implement the `IEditorInspectorPlugin` trait:
 
 ```rust
 #[godot_api]
