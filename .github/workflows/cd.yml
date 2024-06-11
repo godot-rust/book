@@ -13,11 +13,12 @@ on:
 env:
   # Use fixed versions for now, replace with 'latest' to auto-use latest
   # Note: during build, there's a warning when using mdbook-toc compiled against an older mdbook version, should work though.
-  MDBOOK_VERSION: "0.4.37"
+  MDBOOK_VERSION: "0.4.40"
   MDBOOK_TOC_VERSION: "0.14.2"
-  MDBOOK_ADMONISH_VERSION: "1.15.0"
+  MDBOOK_ADMONISH_VERSION: "1.17.1"
   MDBOOK_BIN: "/tmp/mdbook-bin"
-  OXIPNG_VERSION: "9.0.0"
+  OXIPNG_VERSION: "9.1.1"
+  MARKDOWNLINT_CLI2_VERSION: "0.13.0"
 
 # Sets permissions of the GITHUB_TOKEN to allow deployment to GitHub Pages
 permissions:
@@ -56,13 +57,13 @@ jobs:
 
     - name: "Upload Pages artifact"
       if: github.ref == 'refs/heads/master'
-      uses: actions/upload-pages-artifact@v1
+      uses: actions/upload-pages-artifact@v3
       with:
         path: book
 
     - name: "Deploy to GitHub Pages"
       if: github.ref == 'refs/heads/master'
-      uses: actions/deploy-pages@v2
+      uses: actions/deploy-pages@v4
 
 
   markdown-lint:
@@ -71,7 +72,7 @@ jobs:
     - uses: actions/checkout@v4
 
     - name: "Install markdownlint-cli2"
-      run: npm install -g markdownlint-cli2
+      run: npm install -g markdownlint-cli2@$MARKDOWNLINT_CLI2_VERSION
 
     - name: "Run lint"
       run: ./lint.sh
@@ -90,7 +91,7 @@ jobs:
       - uses: actions/checkout@v4
 
       - name: "Check license headers"
-        uses: apache/skywalking-eyes/header@v0.5.0
+        uses: apache/skywalking-eyes/header@v0.6.0
         with:
           # log: debug # optional: set the log level. The default value is `info`.
           config: .github/other/licenserc.yml
