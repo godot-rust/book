@@ -114,7 +114,7 @@ impl RandomIntEditor {
         godot_print!("Randomize! {num} for {property_name}");
 
         self.base_mut()
-            .emit_changed(property_name, num.to_variant().to());
+            .emit_changed(property_name, num.to_variant());
 
         if let Some(mut button) = self.button.clone() {
             let text = format!("Randomize: {num}");
