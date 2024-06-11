@@ -42,14 +42,12 @@ mod addon;
 Add the following imports at the beginning of the file:
 
 ```rust
-use godot::{
-    classes::{
-        Button, EditorInspectorPlugin, EditorPlugin, EditorProperty, IEditorInspectorPlugin,
-        IEditorPlugin, IEditorProperty,
-    },
-    global,
-    prelude::*,
+use godot::classes::{
+    Button, EditorInspectorPlugin, EditorPlugin, EditorProperty, IEditorInspectorPlugin,
+    IEditorPlugin, IEditorProperty,
 };
+use godot::global;
+use godot::prelude::*;
 use rand::Rng;
 ```
 
