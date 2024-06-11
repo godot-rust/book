@@ -131,7 +131,7 @@ impl RandomIntEditor {
 ## Add Inspector plugin
 
 Now we need to connect this editor to fields with an integer type.
-To do this, we need to create an EditorInspectorPlugin.
+To do this, we need to create an `EditorInspectorPlugin`.
 
 ```rust
 #[derive(GodotClass)]
