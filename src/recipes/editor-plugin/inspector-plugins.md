@@ -148,7 +148,7 @@ To add a property editor (which we implemented earlier), you need to implement t
 impl IEditorInspectorPlugin for RandomInspectorPlugin {
       fn parse_property(
         &mut self,
-        _object: Gd<Object>, // object that inspecting
+        _object: Gd<Object>, // object that is being inspected
         value_type: VariantType,
         name: GString,
         _hint_type: global::PropertyHint,
