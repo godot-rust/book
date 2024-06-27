@@ -7,12 +7,12 @@
 
 # Export to macOS and iOS
 
-Mac and iOS builds that are intended for the App Store or to be shared with other people require Code Signing and Notarization. For this you will need:
+Mac libraries that are intended to be shared with other people require Code Signing and Notarization. For this you will need:
 
 - A Mac Computer
 - An Apple ID enrolled in Apple Developer Program (99 USD per year)
 
-Without Code Signing and Notarization the other person can still use the built library or program, but either need to rebuild the whole thing locally or re-sign or accept that it may contain mallicious code.
+Without Code Signing and Notarization the other person can still use the built library, but either need to rebuild the whole thing locally or re-sign or accept that it may contain mallicious code.
 
 Prerequisites:
 
@@ -184,6 +184,8 @@ ios.release = "res://../rust/target/release/libmy_lib.ios.framework"
 
 ## Code Signing and Notarizing (macOS only)
 
+Note: This step is only needed if you want to share the library. If you are building the whole game, you will sign everything and don't need to sign the library. You can skip this step.
+
 In order to Code Sign and Notarize your app, you will first need to gather some stuff from your Apple Developer Enrolled Account. We will put them each in an environment variable and use a script to sign, so it's easier to run. Here are the environment variables needed:
 
 - APPLE_CERT_BASE64
@@ -256,6 +258,6 @@ ci-sign-macos.ps1 target/release/my_lib.framework
 
 ## Godot Build
 
-After building the libraries and signing (only for macOS) you can now distribute them as they are, or build the whole game using Godot. For that follow Godot's how to export guide:
+After building the libraries you can now distribute them as they are, or build the whole game using Godot. For that follow Godot's how to export guide:
 - [Exporting for macOS](https://docs.godotengine.org/en/stable/tutorials/export/exporting_for_macos.html)
 - [Exporting for iOS](https://docs.godotengine.org/en/stable/tutorials/export/exporting_for_ios.html)
