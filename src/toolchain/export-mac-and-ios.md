@@ -254,78 +254,8 @@ After these secrets are obtained, all that remains is to set them as environment
 ci-sign-macos.ps1 target/release/my_lib.framework
 ```
 
+## Godot Build
 
-
-
-[api-cargo-features]: https://godot-rust.github.io/docs/gdext/master/godot/#cargo-features
-
-
-## Compile the Project
-
-Verify `emcc` is in the `PATH`. This can be as simple as doing the following:
-
-```sh
-emcc --version
-```
-
-Compile the code.
-It is necessary to both use the nightly compiler and specify to build std[^3], along with specifying the Emscripten target.
-
-```sh
-cargo +nightly build -Zbuild-std --target wasm32-unknown-emscripten
-```
-
-
-## Godot editor setup
-
-Add a web export in the Godot Editor. In the top menu bar, go to `Project > Export...` and configure it there.
-Make sure to turn on the `Extensions Support` checkbox.
-
-![Example of export screen](images/web-export.png)
-
-If instead, the bottom on the export popup contains this error in red:
-
-> No export template found at expected path:
-
-Then click on `Manage Export Templates` next to the error message, and then on the next screen select `Download and Install`.
-See [Godot tutorial][godot-export-templates] for further information.
-
-
-### Running the webserver
-
-Back at the main editor screen, there is an option to run the web debug build (_not_ a release build) locally
-without needing to run an export or set up a web server.
-At the top right, choose `Remote Debug > Run in Browser` and it will automatically open up a web browser.
-
-![Location of built-in web server](images/web-browser-run.png)
-
-
-```admonish warning title="Known Caveats"
-- Godot 4.1.3+ or 4.2+ is necessary.
-- Only Chromium-based browsers (Chrome or Edge) appear to be supported by GDExtension at the moment; Firefox and Safari don't work yet.
-  Info about browser support can be found [here](https://github.com/godotengine/godot-cpp/pull/1247#issuecomment-1742197814).
-```
-
-If your default browser is not Chromium-based, you will need to copy the URL (which is usually `http://localhost:8060/tmp_js_export.html`)
-and open it in a supported browser such as Google Chrome or Microsoft Edge.
-
-[godot-export-templates]: https://docs.godotengine.org/en/stable/tutorials/export/exporting_projects.html#export-menu
-
-
-## Debugging
-
-Currently, the only option for WASM debugging is
-[this extension](https://chromewebstore.google.com/detail/cc++-devtools-support-dwa/pdcpmagijalfljmkmjngeonclgbbannb?pli=1)
-for Chrome. It adds support for breakpoints and a memory viewer into the F12 menu.
-
-
-<br>
-
----
-
-[^1]: Note: Due to a bug with `emscripten`, the maximum version of `emcc`[^2] that can one compile `Godot` with is `3.1.39`.  gdext itself should be able to support the latest version of `emcc`, however, it may be a safer bet to stick to version `3.1.39`.
-
-[^2]: `emcc` is the name of Emscripten's compiler.
-
-[^3]: The primary reason for this is it is necessary to compile with `-sSHARED_MEMORY` enabled. The shipped `std` does not, so building `std` is a requirement. Related info on about WASM support can be found [here](https://github.com/rust-lang/rust/issues/77839).
-
+After building the libraries and signing (only for macOS) you can now distribute them as they are, or build the whole game using Godot. For that follow Godot's how to export guide:
+- [Exporting for macOS](https://docs.godotengine.org/en/stable/tutorials/export/exporting_for_macos.html)
+- [Exporting for iOS](https://docs.godotengine.org/en/stable/tutorials/export/exporting_for_ios.html)
