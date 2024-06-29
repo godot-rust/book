@@ -63,7 +63,8 @@ Next, you will need to create the `.framework` folder.
 
 ```sh
 mkdir target/release/lib{YourCrate}.macos.framework
-cp target/release/lib{YourCrate}.macos.dylib target/release/lib{YourCrate}.macos.framework/lib{YourCrate}.macos.dylib
+cp target/release/lib{YourCrate}.macos.dylib \
+    target/release/lib{YourCrate}.macos.framework/lib{YourCrate}.macos.dylib
 ```
 
 Next, create the `Info.plist` file inside the `Resources` folder:
@@ -143,7 +144,8 @@ Next, you will need to create the `.framework` folder.
 
 ```sh
 mkdir target/release/lib{YourCrate}.ios.framework
-cp target/release/lib{YourCrate}.ios.dylib target/release/lib{YourCrate}.ios.framework/lib{YourCrate}.ios.dylib
+cp target/release/lib{YourCrate}.ios.dylib \
+    target/release/lib{YourCrate}.ios.framework/lib{YourCrate}.ios.dylib
 ```
 
 Next, create the `Info.plist` file inside the `.framework` folder, with the following contents:
@@ -183,7 +185,7 @@ Next, create the `Info.plist` file inside the `.framework` folder, with the foll
 </plist>
 ```
 
-See [XML format requirements](#xml-format).
+See [XML format requirements](#admonition-xml-format).
 
 Edit the project's `.gdextension` file to include support for iOS.
 This file will probably be at `godot/{YourCrate}.gdextension`.
@@ -199,9 +201,9 @@ ios.release = "res://../rust/target/release/lib{YourCrate}.ios.framework"
 ## Code Signing and Notarizing (macOS only)
 
 
-```admonish note title="Inheriting custom base classes"
+```admonish note title="Optional Step"
 This step is only needed if you want to share the library.
-If you are building the whole game, you will sign everything and don't need to sign the library. You can skip this step.
+If you are building the whole game, you will sign everything and don't need to sign the library. You can skip to [Godot Build](#godot-build) step.
 ```
 
 In order to code-sign and notarize your app, you will first need to gather some information from your enrolled Apple Developer account.
