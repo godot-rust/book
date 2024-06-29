@@ -29,6 +29,7 @@
   - [Debugging](toolchain/debugging.md)
   - [Export to Android](toolchain/export-android.md)
   - [Export to Web](toolchain/export-web.md)
+  - [Export to macOS and iOS](toolchain/export-mac-and-ios.md)
 - [Recipes](recipes/index.md)
   - [Custom resources](recipes/custom-resources.md)
   - [Editor plugins](recipes/editor-plugin/index.md)
