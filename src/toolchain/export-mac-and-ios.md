@@ -58,7 +58,7 @@ mkdir target/release/libmy_lib.macos.framework
 cp target/release/libmy_lib.macos.dylib target/release/libmy_lib.macos.framework/libmy_lib.macos.dylib
 ```
 
-Next, create the `Info.plist` file inside the `Resources` folder
+Next, create the `Info.plist` file inside the `Resources` folder:
 
 ```sh
 mkdir target/release/libmy_lib.macos.framework/Resources
