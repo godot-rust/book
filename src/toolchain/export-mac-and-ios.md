@@ -230,11 +230,11 @@ Go to certificates.
 
 Click on + at Certificates tab. Create Developer ID Application. Click Continue.
 
-Leave profile type as is. Create a certificate signing request from a mac. You can use your own name and email address. Save the file to disk. You will get a file called CertificateSigningRequest.certSigningRequest. Upload it to the Developer ID Application request. Click Continue.
+Leave profile type as is. Create a certificate signing request from a Mac. You can use your own name and email address. Save the file to disk. You will get a file called `CertificateSigningRequest.certSigningRequest`. Upload it to the Developer ID Application request. Click Continue.
 
-Download the certificate. You will get a file developerID_application.cer.
+Download the certificate. You will get a file `developerID_application.cer`.
 
-On a Mac, right click and select open. Add it to the login keychain. In the Keychain Access app that opened, login Keychain tab, go to Keys, sort by date modified, expand your key (the key should have name you entered at common name Common Name), right click the expanded certificate, get info, and copy the text at Details -> Subject Name -> Common Name. Eg.
+On a Mac, right click and select open. Add it to the login keychain. In the Keychain Access app that opened, log into Keychain tab, go to Keys, sort by date modified, and expand your key (the key should have the name you entered at _Common Name_). Right click the expanded certificate, get info, and copy the text at _Details -> Subject Name -> Common Name_. For example:
 ```
 APPLE_DEV_APP_ID = Developer ID Application: Common Name (1ABCD23EFG)
 ```
