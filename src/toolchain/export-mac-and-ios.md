@@ -12,7 +12,7 @@ Mac libraries that are intended to be shared with other people require Code Sign
 - A Mac Computer
 - An Apple ID enrolled in Apple Developer Program (99 USD per year)
 
-Without Code Signing and Notarization the other person can still use the built library, but either need to rebuild the whole thing locally or re-sign or accept that it may contain mallicious code.
+Without Code Signing and Notarization, the other person can still use the built library, but either needs to rebuild the whole thing locally, re-sign it or accept that it may contain malicious code.
 
 Prerequisites:
 
