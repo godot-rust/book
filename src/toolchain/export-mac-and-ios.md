@@ -250,7 +250,7 @@ Then you need to make a base64 file out of it, by running:
 ```
 base64 -i Certificates.p12 -o Certificates.base64
 ```
-Copy the contents of the generated file: Eg.
+Copy the contents of the generated file, e.g.:
 APPLE_CERT_BASE64 = ...(A long text file)
 
 After these secrets are obtained, all that remains is to set them as environment variables. Afterwards you can use the following script for signing [ci-sign-macos.ps1](https://github.com/appsinacup/godot-rapier-physics/blob/main/scripts/ci-sign-macos.ps1). In order to run this script you will need to install [powershell](https://learn.microsoft.com/en-us/powershell/) on your Mac.
