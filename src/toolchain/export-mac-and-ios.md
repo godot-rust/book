@@ -242,7 +242,7 @@ APPLE_DEV_APP_ID = Developer ID Application: Common Name (1ABCD23EFG)
 ```
 Then, select the certificate, right click and click export. At file format select `p12`. When exporting, set a password for the certificate. This will be the value of `APPLE_CERT_PASSWORD`. You will get a `Certificates.p12` file.
 
-Eg.
+For example:
 ```
 APPLE_CERT_PASSWORD = <password_set_when_exporting_p12>
 ```
