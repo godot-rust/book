@@ -43,25 +43,25 @@ lipo -create -output target/release/lib{YourCrate}.macos.dylib \
     target/x86_64-apple-darwin/release/lib{YourCrate}.dylib
 ```
 
-The result of this will be the file `target/release/libmy_lib.macos.dylib` that will now have support for both x64 and arm64 platforms.
+The result of this will be the file `target/release/lib{YourCrate}.macos.dylib` that will now have support for both x64 and arm64 platforms.
 
-Note: The name of your library will be the one you provided in `Cargo.toml` file, prefixed with `lib` and followed by `.dylib`:
+The user would need to replace `{YourCrate}` with the crate name. The name of your library will be the one you provided in `Cargo.toml` file, prefixed with `lib` and followed by `.dylib`:
 ```
 [package]
-name = "my_lib"
+name = "{YourCrate}"
 ```
 
 Next, you will need to create the `.framework` folder.
 
 ```sh
-mkdir target/release/libmy_lib.macos.framework
-cp target/release/libmy_lib.macos.dylib target/release/libmy_lib.macos.framework/libmy_lib.macos.dylib
+mkdir target/release/lib{YourCrate}.macos.framework
+cp target/release/lib{YourCrate}.macos.dylib target/release/lib{YourCrate}.macos.framework/lib{YourCrate}.macos.dylib
 ```
 
 Next, create the `Info.plist` file inside the `Resources` folder:
 
 ```sh
-mkdir target/release/libmy_lib.macos.framework/Resources
+mkdir target/release/lib{YourCrate}.macos.framework/Resources
 ```
 File contents:
 ```xml
@@ -69,67 +69,67 @@ File contents:
 <!DOCTYPE plist PUBLIC "-//Apple//DTD PLIST 1.0//EN" "http://www.apple.com/DTDs/PropertyList-1.0.dtd">
 <plist version="1.0">
 <dict>
-	<key>CFBundleExecutable</key>
-	<string>libmy_lib.macos.dylib</string>
-	<key>CFBundleIdentifier</key>
-	<string>org.mywebsite.myapp</string>
-	<key>CFBundleInfoDictionaryVersion</key>
-	<string>6.0</string>
-	<key>CFBundleName</key>
-	<string>My App Name</string>
-	<key>CFBundlePackageType</key>
-	<string>FMWK</string>
-	<key>CFBundleShortVersionString</key>
-	<string>1.0.0</string>
-	<key>CFBundleSupportedPlatforms</key>
-	<array>
-		<string>MacOSX</string>
-	</array>
+    <key>CFBundleExecutable</key>
+    <string>lib{YourCrate}.macos.dylib</string>
+    <key>CFBundleIdentifier</key>
+    <string>org.mywebsite.myapp</string>
+    <key>CFBundleInfoDictionaryVersion</key>
+    <string>6.0</string>
+    <key>CFBundleName</key>
+    <string>My App Name</string>
+    <key>CFBundlePackageType</key>
+    <string>FMWK</string>
+    <key>CFBundleShortVersionString</key>
+    <string>1.0.0</string>
+    <key>CFBundleSupportedPlatforms</key>
+    <array>
+        <string>MacOSX</string>
+    </array>
     <key>NSHumanReadableCopyright</key>
-	<string>Copyright (c)...</string>
-	<key>CFBundleVersion</key>
-	<string>1.0.0</string>
-	<key>LSMinimumSystemVersion</key>
-	<string>10.12</string>
+    <string>Copyright (c)...</string>
+    <key>CFBundleVersion</key>
+    <string>1.0.0</string>
+    <key>LSMinimumSystemVersion</key>
+    <string>10.12</string>
 </dict>
 </plist>
 ```
 
-Note: The `CFBundleExecutable` name MUST match the dylib file name. Some of the contents in the XML file MUST not contain some characters. Generally avoid using anything other than letters and numbers. Related [stack overflow issue](https://stackoverflow.com/questions/3757817/plist-contains-the-character).
+```admonish note title="XML format"
+The `CFBundleExecutable` name **must** match the dylib file name. Some of the contents in the XML file  **must** not contain some characters. Generally avoid using anything other than letters and numbers. Related [StackOverflow issue](https://stackoverflow.com/questions/3757817/plist-contains-the-character).
+```
 
-
-Edit the project's `.gdextension` file to include support for iOS.
+Edit the project's `.gdextension` file to include support for macOS.
 This file will probably be at `godot/{YourCrate}.gdextension`.
 The format will be similar to the following:
 
 ```ini
 [libraries]
 ...
-macos.release = "res://../rust/target/release/libmy_lib.macos.framework"
+macos.release = "res://../rust/target/release/lib{YourCrate}.macos.framework"
 ```
 
 ## Building an iOS library
 
 Add as target arm64 iOS.
 
-
 ```sh
 rustup target add aarch64-apple-ios
 ```
 
-Build the library for both target architectures:
+Build the library:
 
 ```sh
 cargo build --target=aarch64-apple-ios --release
 ```
 
-The result of this will be the file `target/aarch64-apple-ios/release/libmy_lib.dylib`.
+The result of this will be the file `target/aarch64-apple-ios/release/lib{YourCrate}.dylib`.
 
 Next, you will need to create the `.framework` folder.
 
 ```sh
-mkdir target/release/libmy_lib.ios.framework
-cp target/release/libmy_lib.ios.dylib target/release/libmy_lib.ios.framework/libmy_lib.ios.dylib
+mkdir target/release/lib{YourCrate}.ios.framework
+cp target/release/lib{YourCrate}.ios.dylib target/release/lib{YourCrate}.ios.framework/lib{YourCrate}.ios.dylib
 ```
 
 Next, create the `Info.plist` file inside the `.framework` folder, with the following contents:
@@ -138,39 +138,38 @@ Next, create the `Info.plist` file inside the `.framework` folder, with the foll
 <!DOCTYPE plist PUBLIC "-//Apple Computer//DTD PLIST 1.0//EN" "http://www.apple.com/DTDs/PropertyList-1.0.dtd">
 <plist version="1.0">
 <dict>
-	<key>CFBundleInfoDictionaryVersion</key>
-	<string>6.0</string>
-	<key>CFBundleDevelopmentRegion</key>
-	<string>en</string>
-	<key>CFBundleExecutable</key>
-	<string>libmy_lib.ios.dylib</string>
-	<key>CFBundleName</key>
-	<string>My App Name</string>
-	<key>CFBundleDisplayName</key>
-	<string>My App Name</string>
-	<key>CFBundleIdentifier</key>
-	<string>org.my-website.my-app</string>
-	<key>NSHumanReadableCopyright</key>
-	<string>Copyright (c) ...</string>
-	<key>CFBundleVersion</key>
-	<string>0.12.0</string>
-	<key>CFBundleShortVersionString</key>
-	<string>0.12.0</string>
-	<key>CFBundlePackageType</key>
-	<string>FMWK</string>
-	<key>CSResourcesFileMapped</key>
-	<true/>
-	<key>DTPlatformName</key>
-	<string>iphoneos</string>
-	<key>MinimumOSVersion</key>
-	<string>12.0</string>
+    <key>CFBundleInfoDictionaryVersion</key>
+    <string>6.0</string>
+    <key>CFBundleDevelopmentRegion</key>
+    <string>en</string>
+    <key>CFBundleExecutable</key>
+    <string>lib{YourCrate}.ios.dylib</string>
+    <key>CFBundleName</key>
+    <string>My App Name</string>
+    <key>CFBundleDisplayName</key>
+    <string>My App Name</string>
+    <key>CFBundleIdentifier</key>
+    <string>org.my-website.my-app</string>
+    <key>NSHumanReadableCopyright</key>
+    <string>Copyright (c) ...</string>
+    <key>CFBundleVersion</key>
+    <string>0.12.0</string>
+    <key>CFBundleShortVersionString</key>
+    <string>0.12.0</string>
+    <key>CFBundlePackageType</key>
+    <string>FMWK</string>
+    <key>CSResourcesFileMapped</key>
+    <true/>
+    <key>DTPlatformName</key>
+    <string>iphoneos</string>
+    <key>MinimumOSVersion</key>
+    <string>12.0</string>
 </dict>
 </plist>
 
 ```
 
-Note: The `CFBundleExecutable` name MUST match the dylib file name. Some of the contents in the XML file MUST not contain some characters. Generally avoid using anything other than letters and numbers. Related [stack overflow issue](https://stackoverflow.com/questions/3757817/plist-contains-the-character).
-
+See [XML format requirements](#xml-format).
 
 Edit the project's `.gdextension` file to include support for iOS.
 This file will probably be at `godot/{YourCrate}.gdextension`.
@@ -179,12 +178,14 @@ The format will be similar to the following:
 ```ini
 [libraries]
 ...
-ios.release = "res://../rust/target/release/libmy_lib.ios.framework"
+ios.release = "res://../rust/target/release/lib{YourCrate}.ios.framework"
 ```
 
 ## Code Signing and Notarizing (macOS only)
 
-Note: This step is only needed if you want to share the library. If you are building the whole game, you will sign everything and don't need to sign the library. You can skip this step.
+```admonish note title="Inheriting custom base classes"
+This step is only needed if you want to share the library. If you are building the whole game, you will sign everything and don't need to sign the library. You can skip this step.
+```
 
 In order to code-sign and notarize your app, you will first need to gather some information from your enrolled Apple Developer account. We will create corresponding environment variables and use a script to sign, so it's easier to run. Here are the environment variables needed:
 
@@ -204,7 +205,7 @@ Firstly, make sure to enroll your Apple ID to the Developer Program:
 ### `APPLE_DEV_ID` - Apple ID
 
 Your email used for your Apple ID.
-```
+```sh
 APPLE_DEV_ID = email@provider.com
 ```
 ### APPLE_DEV_TEAM_ID - Apple Team ID
@@ -212,13 +213,13 @@ APPLE_DEV_ID = email@provider.com
 Go to [developer.apple.com](https://developer.apple.com). Go to account.
 
 Go to membership details. Copy Team ID.
-```
+```sh
 APPLE_DEV_TEAM_ID = 1ABCD23EFG
 ```
 ### APPLE_DEV_PASSWORD - Apple App-Specific Password
 
 Create Apple App-Specific Password. Copy the password.
-```
+```sh
 APPLE_DEV_PASSWORD = abcd-abcd-abcd-abcd
 ```
 
@@ -241,11 +242,11 @@ APPLE_DEV_APP_ID = Developer ID Application: Common Name (1ABCD23EFG)
 Then, select the certificate, right click and click export. At file format select `p12`. When exporting, set a password for the certificate. This will be the value of `APPLE_CERT_PASSWORD`. You will get a `Certificates.p12` file.
 
 For example:
-```
+```sh
 APPLE_CERT_PASSWORD = <password_set_when_exporting_p12>
 ```
 Then you need to make a base64 file out of it, by running:
-```
+```sh
 base64 -i Certificates.p12 -o Certificates.base64
 ```
 Copy the contents of the generated file, e.g.:
@@ -253,7 +254,7 @@ APPLE_CERT_BASE64 = ...(A long text file)
 
 After these secrets are obtained, all that remains is to set them as environment variables. Afterwards you can use the following script for signing [ci-sign-macos.ps1](https://github.com/appsinacup/godot-rapier-physics/blob/main/scripts/ci-sign-macos.ps1). In order to run this script you will need to install [powershell](https://learn.microsoft.com/en-us/powershell/) on your Mac.
 ```powershell
-ci-sign-macos.ps1 target/release/my_lib.framework
+ci-sign-macos.ps1 target/release/{YourCrate}.framework
 ```
 
 ## Godot Build
