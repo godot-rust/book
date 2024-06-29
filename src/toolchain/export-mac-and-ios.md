@@ -132,9 +132,7 @@ mkdir target/release/libmy_lib.ios.framework
 cp target/release/libmy_lib.ios.dylib target/release/libmy_lib.ios.framework/libmy_lib.ios.dylib
 ```
 
-Next, create the `Info.plist` file inside the `.framework` folder
-
-File contents:
+Next, create the `Info.plist` file inside the `.framework` folder, with the following contents:
 ```xml
 <?xml version="1.0" encoding="UTF-8"?>
 <!DOCTYPE plist PUBLIC "-//Apple Computer//DTD PLIST 1.0//EN" "http://www.apple.com/DTDs/PropertyList-1.0.dtd">
