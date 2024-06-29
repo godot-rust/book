@@ -186,7 +186,7 @@ ios.release = "res://../rust/target/release/libmy_lib.ios.framework"
 
 Note: This step is only needed if you want to share the library. If you are building the whole game, you will sign everything and don't need to sign the library. You can skip this step.
 
-In order to Code Sign and Notarize your app, you will first need to gather some stuff from your Apple Developer Enrolled Account. We will put them each in an environment variable and use a script to sign, so it's easier to run. Here are the environment variables needed:
+In order to code-sign and notarize your app, you will first need to gather some information from your enrolled Apple Developer account. We will create corresponding environment variables and use a script to sign, so it's easier to run. Here are the environment variables needed:
 
 - APPLE_CERT_BASE64
 - APPLE_CERT_PASSWORD
