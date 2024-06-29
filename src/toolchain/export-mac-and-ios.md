@@ -54,7 +54,7 @@ The result of this will be the file `target/release/lib{YourCrate}.macos.dylib` 
 The user would need to replace `{YourCrate}` with the crate name.
 The name of your library will be the one you provided in `Cargo.toml` file, prefixed with `lib` and followed by `.dylib`:
 
-```
+```ini
 [package]
 name = "{YourCrate}"
 ```
@@ -107,7 +107,8 @@ File contents:
 
 ```admonish note title="XML format"
 The `CFBundleExecutable` name **must** match the dylib file name. Some of the contents in the XML file  **must** not contain some characters.
-Generally avoid using anything other than letters and numbers. Related [StackOverflow issue](https://stackoverflow.com/questions/3757817/plist-contains-the-character).
+Generally avoid using anything other than letters and numbers.
+Related [StackOverflow issue](https://stackoverflow.com/questions/3757817/plist-contains-the-character).
 ```
 
 Edit the project's `.gdextension` file to include support for macOS.
@@ -194,6 +195,7 @@ The format will be similar to the following:
 ios.release = "res://../rust/target/release/lib{YourCrate}.ios.framework"
 ```
 
+
 ## Code Signing and Notarizing (macOS only)
 
 
@@ -218,7 +220,9 @@ Firstly, make sure to enroll your Apple ID to the Developer Program:
 - Use your Apple ID to register in the Apple Developer Program by going to [developer.apple.com](https://developer.apple.com).
 - Accept all agreements from the Apple Developer Page.
 
+
 ### `APPLE_DEV_ID` - Apple ID
+
 
 Your email used for your Apple ID.
 
@@ -248,7 +252,9 @@ Create Apple App-Specific Password. Copy the password.
 APPLE_DEV_PASSWORD = abcd-abcd-abcd-abcd
 ```
 
+
 ### `APPLE_CERT_BASE64`, `APPLE_CERT_PASSWORD` and `APPLE_DEV_APP_ID`
+
 
 Go to [developer.apple.com](https://developer.apple.com). Go to account.
 
@@ -266,7 +272,7 @@ In the Keychain Access app that opened, log into Keychain tab, go to Keys, sort 
 and expand your key (the key should have the name you entered at _Common Name_).
 Right click the expanded certificate, get info, and copy the text at _Details -> Subject Name -> Common Name_. For example:
 
-```
+```sh
 APPLE_DEV_APP_ID = Developer ID Application: Common Name (1ABCD23EFG)
 ```
 
@@ -289,7 +295,8 @@ Copy the contents of the generated file, e.g.:
 APPLE_CERT_BASE64 = ...(A long text file)
 
 After these secrets are obtained, all that remains is to set them as environment variables.
-Afterwards you can use the following script for signing [ci-sign-macos.ps1](https://github.com/appsinacup/godot-rapier-physics/blob/main/scripts/ci-sign-macos.ps1).
+Afterwards you can use the following script
+for signing [ci-sign-macos.ps1](https://github.com/appsinacup/godot-rapier-physics/blob/main/scripts/ci-sign-macos.ps1).
 In order to run this script you will need to install [powershell](https://learn.microsoft.com/en-us/powershell/) on your Mac.
 
 ```powershell
