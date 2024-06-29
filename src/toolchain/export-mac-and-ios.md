@@ -12,16 +12,20 @@ Mac libraries that are intended to be shared with other people require Code Sign
 - A Mac Computer
 - An Apple ID enrolled in Apple Developer Program (99 USD per year)
 
-Without Code Signing and Notarization, the other person can still use the built library, but either needs to rebuild the whole thing locally, re-sign it or accept that it may contain malicious code.
+Without Code Signing and Notarization, the other person can still use the built library, but either needs to:
+- rebuild the whole thing locally
+- re-sign it
+- accept that it may contain malicious code.
 
 Prerequisites:
 
 - Download and install [Xcode](https://developer.apple.com/xcode/) on your Mac computer.
 
+
 ## Building macOS universal lib
 
-Add both x64 and arm64 targets. This is needed in order to create a universal build.
 
+Add both x64 and arm64 targets. This is needed in order to create a universal build.
 
 ```sh
 rustup target add x86_64-apple-darwin
@@ -45,7 +49,8 @@ lipo -create -output target/release/lib{YourCrate}.macos.dylib \
 
 The result of this will be the file `target/release/lib{YourCrate}.macos.dylib` that will now have support for both x64 and arm64 platforms.
 
-The user would need to replace `{YourCrate}` with the crate name. The name of your library will be the one you provided in `Cargo.toml` file, prefixed with `lib` and followed by `.dylib`:
+The user would need to replace `{YourCrate}` with the crate name.
+The name of your library will be the one you provided in `Cargo.toml` file, prefixed with `lib` and followed by `.dylib`:
 ```
 [package]
 name = "{YourCrate}"
@@ -96,7 +101,8 @@ File contents:
 ```
 
 ```admonish note title="XML format"
-The `CFBundleExecutable` name **must** match the dylib file name. Some of the contents in the XML file  **must** not contain some characters. Generally avoid using anything other than letters and numbers. Related [StackOverflow issue](https://stackoverflow.com/questions/3757817/plist-contains-the-character).
+The `CFBundleExecutable` name **must** match the dylib file name. Some of the contents in the XML file  **must** not contain some characters.
+Generally avoid using anything other than letters and numbers. Related [StackOverflow issue](https://stackoverflow.com/questions/3757817/plist-contains-the-character).
 ```
 
 Edit the project's `.gdextension` file to include support for macOS.
@@ -184,10 +190,12 @@ ios.release = "res://../rust/target/release/lib{YourCrate}.ios.framework"
 ## Code Signing and Notarizing (macOS only)
 
 ```admonish note title="Inheriting custom base classes"
-This step is only needed if you want to share the library. If you are building the whole game, you will sign everything and don't need to sign the library. You can skip this step.
+This step is only needed if you want to share the library.
+If you are building the whole game, you will sign everything and don't need to sign the library. You can skip this step.
 ```
 
-In order to code-sign and notarize your app, you will first need to gather some information from your enrolled Apple Developer account. We will create corresponding environment variables and use a script to sign, so it's easier to run. Here are the environment variables needed:
+In order to code-sign and notarize your app, you will first need to gather some information from your enrolled Apple Developer account.
+We will create corresponding environment variables and use a script to sign, so it's easier to run. Here are the environment variables needed:
 
 - `APPLE_CERT_BASE64`
 - `APPLE_CERT_PASSWORD`
@@ -231,15 +239,20 @@ Go to certificates.
 
 Click on + at Certificates tab. Create Developer ID Application. Click Continue.
 
-Leave profile type as is. Create a certificate signing request from a Mac. You can use your own name and email address. Save the file to disk. You will get a file called `CertificateSigningRequest.certSigningRequest`. Upload it to the Developer ID Application request. Click Continue.
+Leave profile type as is. Create a certificate signing request from a Mac. You can use your own name and email address. Save the file to disk.
+You will get a file called `CertificateSigningRequest.certSigningRequest`. Upload it to the Developer ID Application request. Click Continue.
 
 Download the certificate. You will get a file `developerID_application.cer`.
 
-On a Mac, right click and select open. Add it to the login keychain. In the Keychain Access app that opened, log into Keychain tab, go to Keys, sort by date modified, and expand your key (the key should have the name you entered at _Common Name_). Right click the expanded certificate, get info, and copy the text at _Details -> Subject Name -> Common Name_. For example:
+On a Mac, right click and select open. Add it to the login keychain.
+In the Keychain Access app that opened, log into Keychain tab, go to Keys, sort by date modified,
+and expand your key (the key should have the name you entered at _Common Name_).
+Right click the expanded certificate, get info, and copy the text at _Details -> Subject Name -> Common Name_. For example:
 ```
 APPLE_DEV_APP_ID = Developer ID Application: Common Name (1ABCD23EFG)
 ```
-Then, select the certificate, right click and click export. At file format select `p12`. When exporting, set a password for the certificate. This will be the value of `APPLE_CERT_PASSWORD`. You will get a `Certificates.p12` file.
+Then, select the certificate, right click and click export. At file format select `p12`. When exporting, set a password for the certificate.
+This will be the value of `APPLE_CERT_PASSWORD`. You will get a `Certificates.p12` file.
 
 For example:
 ```sh
@@ -252,13 +265,16 @@ base64 -i Certificates.p12 -o Certificates.base64
 Copy the contents of the generated file, e.g.:
 APPLE_CERT_BASE64 = ...(A long text file)
 
-After these secrets are obtained, all that remains is to set them as environment variables. Afterwards you can use the following script for signing [ci-sign-macos.ps1](https://github.com/appsinacup/godot-rapier-physics/blob/main/scripts/ci-sign-macos.ps1). In order to run this script you will need to install [powershell](https://learn.microsoft.com/en-us/powershell/) on your Mac.
+After these secrets are obtained, all that remains is to set them as environment variables.
+Afterwards you can use the following script for signing [ci-sign-macos.ps1](https://github.com/appsinacup/godot-rapier-physics/blob/main/scripts/ci-sign-macos.ps1).
+In order to run this script you will need to install [powershell](https://learn.microsoft.com/en-us/powershell/) on your Mac.
 ```powershell
 ci-sign-macos.ps1 target/release/{YourCrate}.framework
 ```
 
 ## Godot Build
 
-After building the libraries, you can now distribute them as they are, or build the whole game using Godot. For that, follow Godot's _How to export_ guide:
+After building the libraries, you can now distribute them as they are, or build the whole game using Godot.
+For that, follow Godot's _How to export_ guide:
 - [Exporting for macOS](https://docs.godotengine.org/en/stable/tutorials/export/exporting_for_macos.html)
 - [Exporting for iOS](https://docs.godotengine.org/en/stable/tutorials/export/exporting_for_ios.html)
