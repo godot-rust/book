@@ -24,6 +24,7 @@
   - [Compatibility and stability](toolchain/compatibility.md)
   - [Selecting a Godot version](toolchain/godot-version.md)
   - [Debugging](toolchain/debugging.md)
+  - [Export to Android](toolchain/export-android.md)
   - [Export to Web](toolchain/export-web.md)
 - [Recipes](recipes/index.md)
   - [Custom resources](recipes/custom-resources.md)
