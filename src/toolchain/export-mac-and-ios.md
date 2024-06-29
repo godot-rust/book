@@ -260,6 +260,6 @@ ci-sign-macos.ps1 target/release/my_lib.framework
 
 ## Godot Build
 
-After building the libraries you can now distribute them as they are, or build the whole game using Godot. For that follow Godot's how to export guide:
+After building the libraries, you can now distribute them as they are, or build the whole game using Godot. For that, follow Godot's _How to export_ guide:
 - [Exporting for macOS](https://docs.godotengine.org/en/stable/tutorials/export/exporting_for_macos.html)
 - [Exporting for iOS](https://docs.godotengine.org/en/stable/tutorials/export/exporting_for_ios.html)
