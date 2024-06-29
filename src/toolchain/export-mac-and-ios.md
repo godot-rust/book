@@ -108,7 +108,7 @@ The format will be similar to the following:
 macos.release = "res://../rust/target/release/libmy_lib.macos.framework"
 ```
 
-## Building iOS lib
+## Building an iOS library
 
 Add as target arm64 iOS.
 
