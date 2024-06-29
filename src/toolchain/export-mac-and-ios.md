@@ -224,7 +224,7 @@ Create Apple App-Specific Password. Copy the password.
 APPLE_DEV_PASSWORD = abcd-abcd-abcd-abcd
 ```
 
-### APPLE_CERT_BASE64 and APPLE_CERT_PASSWORD and APPLE_DEV_APP_ID
+### `APPLE_CERT_BASE64`, `APPLE_CERT_PASSWORD` and `APPLE_DEV_APP_ID`
 
 Go to [developer.apple.com](https://developer.apple.com). Go to account.
 
