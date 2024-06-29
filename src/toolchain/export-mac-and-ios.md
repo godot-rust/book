@@ -20,7 +20,7 @@ Prerequisites:
 
 ## Building macOS universal lib
 
-Add as targets both x64 and arm64 targets. This is needed in order to create a universal build.
+Add both x64 and arm64 targets. This is needed in order to create a universal build.
 
 
 ```sh
