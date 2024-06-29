@@ -201,7 +201,7 @@ Firstly, make sure to enroll your Apple ID to the Developer Program:
 - Use your Apple ID to register in the Apple Developer Program by going to [developer.apple.com](https://developer.apple.com).
 - Accept all agreements from the Apple Developer Page.
 
-### APPLE_DEV_ID - Apple ID
+### `APPLE_DEV_ID` - Apple ID
 
 Your email used for your Apple ID.
 ```
