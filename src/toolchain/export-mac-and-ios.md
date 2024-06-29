@@ -16,7 +16,7 @@ Without Code Signing and Notarization, the other person can still use the built 
 
 Prerequisites:
 
-- Download and Install [Xcode](https://developer.apple.com/xcode/) on Your Mac Computer
+- Download and install [Xcode](https://developer.apple.com/xcode/) on your Mac computer.
 
 ## Building macOS universal lib
 
