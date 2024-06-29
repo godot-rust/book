@@ -240,7 +240,7 @@ On a Mac, right click and select open. Add it to the login keychain. In the Keyc
 ```
 APPLE_DEV_APP_ID = Developer ID Application: Common Name (1ABCD23EFG)
 ```
-Then, select the certificate, right click and click export. At file format select p12. When exporting, set a password for the certificate. This will be APPLE_CERT_PASSWORD. You will get a Certificates.p12 file.
+Then, select the certificate, right click and click export. At file format select `p12`. When exporting, set a password for the certificate. This will be the value of `APPLE_CERT_PASSWORD`. You will get a `Certificates.p12` file.
 
 Eg.
 ```
