@@ -185,7 +185,7 @@ Next, create the `Info.plist` file inside the `.framework` folder, with the foll
 </plist>
 ```
 
-See [XML format requirements](#admonition-xml-format).
+See XML format requirements above.
 
 Edit the project's `.gdextension` file to include support for iOS.
 This file will probably be at `godot/{YourCrate}.gdextension`.
