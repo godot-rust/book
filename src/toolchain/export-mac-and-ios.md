@@ -38,7 +38,9 @@ cargo build --target=aarch64-apple-darwin --release
 Run the [lipo](https://developer.apple.com/documentation/apple-silicon/building-a-universal-macos-binary) tool to merge the two in one universal library.
 
 ```sh
-lipo -create -output target/release/libmy_lib.macos.dylib target/aarch64-apple-darwin/release/libmy_lib.dylib target/x86_64-apple-darwin/release/libmy_lib.dylib
+lipo -create -output target/release/lib{YourCrate}.macos.dylib \
+    target/aarch64-apple-darwin/release/lib{YourCrate}.dylib \
+    target/x86_64-apple-darwin/release/lib{YourCrate}.dylib
 ```
 
 The result of this will be the file `target/release/libmy_lib.macos.dylib` that will now have support for both x64 and arm64 platforms.
