@@ -13,6 +13,7 @@ Mac libraries that are intended to be shared with other people require Code Sign
 - An Apple ID enrolled in Apple Developer Program (99 USD per year)
 
 Without Code Signing and Notarization, the other person can still use the built library, but either needs to:
+
 - rebuild the whole thing locally
 - re-sign it
 - accept that it may contain malicious code.
@@ -39,7 +40,8 @@ cargo build --target=x86_64-apple-darwin --release
 cargo build --target=aarch64-apple-darwin --release
 ```
 
-Run the [lipo](https://developer.apple.com/documentation/apple-silicon/building-a-universal-macos-binary) tool to merge the two in one universal library.
+Run the [lipo](https://developer.apple.com/documentation/apple-silicon/building-a-universal-macos-binary) tool
+to merge the two in one universal library.
 
 ```sh
 lipo -create -output target/release/lib{YourCrate}.macos.dylib \
@@ -51,6 +53,7 @@ The result of this will be the file `target/release/lib{YourCrate}.macos.dylib` 
 
 The user would need to replace `{YourCrate}` with the crate name.
 The name of your library will be the one you provided in `Cargo.toml` file, prefixed with `lib` and followed by `.dylib`:
+
 ```
 [package]
 name = "{YourCrate}"
@@ -68,7 +71,9 @@ Next, create the `Info.plist` file inside the `Resources` folder:
 ```sh
 mkdir target/release/lib{YourCrate}.macos.framework/Resources
 ```
+
 File contents:
+
 ```xml
 <?xml version="1.0" encoding="UTF-8"?>
 <!DOCTYPE plist PUBLIC "-//Apple//DTD PLIST 1.0//EN" "http://www.apple.com/DTDs/PropertyList-1.0.dtd">
@@ -115,7 +120,9 @@ The format will be similar to the following:
 macos.release = "res://../rust/target/release/lib{YourCrate}.macos.framework"
 ```
 
+
 ## Building an iOS library
+
 
 Add as target arm64 iOS.
 
@@ -139,6 +146,7 @@ cp target/release/lib{YourCrate}.ios.dylib target/release/lib{YourCrate}.ios.fra
 ```
 
 Next, create the `Info.plist` file inside the `.framework` folder, with the following contents:
+
 ```xml
 <?xml version="1.0" encoding="UTF-8"?>
 <!DOCTYPE plist PUBLIC "-//Apple Computer//DTD PLIST 1.0//EN" "http://www.apple.com/DTDs/PropertyList-1.0.dtd">
@@ -172,7 +180,6 @@ Next, create the `Info.plist` file inside the `.framework` folder, with the foll
     <string>12.0</string>
 </dict>
 </plist>
-
 ```
 
 See [XML format requirements](#xml-format).
@@ -188,6 +195,7 @@ ios.release = "res://../rust/target/release/lib{YourCrate}.ios.framework"
 ```
 
 ## Code Signing and Notarizing (macOS only)
+
 
 ```admonish note title="Inheriting custom base classes"
 This step is only needed if you want to share the library.
@@ -213,20 +221,29 @@ Firstly, make sure to enroll your Apple ID to the Developer Program:
 ### `APPLE_DEV_ID` - Apple ID
 
 Your email used for your Apple ID.
+
 ```sh
 APPLE_DEV_ID = email@provider.com
 ```
+
+
 ### APPLE_DEV_TEAM_ID - Apple Team ID
+
 
 Go to [developer.apple.com](https://developer.apple.com). Go to account.
 
 Go to membership details. Copy Team ID.
+
 ```sh
 APPLE_DEV_TEAM_ID = 1ABCD23EFG
 ```
+
+
 ### APPLE_DEV_PASSWORD - Apple App-Specific Password
 
+
 Create Apple App-Specific Password. Copy the password.
+
 ```sh
 APPLE_DEV_PASSWORD = abcd-abcd-abcd-abcd
 ```
@@ -248,33 +265,43 @@ On a Mac, right click and select open. Add it to the login keychain.
 In the Keychain Access app that opened, log into Keychain tab, go to Keys, sort by date modified,
 and expand your key (the key should have the name you entered at _Common Name_).
 Right click the expanded certificate, get info, and copy the text at _Details -> Subject Name -> Common Name_. For example:
+
 ```
 APPLE_DEV_APP_ID = Developer ID Application: Common Name (1ABCD23EFG)
 ```
+
 Then, select the certificate, right click and click export. At file format select `p12`. When exporting, set a password for the certificate.
 This will be the value of `APPLE_CERT_PASSWORD`. You will get a `Certificates.p12` file.
 
 For example:
+
 ```sh
 APPLE_CERT_PASSWORD = <password_set_when_exporting_p12>
 ```
+
 Then you need to make a base64 file out of it, by running:
+
 ```sh
 base64 -i Certificates.p12 -o Certificates.base64
 ```
+
 Copy the contents of the generated file, e.g.:
 APPLE_CERT_BASE64 = ...(A long text file)
 
 After these secrets are obtained, all that remains is to set them as environment variables.
 Afterwards you can use the following script for signing [ci-sign-macos.ps1](https://github.com/appsinacup/godot-rapier-physics/blob/main/scripts/ci-sign-macos.ps1).
 In order to run this script you will need to install [powershell](https://learn.microsoft.com/en-us/powershell/) on your Mac.
+
 ```powershell
 ci-sign-macos.ps1 target/release/{YourCrate}.framework
 ```
 
+
 ## Godot Build
+
 
 After building the libraries, you can now distribute them as they are, or build the whole game using Godot.
 For that, follow Godot's _How to export_ guide:
+
 - [Exporting for macOS](https://docs.godotengine.org/en/stable/tutorials/export/exporting_for_macos.html)
 - [Exporting for iOS](https://docs.godotengine.org/en/stable/tutorials/export/exporting_for_ios.html)
