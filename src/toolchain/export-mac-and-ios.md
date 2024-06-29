@@ -195,10 +195,10 @@ In order to code-sign and notarize your app, you will first need to gather some 
 - `APPLE_DEV_PASSWORD`
 - `APPLE_DEV_APP_ID`
 
-Firstly, make sure to enroll your Apple ID to Developer Program:
+Firstly, make sure to enroll your Apple ID to the Developer Program:
 
-- Create an Apple ID if you don’t have one already.
-- Use your Apple ID to register in the Apple Developer Program by going to [developer.apple.com](https://developer.apple.com)
+- Create an Apple ID if you don't have one already.
+- Use your Apple ID to register in the Apple Developer Program by going to [developer.apple.com](https://developer.apple.com).
 - Accept all agreements from the Apple Developer Page.
 
 ### APPLE_DEV_ID - Apple ID
