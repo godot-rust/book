@@ -73,18 +73,12 @@ edition = "2021"
 crate-type = ["cdylib"]  # Compile this crate to a dynamic C library.
 
 [dependencies]
-godot = { git = "https://github.com/godot-rust/gdext", branch = "master" }
+godot = "0.1"
 ```
 
 The `cdylib` crate type is not very common in Rust. Instead of building an application (`bin`) or a library to be utilized by other Rust code
 (`lib`), we create a _dynamic_ library, exposing an interface in the C programming language. This dynamic library is loaded by Godot at runtime,
 through the GDExtension interface.
-
-```admonish note title="Main crate"
-The main crate of gdext is called `godot`. At this point, it is still hosted on GitHub; in the future, it will be published to crates.io.
-To fetch the latest changes, you can regularly run a `cargo update` (possibly breaking). Keep your `Cargo.lock` file under version control, 
-so that it's easy to revert updates.
-```
 
 To compile each iteration of the extension as you write code, you can use `cargo` as you normally do with any other Rust project:
 
@@ -97,11 +91,11 @@ As an example, a Rust crate `hello` on Linux would be compiled to `libhello.so`:
 
 ```log
 $ cargo build
-   Compiling godot4-prebuilt v0.0.0 
-       (https://github.com/godot-rust/godot4-prebuilt?branch=4.1.1#fca6897d)
-   Compiling proc-macro2 v1.0.69
-   [...]
-   Compiling godot v0.1.0 (https://github.com/godot-rust/gdext?branch=master#66df8f47)
+   Compiling godot-cell v0.1.1
+   Compiling glam v0.27.0
+   Compiling godot-core v0.1.1
+   Compiling godot-ffi v0.1.1
+   Compiling godot v0.1.1
    Compiling hello v0.1.0 (/path/to/hello)
     Finished dev [unoptimized + debuginfo] target(s) in 1m 46s
 
