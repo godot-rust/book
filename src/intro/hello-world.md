@@ -71,19 +71,16 @@ edition = "2021"
 
 [lib]
 crate-type = ["cdylib"]  # Compile this crate to a dynamic C library.
-
-[dependencies]
-godot = { git = "https://github.com/godot-rust/gdext", branch = "master" }
 ```
 
 The `cdylib` crate type is not very common in Rust. Instead of building an application (`bin`) or a library to be utilized by other Rust code
 (`lib`), we create a _dynamic_ library, exposing an interface in the C programming language. This dynamic library is loaded by Godot at runtime,
 through the GDExtension interface.
 
-```admonish note title="Main crate"
-The main crate of gdext is called `godot`. At this point, it is still hosted on GitHub; in the future, it will be published to crates.io.
-To fetch the latest changes, you can regularly run a `cargo update` (possibly breaking). Keep your `Cargo.lock` file under version control, 
-so that it's easy to revert updates.
+Now add gdext to your project with:
+
+```bash
+cargo add godot
 ```
 
 To compile each iteration of the extension as you write code, you can use `cargo` as you normally do with any other Rust project:
@@ -93,29 +90,13 @@ cargo build
 ```
 
 This should output to `{YourCrate}/target/debug/` at least one variation of a compiled library depending on your setup.
-As an example, a Rust crate `hello` on Linux would be compiled to `libhello.so`:
 
-```log
-$ cargo build
-   Compiling godot4-prebuilt v0.0.0 
-       (https://github.com/godot-rust/godot4-prebuilt?branch=4.1.1#fca6897d)
-   Compiling proc-macro2 v1.0.69
-   [...]
-   Compiling godot v0.1.0 (https://github.com/godot-rust/gdext?branch=master#66df8f47)
-   Compiling hello v0.1.0 (/path/to/hello)
-    Finished dev [unoptimized + debuginfo] target(s) in 1m 46s
 
-$ ls -l
-╭───┬──────────────────────────┬──────╮
-│ # │           name           │ type │
-├───┼──────────────────────────┼──────┤
-│ 0 │ target/debug/build       │ dir  │
-│ 1 │ target/debug/deps        │ dir  │
-│ 2 │ target/debug/examples    │ dir  │
-│ 3 │ target/debug/incremental │ dir  │
-│ 4 │ target/debug/libhello.d  │ file │
-│ > │ target/debug/libhello.so │ file │
-╰───┴──────────────────────────┴──────╯
+```admonish tip
+For users who want to follow bleeding-edge development, you can directly link the github repo in your `Cargo.toml` dependencies section by replacing:
+`godot = "X.X.X"`
+with
+`godot = { git = "https://github.com/godot-rust/gdext", branch = "master" }`
 ```
 
 
