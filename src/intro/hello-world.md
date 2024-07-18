@@ -87,30 +87,7 @@ cargo build
 ```
 
 This should output to `{YourCrate}/target/debug/` at least one variation of a compiled library depending on your setup.
-As an example, a Rust crate `hello` on Linux would be compiled to `libhello.so`:
 
-```log
-$ cargo build
-   Compiling godot-cell v0.1.1
-   Compiling glam v0.27.0
-   Compiling godot-core v0.1.1
-   Compiling godot-ffi v0.1.1
-   Compiling godot v0.1.1
-   Compiling hello v0.1.0 (/path/to/hello)
-    Finished dev [unoptimized + debuginfo] target(s) in 1m 46s
-
-$ ls -l
-╭───┬──────────────────────────┬──────╮
-│ # │           name           │ type │
-├───┼──────────────────────────┼──────┤
-│ 0 │ target/debug/build       │ dir  │
-│ 1 │ target/debug/deps        │ dir  │
-│ 2 │ target/debug/examples    │ dir  │
-│ 3 │ target/debug/incremental │ dir  │
-│ 4 │ target/debug/libhello.d  │ file │
-│ > │ target/debug/libhello.so │ file │
-╰───┴──────────────────────────┴──────╯
-```
 
 
 ## Wire up Godot with Rust
