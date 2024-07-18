@@ -71,14 +71,16 @@ edition = "2021"
 
 [lib]
 crate-type = ["cdylib"]  # Compile this crate to a dynamic C library.
-
-[dependencies]
-godot = "0.1"
 ```
 
 The `cdylib` crate type is not very common in Rust. Instead of building an application (`bin`) or a library to be utilized by other Rust code
 (`lib`), we create a _dynamic_ library, exposing an interface in the C programming language. This dynamic library is loaded by Godot at runtime,
 through the GDExtension interface.
+
+Now add gdext to your project with:
+```bash
+cargo add godot
+```
 
 To compile each iteration of the extension as you write code, you can use `cargo` as you normally do with any other Rust project:
 
@@ -91,7 +93,7 @@ This should output to `{YourCrate}/target/debug/` at least one variation of a co
 
 ```admonish tip
 For users who want to follow bleeding-edge development, you can directly link the github repo in your `Cargo.toml` dependencies section by replacing:
-`godot = "0.1"`
+`godot = "X.X.X"`
 with
 `godot = { git = "https://github.com/godot-rust/gdext", branch = "master" }`
 ```
