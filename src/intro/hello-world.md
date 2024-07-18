@@ -89,6 +89,13 @@ cargo build
 This should output to `{YourCrate}/target/debug/` at least one variation of a compiled library depending on your setup.
 
 
+```admonish tip
+For users who want to follow bleeding-edge development, you can directly link the github repo in your `Cargo.toml` dependencies section by replacing:
+`godot = "0.1"`
+with
+`godot = { git = "https://github.com/godot-rust/gdext", branch = "master" }`
+```
+
 
 ## Wire up Godot with Rust
 
