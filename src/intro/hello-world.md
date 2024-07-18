@@ -78,6 +78,7 @@ The `cdylib` crate type is not very common in Rust. Instead of building an appli
 through the GDExtension interface.
 
 Now add gdext to your project with:
+
 ```bash
 cargo add godot
 ```
