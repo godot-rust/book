@@ -61,7 +61,7 @@ Most builtins have a 1:1 equivalent (e.g. `Vector2f`, `Color` etc.). The followi
 | `real`                    | `real` (either `f32` or `f64`)        | `real!(3.14159)`          |
 | `String`                  | `GString`                             | `"Some string".into()`    |
 | `StringName`              | `StringName`                          | `"MyClass".into()`        |
-| `NodePath`                | `NodePath`                            | `Nodes/MyNode".into()`    |
+| `NodePath`                | `NodePath`                            | `"Nodes/MyNode".into()`   |
 | `Array[T]`                | `Array<T>`                            | `array![1, 2, 3]`         |
 | `Array`                   | `VariantArray`<br>or `Array<Variant>` | `varray![1, "two", true]` |
 | `Dictionary`              | `Dictionary`                          | `dict!{"key": "value"}`   |
