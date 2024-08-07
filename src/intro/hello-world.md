@@ -234,6 +234,36 @@ There are multiple things going on here:
 The last point declares the actual GDExtension entry point, and the proc-macro attribute takes care of the low-level details.
 
 
+### Troubleshooting
+
+It's common that there are some issues with first-time setup.  Particularly, errors related to the library not being found or the `gdext_rust_init`
+entry point symbol being missing or impossible to resolve come up, usually due to an incorrect initial setup.  Here are a few troubleshooting steps
+that should solve the most common problems.
+
+- Have you run `cargo build`?
+- In `Cargo.toml`, have you set `crate-type = ["cdylib"]`?
+- In `my-extension.gdextension`, have you set `entry_symbol = "gdext_rust_init"`?  No other symbol can work.
+- Are the paths set in `my-extension.gdextension` correct?
+  - Are you sure?  Double check `/rust/target/debug/` to see if the name of the `.so`/`.dll`/`.dylib` is spelled the way you expect.
+  - The paths must also be relative to the directory that `project.godot` is in.  Typically it'll be `res://../rust/...`.
+- Have you written the Rust code necessary to generate the entry point symbol?
+  - See [above](#rust-entry-point) for how.
+- Is your directory structure like this below?  It's much easier when you ask for help if it is.
+
+```txt
+my-cool-project
+├── godot
+│   ├── project.godot
+│   └── my-extension.gdextension
+└── rust
+    ├── Cargo.toml
+    ├── src
+    └── target
+        └── debug
+            └── (lib)?my_extension.(so|dll|dylib)
+```
+
+
 ## Creating a Rust class
 
 Now, let's write Rust code to define a _class_ that can be used in Godot.
