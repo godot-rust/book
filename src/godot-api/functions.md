@@ -171,7 +171,7 @@ match result {
 
 [api-acceptdialog-add-button-ex]: https://godot-rust.github.io/docs/gdext/master/godot/engine/struct.AcceptDialog.html#method.add_button_ex
 [api-acceptdialog-add-button]: https://godot-rust.github.io/docs/gdext/master/godot/engine/struct.AcceptDialog.html#method.add_button
-[api-classes]: https://godot-rust.github.io/docs/gdext/master/godot/engine/index.html
+[api-classes]: https://godot-rust.github.io/docs/gdext/master/godot/classes/index.html
 [godot-acceptdialog-add-button]: https://docs.godotengine.org/en/stable/classes/class_acceptdialog.html#class-acceptdialog-method-add-button
 [issue-singleton-no-receiver]: https://github.com/godot-rust/gdext/issues/127
 [godot-object-call]: https://docs.godotengine.org/en/stable/classes/class_object.html#class-object-method-call
