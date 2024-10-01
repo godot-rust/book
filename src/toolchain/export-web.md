@@ -74,6 +74,7 @@ rustflags = [
     "-C", "link-args=-sSIDE_MODULE=2",
     "-C", "link-args=-pthread", # was -sUSE_PTHREADS=1 in earlier emscripten versions
     "-C", "target-feature=+atomics,+bulk-memory,+mutable-globals",
+    "-Cllvm-args=-enable-emscripten-cxx-exceptions=0",
     "-Zlink-native-libraries=no"
 ]
 ```
@@ -112,6 +113,7 @@ cargo +nightly build -Zbuild-std --target wasm32-unknown-emscripten
 
 Add a web export in the Godot Editor. In the top menu bar, go to `Project > Export...` and configure it there.
 Make sure to turn on the `Extensions Support` checkbox.
+In Godot 4.3 or above, make sure to turn on the `Thread Support` checkbox.
 
 ![Example of export screen](images/web-export.png)
 
@@ -143,6 +145,12 @@ and open it in a supported browser such as Google Chrome or Microsoft Edge.
 
 [godot-export-templates]: https://docs.godotengine.org/en/stable/tutorials/export/exporting_projects.html#export-menu
 
+## Troubleshooting
+
+1. Make sure both `Extensions Support` and `Thread Support` (in Godot 4.3+) are turned on.
+2. Make sure the webserver you're running supports Cross-Origin Isolation (I used `sfz --coi`).
+3. Make sure your rust library and godot project are named differently, as sometimes `.wasm` files are overwritten.
+4. Make sure you're using the `emcc` version in the guide.
 
 ## Debugging
 
@@ -155,9 +163,8 @@ for Chrome. It adds support for breakpoints and a memory viewer into the F12 men
 
 ---
 
-[^1]: Note: Due to a bug with `emscripten`, the maximum version of `emcc`[^2] that can one compile `Godot` with is `3.1.39`.  gdext itself should be able to support the latest version of `emcc`, however, it may be a safer bet to stick to version `3.1.39`.
+[^1]: Note: Due to a bug with `emscripten`, the maximum version of `emcc`[^2] that can one compile `Godot` with is `3.1.39`.  gdext itself should be able to support the latest version of `emcc`, however, it may be a safer bet to stick to version `3.1.39`. Anecdotally, `emcc-3.1.47` has also worked with `Godot 4.3`.
 
 [^2]: `emcc` is the name of Emscripten's compiler.
 
 [^3]: The primary reason for this is it is necessary to compile with `-sSHARED_MEMORY` enabled. The shipped `std` does not, so building `std` is a requirement. Related info on about WASM support can be found [here](https://github.com/rust-lang/rust/issues/77839).
-
