@@ -248,8 +248,7 @@ that should solve the most common problems.
   - The paths must also be relative to the directory that `project.godot` is in.  Typically it'll be `res://../rust/...`.
 - Have you written the Rust code necessary to generate the entry point symbol?
   - See [above](#rust-entry-point) for how.
-- Are you running matching versions of gdext and Godot? By default gdext is up to date with latest Godot release.
-  - You can specify a version to compile gdext with cargo features, format is api-x-x-x Ex. `godot = { ... , features = ["api-4-2-2"]}`
+- Are your gdext and Godot versions compatible? See [this page][api-versioning] for how to select the correct versions.
 - Is your directory structure like this below?  It's much easier when you ask for help if it is.
 
 ```txt
@@ -483,6 +482,7 @@ That's it for the _Hello World_ tutorial! The following chapters will go into mo
 [api-godot]: https://godot-rust.github.io/docs/gdext/master/godot/index.html
 [api-prelude]: https://godot-rust.github.io/docs/gdext/master/godot/prelude/index.html
 [api-sprite2d]: https://godot-rust.github.io/docs/gdext/master/godot/engine/struct.Sprite2D.html
+[api-versioning]: https://godot-rust.github.io/book/toolchain/godot-version.html
 [compatibility]: ../toolchain/compatibility.md
 [godot-build-targets]: https://docs.godotengine.org/en/stable/tutorials/scripting/gdextension/gdextension_cpp_example.html#using-the-gdextension-module
 [godot-resource-paths]: https://docs.godotengine.org/en/stable/tutorials/scripting/resources.html#external-vs-built-in
