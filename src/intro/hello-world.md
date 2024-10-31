@@ -249,7 +249,7 @@ that should solve the most common problems.
 - Have you written the Rust code necessary to generate the entry point symbol?
   - See [above](#rust-entry-point) for how.
 - Are you running matching versions of gdext and godot? By default gdext is up to date with latest godot release.
-  - You can specify a version to compile gdext with cargo features, format is api-x-x-x `godot = { ... , features = ["api-4-2-2"]}`
+  - You can specify a version to compile gdext with cargo features, format is api-x-x-x Ex. `godot = { ... , features = ["api-4-2-2"]}`
 - Is your directory structure like this below?  It's much easier when you ask for help if it is.
 
 ```txt
