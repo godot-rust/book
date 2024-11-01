@@ -248,7 +248,7 @@ that should solve the most common problems.
   - The paths must also be relative to the directory that `project.godot` is in.  Typically it'll be `res://../rust/...`.
 - Have you written the Rust code necessary to generate the entry point symbol?
   - See [above](#rust-entry-point) for how.
-- Are your gdext and Godot versions compatible? See [this page][api-versioning] for how to select the correct versions.
+- Are your gdext and Godot versions compatible? See [this page][versioning] for how to select the correct versions.
 - Is your directory structure like this below?  It's much easier when you ask for help if it is.
 
 ```txt
@@ -482,7 +482,6 @@ That's it for the _Hello World_ tutorial! The following chapters will go into mo
 [api-godot]: https://godot-rust.github.io/docs/gdext/master/godot/index.html
 [api-prelude]: https://godot-rust.github.io/docs/gdext/master/godot/prelude/index.html
 [api-sprite2d]: https://godot-rust.github.io/docs/gdext/master/godot/engine/struct.Sprite2D.html
-[api-versioning]: https://godot-rust.github.io/book/toolchain/godot-version.html
 [compatibility]: ../toolchain/compatibility.md
 [godot-build-targets]: https://docs.godotengine.org/en/stable/tutorials/scripting/gdextension/gdextension_cpp_example.html#using-the-gdextension-module
 [godot-resource-paths]: https://docs.godotengine.org/en/stable/tutorials/scripting/resources.html#external-vs-built-in
@@ -493,6 +492,7 @@ That's it for the _Hello World_ tutorial! The following chapters will go into mo
 [tutorial-full-script]: https://docs.godotengine.org/en/stable/getting_started/step_by_step/scripting_first_script.html#complete-script
 [gd-ignore]: https://docs.godotengine.org/en/stable/tutorials/best_practices/project_organization.html#ignoring-specific-folders
 [directory-setup]: https://godot-rust.github.io/book/intro/hello-world.html#directory-setup
+[versioning]: https://godot-rust.github.io/book/toolchain/godot-version.html
 [wikipedia-ffi]: https://en.wikipedia.org/wiki/Foreign_function_interface
 [gdextension-reloadable]: https://github.com/godotengine/godot/pull/80284
 [godot-command-line]: https://docs.godotengine.org/en/stable/tutorials/editor/command_line_tutorial.html
