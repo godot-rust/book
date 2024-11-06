@@ -104,29 +104,29 @@ jobs:
 
   oxipng:
     runs-on: ubuntu-latest
+    permissions:
+      contents: write
+      pull-requests: write
+      repository-projects: write
+      checks: write
+      id-token: write
     steps:
     - uses: actions/checkout@v4
       with:
         repository: ${{ github.event.pull_request.head.repo.full_name }}
         ref: ${{ github.event.pull_request.head.ref }}
+        #token: ${{ secrets.PR_PUSH_TOKEN }}
 
-    - name: "Run oxipng to reduce PNG sizes"
-      run: |
-        wget https://github.com/shssoichiro/oxipng/releases/download/v${OXIPNG_VERSION}/oxipng-${OXIPNG_VERSION}-x86_64-unknown-linux-musl.tar.gz \
-        -O /tmp/oxipng.tar.gz
-        
-        tar -xvzf /tmp/oxipng.tar.gz -C /tmp
-        mv /tmp/oxipng-${OXIPNG_VERSION}-x86_64-unknown-linux-musl/oxipng ./oxipng
-        chmod +x ./oxipng
-        
-        ./oxipng --version
-        ./oxipng --strip safe --alpha -r src
-
-    # See https://github.com/EndBug/add-and-commit#add--commit.
-    - name: "Commit changes"
-      uses: EndBug/add-and-commit@v9
+    # Dispatch workflow
+    - name: Repository Dispatch
+      uses: peter-evans/repository-dispatch@v3
       with:
-        author_name: 'Godot-Rust Automation'
-        author_email: '115185599+GodotRust@users.noreply.github.com'
-        message: 'Auto-reduce PNG sizes'
-        add: 'src/**/*.png'
+#        token: ${{ secrets.PAT }}
+        event-type: oxipng-event
+        client-payload: '{ "repository": "${{ github.event.pull_request.head.repo.full_name }}", "branch": "${{ github.event.pull_request.head.ref }}" }'
+
+#    - uses: benc-uk/workflow-dispatch@v1
+#      with:
+#        #token: ${{ secrets.GITHUB_TOKEN }}
+#        workflow: 'push-oxipng-image.yml'
+#        inputs: '{ "repository": "${{ github.event.pull_request.head.repo.full_name }}", "branch": "${{ github.event.pull_request.head.ref }}" }'
