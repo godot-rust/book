@@ -31,6 +31,13 @@ npm install --global markdownlint-cli2
 ```
 
 
+## Oxypng
+
+We use [oxpng](https://github.com/shssoichiro/oxipng) to optimize image file size.
+You can install it with ``cargo install oxipng``
+and then run it with ``oxipng --strip safe --alpha -r src``.
+
+
 ## Contributing
 
 This repository is for documentation only. Please open pull requests targeting the gdext library itself in the [main repo][gdext].
