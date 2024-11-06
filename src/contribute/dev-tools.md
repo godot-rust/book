@@ -131,7 +131,7 @@ For one-off CI runs you can manually trigger it by enabling Actions in the proje
 then going to the `Actions` tab in the project, selecting the `Full CI` workflow,
 clicking on `Run Workflow` and selecting the branch you're working on:
 
-![image](https://github.com/user-attachments/assets/93903ac6-1172-483e-aec1-3a861087b4b0)
+![image](./images/manually_trigger_ci_workflow.png)
 
 
 ### Trigger CI on push
