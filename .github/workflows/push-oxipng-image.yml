@@ -1,0 +1,61 @@
+# Copyright (c) godot-rust; Bromeon and contributors.
+# This Source Code Form is subject to the terms of the Mozilla Public
+# License, v. 2.0. If a copy of the MPL was not distributed with this
+# file, You can obtain one at https://mozilla.org/MPL/2.0/.
+
+name: "Push oxipng image"
+
+on:
+#  workflow_dispatch:
+#    inputs:
+#      repository:
+#        description: "owner/repo"
+#        required: true
+#      branch:
+#        description: "branch used for PR"
+#        required: true
+  repository_dispatch:
+    types: [oxipng-event]
+
+env:
+  OXIPNG_VERSION: "9.1.1"
+
+# Sets permissions of the GITHUB_TOKEN to allow deployment to GitHub Pages
+permissions:
+  contents: write # git push for oxipng
+  pages: write
+  id-token: write
+
+jobs:
+  oxipng-write:
+    runs-on: ubuntu-latest
+    permissions:
+      contents: write # git push
+    steps:
+
+    - uses: actions/checkout@v4
+      with:
+        repository: ${{ github.event.client_payload.repository }}
+        ref: ${{ github.event.client_payload.branch }}
+        token: ${{ secrets.PR_PUSH_TOKEN }}
+
+    - name: "Run oxipng to reduce PNG sizes"
+      run: |
+        wget https://github.com/shssoichiro/oxipng/releases/download/v${OXIPNG_VERSION}/oxipng-${OXIPNG_VERSION}-x86_64-unknown-linux-musl.tar.gz \
+        -O /tmp/oxipng.tar.gz
+        
+        tar -xvzf /tmp/oxipng.tar.gz -C /tmp
+        mv /tmp/oxipng-${OXIPNG_VERSION}-x86_64-unknown-linux-musl/oxipng ./oxipng
+        chmod +x ./oxipng
+        
+        ./oxipng --version
+        ./oxipng --strip safe --alpha -r src
+
+    # See https://github.com/EndBug/add-and-commit#add--commit.
+    - name: "Commit changes"
+      uses: EndBug/add-and-commit@v9
+      with:
+        author_name: 'Godot-Rust Automation'
+        author_email: '115185599+GodotRust@users.noreply.github.com'
+        message: 'Auto-reduce PNG sizes'
+        add: 'src/**/*.png'
