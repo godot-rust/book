@@ -127,8 +127,9 @@ If you want to have the full CI experience, you can experiment as much as you li
 
 ### Manually trigger a CI run
 
-For one-off CI runs you can manually trigger it by enabling Actions in the project settings of your fork, then going to the `Actions` tab in the project,
-selecting the `Full CI` workflow, clicking on `Run Workflow` and selecting the branch you're working on:
+For one-off CI runs you can manually trigger it by enabling Actions in the project settings of your fork,
+then going to the `Actions` tab in the project, selecting the `Full CI` workflow,
+clicking on `Run Workflow` and selecting the branch you're working on:
 
 ![image](https://github.com/user-attachments/assets/93903ac6-1172-483e-aec1-3a861087b4b0)
 
