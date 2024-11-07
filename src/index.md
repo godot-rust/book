@@ -53,47 +53,48 @@ To avoid confusion, here is an explanation of names and technologies you may enc
 
 ### GDExtension API: what's new
 
-This section briefly mentions the difference between the native interfaces in Godot 3 and 4 from a functional point of view, without going into Rust.
+This section briefly mentions the difference between the native interfaces in Godot 3 and 4 from a functional perspective.
 
 While the underlying FFI (foreign function interface) layer has been completely rewritten, a lot of concepts remain the same from a user point of
 view. In particular, Godot's approach with a node-based scene graph, composed of classes in an inheritance relation, has not changed.
 
 That said, there are some notable differences:
 
-1. **No more native scripts**
+1. **Native scripts ⇾ extension classes**
 
    With GDNative, Rust classes could be registered as _native scripts_. These scripts are attached to nodes in order to enhance
    their functionality, analogous to how GDScript scripts could be attached. GDExtension on the other hand directly supports Rust types
    as engine classes, see also next point.
 
-   Keep this in mind when porting GDScript code to Rust: instead of replacing the GDScript with a native script, you need to change the
-   node type to a Rust class that inherits the node.
+   When porting GDScript code to Rust, keep in mind that the first-class way to use Rust code is via classes, not scripts. Thanks to
+   great contributions, we _do_ in the meantime support [Rust scripts][api-obj-script], albeit less developed than classes.
 
 2. **First-class citizen types**
 
    In Godot 3, user-defined native classes had lots of limitations in the editor: type annotations were not fully supported, they could
    not easily be used as custom resources, etc. With GDExtension, user-defined classes in Rust behave much closer to GDScript classes.
+   They also no longer need a separate `.gdns` file to be registered.
 
 3. **Always-on**
 
-   There is no differentiation between "tool" and "normal" scripts anymore, as it was the case in GDNative. Rust logic runs as soon as
-   the Godot editor launches, but gdext explicitly changes this behavior. By default, all virtual callbacks (`ready`, `process` etc.)
-   are not invoked **in editor mode**. This behavior can be configured when implementing the [`ExtensionLibrary`][extension-library-doc] trait.
+   GDNative had the differentiation between "tool" and "normal" scripts. In GDExtension, native logic by default runs as soon as the Godot editor
+   launches, but godot-rust explicitly changes this behavior. In Rust, all virtual callbacks (`ready`, `process` etc.) are not invoked
+   **in editor mode**. This behavior can be configured with `#[class(tool)]` and the [`ExtensionLibrary`][extension-library-doc] trait.
 
 4. **No recompilation while editor is open**
 
    Prior to Godot 4.2, it was not possible to recompile a Rust library and let changes take effect when the game is launched from the editor.
-   This has recently been implemented though, see [issue #66231].
+   Editor reloading has since been implemented though, see [issue #66231].
 
 
 [features]: https://github.com/godot-rust/gdextension/issues/24
 [issue #66231]: https://github.com/godotengine/godot/issues/66231
 [extension-library-doc]: https://godot-rust.github.io/docs/gdext/master/godot/init/trait.ExtensionLibrary.html#method.editor_run_behavior
 
-[ref-godot-gdnative]: https://docs.godotengine.org/en/3.5/tutorials/scripting/gdnative/what_is_gdnative.html
-[ref-godot-gdext]: https://docs.godotengine.org/en/stable/tutorials/scripting/gdextension/what_is_gdextension.html
-[ref-godot-rust]: https://godot-rust.github.io/
+[api-obj-script]: https://godot-rust.github.io/docs/gdext/master/godot/obj/script/index.html
+[github-contributors]: https://github.com/godot-rust/gdext/graphs/contributors
 [github-gdext]: https://github.com/godot-rust/gdext
 [github-gdnative]: https://github.com/godot-rust/gdnative
-[github-contributors]: https://github.com/godot-rust/gdext/graphs/contributors
-**
+[ref-godot-gdext]: https://docs.godotengine.org/en/stable/tutorials/scripting/gdextension/what_is_gdextension.html
+[ref-godot-gdnative]: https://docs.godotengine.org/en/3.5/tutorials/scripting/gdnative/what_is_gdnative.html
+[ref-godot-rust]: https://godot-rust.github.io/
