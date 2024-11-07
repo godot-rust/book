@@ -54,22 +54,22 @@ position of API functions, for example. They are accessible through `godot::buil
 
 Most builtins have a 1:1 equivalent (e.g. `Vector2f`, `Color` etc.). The following list highlights some noteworthy mappings:
 
-| GDScript type             | Rust type                             | Rust example expression   |
-|---------------------------|---------------------------------------|---------------------------|
-| `int`                     | `i64`[^num-types]                     | `-12345`                  |
-| `float`                   | `f64`[^num-types]                     | `3.14159`                 |
-| `real`                    | `real` (either `f32` or `f64`)        | `real!(3.14159)`          |
-| `String`                  | `GString`                             | `"Some string".into()`    |
-| `StringName`              | `StringName`                          | `"MyClass".into()`        |
-| `NodePath`                | `NodePath`                            | `Nodes/MyNode".into()`    |
-| `Array[T]`                | `Array<T>`                            | `array![1, 2, 3]`         |
-| `Array`                   | `VariantArray`<br>or `Array<Variant>` | `varray![1, "two", true]` |
-| `Dictionary`              | `Dictionary`                          | `dict!{"key": "value"}`   |
-| `AABB`                    | `Aabb`                                | `Aabb::new(pos, size)`    |
-| `Object`                  | `Gd<Object>`                          | `Object::new_alloc()`     |
-| `SomeClass`               | `Gd<SomeClass>`                       | `Resource::new_gd()`      |
-| `SomeClass` (nullable)    | `Option<Gd<SomeClass>>`               | `None`                    |
-| `Variant` (also implicit) | `Variant`                             | `Variant::nil()`          |
+| GDScript type             | Rust type                             | Rust example expression       |
+|---------------------------|---------------------------------------|-------------------------------|
+| `int`                     | `i64`[^num-types]                     | `-12345`                      |
+| `float`                   | `f64`[^num-types]                     | `3.14159`                     |
+| `real`                    | `real` (either `f32` or `f64`)        | `real!(3.14159)`              |
+| `String`                  | `GString`                             | `"Some string"` [^str-types]  |
+| `StringName`              | `StringName`                          | `"MyClass"` [^str-types]      |
+| `NodePath`                | `NodePath`                            | `"Nodes/MyNode"` [^str-types] |
+| `Array[T]`                | `Array<T>`                            | `array![1, 2, 3]`             |
+| `Array`                   | `VariantArray`<br>or `Array<Variant>` | `varray![1, "two", true]`     |
+| `Dictionary`              | `Dictionary`                          | `dict!{"key": "value"}`       |
+| `AABB`                    | `Aabb`                                | `Aabb::new(pos, size)`        |
+| `Object`                  | `Gd<Object>`                          | `Object::new_alloc()`         |
+| `SomeClass`               | `Gd<SomeClass>`                       | `Resource::new_gd()`          |
+| `SomeClass` (nullable)    | `Option<Gd<SomeClass>>`               | `None`                        |
+| `Variant` (also implicit) | `Variant`                             | `Variant::nil()`              |
 
 Note that Godot does not have nullability information in its class API yet. This means that we have to conservatively assume that objects can
 be null, and thus use `Option<Gd<T>>` instead of `Gd<T>` for object return types. This often needs unnecessary unwrapping.
@@ -203,6 +203,9 @@ allocate its own memory and copy the data.
 
 [^num-types]: Godot's `int` and `float` types are canonically mapped to `i64` and `f64` in Rust. However, some Godot APIs specify the domain of
 these types more specifically, so it's possible to encounter `i8`, `u64`, `f32` etc.
+
+[^str-types]: String types `GString`, `StringName`, and `NodePath` can be passed into Godot APIs as string literals, hence the `"string"` syntax
+in this example. To assign to your own value, e.g. of type `GString`, you can use `GString::from("string")` or `"string".into()`.
 
 [^string-name-Rust]: When constructing `StringName` from `&str` or `String`, the conversion is rather expensive, since UTF-8 is re-encoded as
 UTF-32. As Rust recently introduced C-string literals (`c"hello"`), we can now directly construct from them in case of ASCII. This is more
