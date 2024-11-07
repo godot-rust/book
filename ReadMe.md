@@ -40,6 +40,7 @@ You can install it with `cargo install oxipng` and then run it as follows:
 oxipng --strip safe --alpha -r src
 ```
 
+
 ## Contributing
 
 This repository is for documentation only. Please open pull requests targeting the gdext library itself in the [main repo][gdext].
