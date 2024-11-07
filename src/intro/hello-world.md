@@ -9,7 +9,7 @@
 
 This page shows you how to develop your own small extension library and load it from Godot.
 The tutorial is heavily inspired by [Creating your first script][tutorial-begin] from the official Godot documentation.
-It is recommended to follow that alongside this tutorial, in case you're interested how certain GDScript concepts map to Rust.
+We recommended to follow that alongside this tutorial, in case you're interested how certain GDScript concepts map to Rust.
 
 
 ## Table of contents
@@ -21,27 +21,27 @@ It is recommended to follow that alongside this tutorial, in case you're interes
 We assume the following file structure, with separate directories for the Godot and Rust parts:
 
 ```txt
-project_dir
+📂 project_dir
 │
-├── .git/
+├── 📂 .git
 │
-├── godot/
-│   ├── .godot/
-│   ├── HelloWorld.gdextension
-│   └── project.godot
+├── 📂 godot
+│   ├── 📂 .godot
+│   ├── 📄 HelloWorld.gdextension
+│   └── 📄 project.godot
 │
-└── rust/
-    ├── Cargo.toml
-    ├── src/
-    │   └── lib.rs
-    └── target/
-        └── debug/
+└── 📂 rust
+    ├── 📄 Cargo.toml
+    ├── 📂 src
+    │   └── 📄 lib.rs
+    └── 📂 target
+        └── 📂 debug
 ```
 
 
 ## Create a Godot project
 
-We assume a Godot version of 4.1 or later. Feel free to download the latest stable one. You can download in-development ones,
+To use godot-rust, you need Godot version of 4.1 or later. Feel free to download the latest stable one. You can download in-development versions,
 but we [do not provide official support for those][compatibility], so we recommend stable ones.
 
 Open the Godot project manager and create a new Godot 4 project in the `godot/` subfolder. Add a `Sprite2D` to the center of a new scene.
@@ -65,7 +65,7 @@ Open `Cargo.toml` and modify it as follows:
 
 ```toml
 [package]
-name = "rust_project" # Appears in the filename of the compiled dynamic library.
+name = "rust_project" # Part of dynamic library name; we use {YourCrate} placeholder.
 version = "0.1.0"     # You can leave version and edition as-is for now.
 edition = "2021"
 
@@ -93,17 +93,22 @@ This should output to `{YourCrate}/target/debug/` at least one variation of a co
 
 
 ```admonish tip
-For users who want to follow bleeding-edge development, you can directly link the github repo in your `Cargo.toml` dependencies section by replacing:
-`godot = "X.X.X"`
-with
-`godot = { git = "https://github.com/godot-rust/gdext", branch = "master" }`
+If you want to follow bleeding-edge development (with the associated risks), you can directly link to the GitHub repo in the
+`[dependencies]` section of your Cargo.toml. For this, replace:
+~~~toml
+godot = "0.x.y"
+~~~
+with:
+~~~toml
+godot = { git = "https://github.com/godot-rust/gdext", branch = "master" }
+~~~
 ```
 
 
 ## Wire up Godot with Rust
 
 
-### `.gdextension` file
+### The `.gdextension` file
 
 This file tells Godot how to load your compiled Rust extension. It contains the path to the dynamic library, as well as the
 entry point (function) to initialize it with.
