@@ -261,7 +261,7 @@ Rust does not natively support inheritance, but the gdext API emulates it to a c
 
 ### Class declaration
 
-In this example, we declare a class called `Player`, which inherits [`Sprite2D`][api-sprite2d] (a node type):
+In this example, we declare a class called `Player`, which inherits [`Sprite2D`][api-class-sprite2d] (a node type):
 
 ```rust
 use godot::prelude::*;
@@ -279,7 +279,7 @@ struct Player {
 
 Let's break this down.
 
-1. The gdext prelude contains the most common symbols. Less frequent classes are located in the [`engine`][api-engine] module.
+1. The gdext prelude contains the most common symbols. Less frequent classes are located in the [`engine`][api-class-engine] module.
 
 2. The `#[derive]` attribute registers `Player` as a class in the Godot engine.
    See [API docs][api-derive-godotclass] for details about `#[derive(GodotClass)]`.
@@ -375,7 +375,7 @@ the base class methods.
 ```
 
 This is a point where you can see the result. Compile your code and launch the Godot editor.
-Right click on your `Sprite2D` in the scene tree, and choose "Change Type..."
+Right-click on your `Sprite2D` in the scene tree, and choose "Change Type..."
 Find and choose the `Player` node type, which will be a child of `Sprite2D` in the Change Type dialog that appears.
 
 Now, save your changes, and run the scene. The sprite should rotate at a constant speed.
@@ -462,23 +462,23 @@ API attributes typically follow the GDScript keyword names: `class`, `func`, `si
 That's it for the _Hello World_ tutorial! The following chapters will go into more detail about the various features that gdext provides.
 
 
+[api-class-engine]: https://godot-rust.github.io/docs/gdext/master/godot/classes/index.html
+[api-class-sprite2d]: https://godot-rust.github.io/docs/gdext/master/godot/classes/struct.Sprite2D.html
 [api-derive-godotclass]: https://godot-rust.github.io/docs/gdext/master/godot/register/derive.GodotClass.html
-[api-engine]: https://godot-rust.github.io/docs/gdext/master/godot/engine/index.html
 [api-extensionlibrary]: https://godot-rust.github.io/docs/gdext/master/godot/prelude/trait.ExtensionLibrary.html
 [api-godot]: https://godot-rust.github.io/docs/gdext/master/godot/index.html
 [api-prelude]: https://godot-rust.github.io/docs/gdext/master/godot/prelude/index.html
-[api-sprite2d]: https://godot-rust.github.io/docs/gdext/master/godot/engine/struct.Sprite2D.html
 [compatibility]: ../toolchain/compatibility.md
+[directory-setup]: https://godot-rust.github.io/book/intro/hello-world.html#directory-setup
+[gd-ignore]: https://docs.godotengine.org/en/stable/tutorials/best_practices/project_organization.html#ignoring-specific-folders
+[gdextension-reloadable]: https://github.com/godotengine/godot/pull/80284
 [godot-build-targets]: https://docs.godotengine.org/en/stable/tutorials/scripting/gdextension/gdextension_cpp_example.html#using-the-gdextension-module
+[godot-command-line]: https://docs.godotengine.org/en/stable/tutorials/editor/command_line_tutorial.html
 [godot-resource-paths]: https://docs.godotengine.org/en/stable/tutorials/scripting/resources.html#external-vs-built-in
 [img-sprite-moving]: https://docs.godotengine.org/en/stable/_images/scripting_first_script_rotating_godot.gif
 [img-sprite-rotating]: https://docs.godotengine.org/en/stable/_images/scripting_first_script_godot_turning_in_place.gif
 [issue-no-reload]: https://github.com/godotengine/godot/issues/66231
 [tutorial-begin]: https://docs.godotengine.org/en/stable/getting_started/step_by_step/scripting_first_script.html
 [tutorial-full-script]: https://docs.godotengine.org/en/stable/getting_started/step_by_step/scripting_first_script.html#complete-script
-[gd-ignore]: https://docs.godotengine.org/en/stable/tutorials/best_practices/project_organization.html#ignoring-specific-folders
-[directory-setup]: https://godot-rust.github.io/book/intro/hello-world.html#directory-setup
 [versioning]: https://godot-rust.github.io/book/toolchain/godot-version.html
 [wikipedia-ffi]: https://en.wikipedia.org/wiki/Foreign_function_interface
-[gdextension-reloadable]: https://github.com/godotengine/godot/pull/80284
-[godot-command-line]: https://docs.godotengine.org/en/stable/tutorials/editor/command_line_tutorial.html

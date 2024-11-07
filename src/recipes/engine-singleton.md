@@ -18,7 +18,7 @@ users as well.
 Read more about criticisms [here][singleton-crit].
 ```
 
-An engine singleton is registered through [`godot::classes::Engine`][api-engine].
+An engine singleton is registered through [`godot::classes::Engine`][api-class-engine].
 
 Custom engine singletons in Godot:
 
@@ -28,10 +28,10 @@ Custom engine singletons in Godot:
 
 Godot provides _many_ built-in singletons in its API. You can find a full list [here][godot-singleton-list].
 
-[singleton]: https://en.wikipedia.org/wiki/Singleton_pattern
-[singleton-crit]: https://en.wikipedia.org/wiki/Singleton_pattern#Criticism
-[api-engine]: https://godot-rust.github.io/docs/gdext/master/godot/engine/struct.Engine.html
+[api-class-engine]: https://godot-rust.github.io/docs/gdext/master/godot/classes/struct.Engine.html
 [godot-singleton-list]: https://docs.godotengine.org/en/stable/classes/class_@globalscope.html#properties
+[singleton-crit]: https://en.wikipedia.org/wiki/Singleton_pattern#Criticism
+[singleton]: https://en.wikipedia.org/wiki/Singleton_pattern
 
 
 ## Table of contents
@@ -134,7 +134,7 @@ godot::classes::Engine::singleton()
 
 For more information on this method, refer to [the API docs][method-get-singleton].
 
-[method-get-singleton]: https://godot-rust.github.io/docs/gdext/master/godot/engine/struct.Engine.html#method.get_singleton
+[method-get-singleton]: https://godot-rust.github.io/docs/gdext/master/godot/classes/struct.Engine.html#method.get_singleton
 
 
 ## Singletons and the `SceneTree`

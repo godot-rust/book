@@ -227,8 +227,8 @@ you run Godot with the Mono runtime.
 The library also provides a dedicated trait [`ScriptInstance`][api-scriptinstance], which allows users to provide Rust-based "scripts".
 Consult its docs for detailed information.
 
-You can also configure scripts entirely programmatically, using the [`engine::Script`][api-engine-script] API and its inherited classes, such
-as [`engine::GDScript`][api-engine-gdscript]. This typically defeats the purpose of scripting, but is mentioned here for completeness.
+You can also configure scripts entirely programmatically, using the [`engine::Script`][api-class-script] API and its inherited classes, such
+as [`engine::GDScript`][api-class-gdscript]. This typically defeats the purpose of scripting, but is mentioned here for completeness.
 
 
 ## Conclusion
@@ -236,7 +236,7 @@ as [`engine::GDScript`][api-engine-gdscript]. This typically defeats the purpose
 In this chapter, we have seen how to define virtual functions in Rust, and how to override them in GDScript. This provides an additional
 integration layer between the two languages and allows to effortlessly experiment with swappable behaviors from the editor.
 
-[api-engine-gdscript]: https://godot-rust.github.io/docs/gdext/master/godot/engine/struct.GDScript.html
-[api-engine-script]: https://godot-rust.github.io/docs/gdext/master/godot/engine/struct.Script.html
-[api-scriptinstance]: https://godot-rust.github.io/docs/gdext/master/godot/engine/trait.ScriptInstance.html
+[api-class-gdscript]: https://godot-rust.github.io/docs/gdext/master/godot/classes/struct.GDScript.html
+[api-class-script]: https://godot-rust.github.io/docs/gdext/master/godot/classes/struct.Script.html
+[api-scriptinstance]: https://godot-rust.github.io/docs/gdext/master/godot/classes/trait.ScriptInstance.html
 [godot-csharp]: https://docs.godotengine.org/en/stable/tutorials/scripting/c_sharp/index.html

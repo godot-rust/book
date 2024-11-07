@@ -178,5 +178,5 @@ These are just a few use cases, you are very flexible in how you design your int
 In the next page, we will look into a special kind of functions: constructors.
 
 [api-godot-api]: https://godot-rust.github.io/docs/gdext/master/godot/register/attr.godot_api.html
-[api-inode3d]: https://godot-rust.github.io/docs/gdext/master/godot/engine/trait.INode3D.html
+[api-inode3d]: https://godot-rust.github.io/docs/gdext/master/godot/classes/trait.INode3D.html
 [godot-gdscript-functions]: https://docs.godotengine.org/en/stable/tutorials/scripting/gdscript/gdscript_basics.html#functions

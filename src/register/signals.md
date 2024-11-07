@@ -17,6 +17,6 @@ As an alternative, you can use Godot's dynamic API to register signals. The [`Ob
 See also [GDScript reference for signals][godot-gdscript-signals].
 
 
-[api-object]: https://godot-rust.github.io/docs/gdext/master/godot/engine/struct.Object.html
+[api-object]: https://godot-rust.github.io/docs/gdext/master/godot/classes/struct.Object.html
 [api-signal]: https://godot-rust.github.io/docs/gdext/master/godot/register/derive.GodotClass.html#signals
 [godot-gdscript-signals]: https://docs.godotengine.org/en/stable/tutorials/scripting/gdscript/gdscript_basics.html#signals
