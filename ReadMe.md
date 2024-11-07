@@ -31,11 +31,13 @@ npm install --global markdownlint-cli2
 ```
 
 
-## Oxypng
+## Oxipng
 
-We use [oxpng](https://github.com/shssoichiro/oxipng) to optimize image file size.
-You can install it with ``cargo install oxipng``
-and then run it with ``oxipng --strip safe --alpha -r src``.
+We use [oxipng](https://github.com/shssoichiro/oxipng) to optimize image file size.
+You can install it with `cargo install oxipng` and then run it as follows:
+
+```bash
+oxipng --strip safe --alpha -r src
 
 
 ## Contributing
