@@ -9,7 +9,7 @@
 
 This page shows you how to develop your own small extension library and load it from Godot.
 The tutorial is heavily inspired by [Creating your first script][tutorial-begin] from the official Godot documentation.
-It is recommended to follow that alongside this tutorial, in case you're interested how certain GDScript concepts map to Rust.
+We recommended to follow that alongside this tutorial, in case you're interested how certain GDScript concepts map to Rust.
 
 
 ## Table of contents
@@ -21,27 +21,27 @@ It is recommended to follow that alongside this tutorial, in case you're interes
 We assume the following file structure, with separate directories for the Godot and Rust parts:
 
 ```txt
-project_dir
+📂 project_dir
 │
-├── .git/
+├── 📂 .git
 │
-├── godot/
-│   ├── .godot/
-│   ├── HelloWorld.gdextension
-│   └── project.godot
+├── 📂 godot
+│   ├── 📂 .godot
+│   ├── 📄 HelloWorld.gdextension
+│   └── 📄 project.godot
 │
-└── rust/
-    ├── Cargo.toml
-    ├── src/
-    │   └── lib.rs
-    └── target/
-        └── debug/
+└── 📂 rust
+    ├── 📄 Cargo.toml
+    ├── 📂 src
+    │   └── 📄 lib.rs
+    └── 📂 target
+        └── 📂 debug
 ```
 
 
 ## Create a Godot project
 
-We assume a Godot version of 4.1 or later. Feel free to download the latest stable one. You can download in-development ones,
+To use godot-rust, you need Godot version of 4.1 or later. Feel free to download the latest stable one. You can download in-development versions,
 but we [do not provide official support for those][compatibility], so we recommend stable ones.
 
 Open the Godot project manager and create a new Godot 4 project in the `godot/` subfolder. Add a `Sprite2D` to the center of a new scene.
@@ -65,25 +65,22 @@ Open `Cargo.toml` and modify it as follows:
 
 ```toml
 [package]
-name = "rust_project" # Appears in the filename of the compiled dynamic library.
+name = "rust_project" # Part of dynamic library name; we use {YourCrate} placeholder.
 version = "0.1.0"     # You can leave version and edition as-is for now.
 edition = "2021"
 
 [lib]
 crate-type = ["cdylib"]  # Compile this crate to a dynamic C library.
-
-[dependencies]
-godot = { git = "https://github.com/godot-rust/gdext", branch = "master" }
 ```
 
 The `cdylib` crate type is not very common in Rust. Instead of building an application (`bin`) or a library to be utilized by other Rust code
 (`lib`), we create a _dynamic_ library, exposing an interface in the C programming language. This dynamic library is loaded by Godot at runtime,
 through the GDExtension interface.
 
-```admonish note title="Main crate"
-The main crate of gdext is called `godot`. At this point, it is still hosted on GitHub; in the future, it will be published to crates.io.
-To fetch the latest changes, you can regularly run a `cargo update` (possibly breaking). Keep your `Cargo.lock` file under version control, 
-so that it's easy to revert updates.
+Now add gdext to your project with:
+
+```bash
+cargo add godot
 ```
 
 To compile each iteration of the extension as you write code, you can use `cargo` as you normally do with any other Rust project:
@@ -93,36 +90,25 @@ cargo build
 ```
 
 This should output to `{YourCrate}/target/debug/` at least one variation of a compiled library depending on your setup.
-As an example, a Rust crate `hello` on Linux would be compiled to `libhello.so`:
 
-```log
-$ cargo build
-   Compiling godot4-prebuilt v0.0.0 
-       (https://github.com/godot-rust/godot4-prebuilt?branch=4.1.1#fca6897d)
-   Compiling proc-macro2 v1.0.69
-   [...]
-   Compiling godot v0.1.0 (https://github.com/godot-rust/gdext?branch=master#66df8f47)
-   Compiling hello v0.1.0 (/path/to/hello)
-    Finished dev [unoptimized + debuginfo] target(s) in 1m 46s
 
-$ ls -l
-╭───┬──────────────────────────┬──────╮
-│ # │           name           │ type │
-├───┼──────────────────────────┼──────┤
-│ 0 │ target/debug/build       │ dir  │
-│ 1 │ target/debug/deps        │ dir  │
-│ 2 │ target/debug/examples    │ dir  │
-│ 3 │ target/debug/incremental │ dir  │
-│ 4 │ target/debug/libhello.d  │ file │
-│ > │ target/debug/libhello.so │ file │
-╰───┴──────────────────────────┴──────╯
+```admonish tip
+If you want to follow bleeding-edge development (with the associated risks), you can directly link to the GitHub repo in the
+`[dependencies]` section of your Cargo.toml. For this, replace:
+~~~toml
+godot = "0.x.y"
+~~~
+with:
+~~~toml
+godot = { git = "https://github.com/godot-rust/gdext", branch = "master" }
+~~~
 ```
 
 
 ## Wire up Godot with Rust
 
 
-### `.gdextension` file
+### The `.gdextension` file
 
 This file tells Godot how to load your compiled Rust extension. It contains the path to the dynamic library, as well as the
 entry point (function) to initialize it with.
