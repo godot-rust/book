@@ -124,6 +124,20 @@ cargo fmt
 
 If you want to have the full CI experience, you can experiment as much as you like on your own gdext fork, before submitting a pull request.
 
+
+### Manually trigger a CI run
+
+For one-off CI runs you can manually trigger it by enabling Actions in the project settings of your fork,
+then going to the `Actions` tab in the project, selecting the `Full CI` workflow,
+clicking on `Run Workflow` and selecting the branch you're working on:
+
+![image](./images/manually_trigger_ci_workflow.png)
+
+
+### Trigger CI on push
+
+If you're working on a bigger feature, you might not want to have to trigger CI manually every time.
+
 For this, navigate to the file `.github/workflows/full-ci.yml` and change the following lines:
 
 ```yml
