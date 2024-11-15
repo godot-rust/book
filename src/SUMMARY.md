@@ -40,3 +40,5 @@
   - [Philosophy](contribute/philosophy.md)
   - [Dev tools and testing](contribute/dev-tools.md)
   - [Code and API conventions](contribute/conventions.md)
+- [Migration guides](migrate/index.md)
+  - [Migrating to v0.2](migrate/v0.2.md)
