@@ -443,7 +443,7 @@ impl Player {
     #[func]
     fn increase_speed(&mut self, amount: f64) {
         self.speed += amount;
-        self.base_mut().emit_signal("speed_increased".into(), &[]);
+        self.base_mut().emit_signal("speed_increased", &[]);
     }
 
     #[signal]
