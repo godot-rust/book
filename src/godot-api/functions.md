@@ -90,7 +90,7 @@ It can be called in the usual way:
 
 ```rust
 let dialog = AcceptDialog::new_alloc();
-let button = dialog.add_button("Yes".into());
+let button = dialog.add_button("Yes");
 ```
 
 Because Rust does not support default parameters, we have to emulate the other calls differently. We decided to use the builder pattern.
@@ -102,8 +102,8 @@ result of the Godot function call.
 For our example, we have the [`AcceptDialog::add_button_ex()`][api-acceptdialog-add-button-ex] method. These two calls are exactly equivalent:
 
 ```rust
-let button = dialog.add_button("Yes".into());
-let button = dialog.add_button_ex("Yes".into()).done();
+let button = dialog.add_button("Yes");
+let button = dialog.add_button_ex("Yes").done();
 ```
 
 You can additionally pass optional arguments using methods on the builder object. Just specify the arguments you need.
@@ -111,19 +111,19 @@ The nice thing here is that you can use any order, and skip any parameters -- un
 
 ```rust
 // Equivalent in GDScript: dialog.add_button("Yes", true, "")
-let button = dialog.add_button_ex("Yes".into())
+let button = dialog.add_button_ex("Yes")
     .right(true)
     .done();
 
 // GDScript: dialog.add_button("Yes", false, "confirm")
-let button = dialog.add_button_ex("Yes".into())
-    .action("confirm".into())
+let button = dialog.add_button_ex("Yes")
+    .action("confirm")
     .done();
 
 // GDScript: dialog.add_button("Yes", true, "confirm")
-let button = dialog.add_button_ex("Yes".into())
+let button = dialog.add_button_ex("Yes")
     .right(true)
-    .action("confirm".into())
+    .action("confirm")
     .done();
 ```
 
@@ -146,7 +146,7 @@ let node = get_node_as::<Node2D>("path/to/MyScript");
 let args = &["string".to_variant(), 42.to_variant()];
 
 // Call the method dynamically.
-let val: Variant = node.call("my_method".into(), args);
+let val: Variant = node.call("my_method", args);
 
 // Convert to a known type (may panic; try_to() doensn't).
 let vec2 = val.to::<Vector2>();
@@ -156,7 +156,7 @@ If instead you want to handle the failure case, use [`Object::try_call()`][api-o
 or a `CallError` error.
 
 ```rust
-let result: Result<Variant, CallError> = node.try_call("my_method".into(), args);
+let result: Result<Variant, CallError> = node.try_call("my_method", args);
 
 match result {
     Ok(val) => {

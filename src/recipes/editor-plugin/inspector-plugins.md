@@ -77,8 +77,8 @@ impl IEditorProperty for RandomIntEditor {
         let mut button = Button::new_alloc();
         
         // Add handler for this button, handle_press will be define in another impl.
-        button.connect("pressed".into(), self.base().callable("handle_press"));
-        button.set_text("Randomize".into());
+        button.connect("pressed", self.base().callable("handle_press"));
+        button.set_text("Randomize");
         
         // Save pointer to the button into struct.
         self.button = Some(button.clone());
@@ -168,7 +168,7 @@ impl IEditorInspectorPlugin for RandomInspectorPlugin {
     // This method says Godot that this plugin handle the object if it returns true
     fn can_handle(&self, object: Gd<Object>) -> bool {
         // This plugin handle only Node2D and object that extends it
-        object.is_class("Node2D".into())
+        object.is_class("Node2D")
     }
 }
 ```
