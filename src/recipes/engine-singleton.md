@@ -89,7 +89,7 @@ unsafe impl ExtensionLibrary for MyExtension {
 
             // Here, we manually retrieve our singleton(s) that we've registered,
             // so we can unregister them and free them from memory - unregistering
-            // singletons isn't hanled automaticlly by the library.
+            // singletons isn't handled automatically by the library.
             if let Some(my_singleton) = engine.get_singleton(singleton_name) {
                 // Unregistering from Godot, and freeing from memory is required
                 // to avoid memory leaks, warnings, and hot reloading problems.
