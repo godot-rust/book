@@ -29,7 +29,7 @@ Here is an exhaustive list of all built-in types, by category. We use the GDScri
 - Variant (able to hold anything): `Variant`
 - String types: `String`, `StringName`, `NodePath`
 - Ref-counted containers: `Array` (`Array[T]`), `Dictionary`
-- Packed arrays: `Packed*Array` for following element types:  
+- Packed arrays: `Packed*Array` for following element types:
   `Byte`, `Int32`, `Int64`, `Float32`, `Float64`, `Vector2`, `Vector3`, `Vector4`[^packed-vec4], `Color`, `String`
 - Functional: `Callable`, `Signal`
 
@@ -84,8 +84,18 @@ Godot provides three string types: `String` ([`GString`][api-gstring] in Rust), 
 `GString` is used as a general-purpose string, while `StringName` is often used for identifiers like class or action names.
 The idea is that `StringName` is cheap to construct and compare.[^string-name-Rust]
 
-These types all support `From` traits to convert to/from Rust `String`, and from `&str`. You can thus use `"some_string".into()` expressions.
-If you need more explicit typing, use `StringName::from("some_string")`.
+When working with Godot APIs, you can pass references to the parameter type (e.g. &GString), as well as Rust strings `&str`, and `&String`.
+To convert different string types in argument contexts (e.g. `StringName` -> `GString`), you can call `arg()`.
+
+```rust
+// Label::set_text() takes impl AsArg<GString>.
+label.set_text("my text");
+label.set_text(&string);           // Rust String
+label.set_text(&gstring);          // GString
+label.set_text(string_name.arg()); // StringName
+```
+
+Outside argument contexts, the `From` trait is implemented for string conversions: `GString::From("my string")`, or `"my_string".into()`.
 
 `StringName` in particular provides a direct conversion from C-string literals such as `c"string"`, [introduced in Rust 1.77][rust-c-strings].
 This can be used for _static_ C-strings, i.e. ones that remain allocated for the entire program lifetime. Don't use them for short-lived ones.
@@ -205,7 +215,7 @@ allocate its own memory and copy the data.
 these types more specifically, so it's possible to encounter `i8`, `u64`, `f32` etc.
 
 [^str-types]: String types `GString`, `StringName`, and `NodePath` can be passed into Godot APIs as string literals, hence the `"string"` syntax
-in this example. To assign to your own value, e.g. of type `GString`, you can use `GString::from("string")` or `"string".into()`.
+in this example. To assign to your own value, e.g. of type `GString`, you can use `GString::from("string")` or `"string"`.
 
 [^string-name-Rust]: When constructing `StringName` from `&str` or `String`, the conversion is rather expensive, since UTF-8 is re-encoded as
 UTF-32. As Rust recently introduced C-string literals (`c"hello"`), we can now directly construct from them in case of ASCII. This is more
