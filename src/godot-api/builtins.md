@@ -84,7 +84,7 @@ Godot provides three string types: `String` ([`GString`][api-gstring] in Rust), 
 `GString` is used as a general-purpose string, while `StringName` is often used for identifiers like class or action names.
 The idea is that `StringName` is cheap to construct and compare.[^string-name-Rust]
 
-When working with Godot APIs, you can pass references to the parameter type (e.g. &GString), as well as Rust strings `&str`, and `&String`.
+When working with Godot APIs, you can pass references to the parameter type (e.g. `&GString`), as well as Rust strings `&str`, and `&String`.
 To convert different string types in argument contexts (e.g. `StringName` -> `GString`), you can call `arg()`.
 
 ```rust
