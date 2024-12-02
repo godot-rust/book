@@ -29,7 +29,7 @@ Here is an exhaustive list of all built-in types, by category. We use the GDScri
 - Variant (able to hold anything): `Variant`
 - String types: `String`, `StringName`, `NodePath`
 - Ref-counted containers: `Array` (`Array[T]`), `Dictionary`
-- Packed arrays: `Packed*Array` for following element types:
+- Packed arrays: `Packed*Array` for following element types:  
   `Byte`, `Int32`, `Int64`, `Float32`, `Float64`, `Vector2`, `Vector3`, `Vector4`[^packed-vec4], `Color`, `String`
 - Functional: `Callable`, `Signal`
 
