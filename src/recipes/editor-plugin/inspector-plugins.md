@@ -75,11 +75,11 @@ impl IEditorProperty for RandomIntEditor {
     fn enter_tree(&mut self) {
         // Create button element.
         let mut button = Button::new_alloc();
-        
+
         // Add handler for this button, handle_press will be define in another impl.
         button.connect("pressed", self.base().callable("handle_press"));
         button.set_text("Randomize");
-        
+
         // Save pointer to the button into struct.
         self.button = Some(button.clone());
         self.base_mut().add_child(button.upcast());
@@ -118,7 +118,7 @@ impl RandomIntEditor {
 
         if let Some(mut button) = self.button.clone() {
             let text = format!("Randomize: {num}");
-            button.set_text(text.into());
+            button.set_text(&text);
         } else {
             // Print error of something went wrong
             godot_error!("Button wasn't found in handle_press");
@@ -226,4 +226,3 @@ ERROR: Cannot get class 'RandomInspectorPlugin'.
 ERROR: Cannot get class 'RandomInspectorPlugin'.
    at: (core/object/class_db.cpp:392)
 ```
-

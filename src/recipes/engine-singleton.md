@@ -71,32 +71,34 @@ struct MyExtension;
 unsafe impl ExtensionLibrary for MyExtension {
     fn on_level_init(level: InitLevel) {
         if level == InitLevel::Scene {
-            // The StringName identifies your singleton and can be
+            // The `&str` identifies your singleton and can be
             // used later to access it.
             Engine::singleton().register_singleton(
-                StringName::from("MyEditorSingleton"),
-                MyEditorSingleton::new_alloc().upcast(),
+                "MyEngineSingleton",
+                &MyEngineSingleton::new_alloc(),
             );
         }
     }
 
     fn on_level_deinit(level: InitLevel) {
         if level == InitLevel::Scene {
-            // Get the `Engine` instance and `StringName` for your singleton.
+            // Let's keep a variable of our Engine singleton instance,
+            // and MyEngineSingleton name.
             let mut engine = Engine::singleton();
-            let singleton_name = StringName::from("MyEditorSingleton");
+            let singleton_name = "MyEngineSingleton";
 
-            // We need to retrieve the pointer to the singleton object,
-            // as it has to be freed manually - unregistering singleton 
-            // doesn't do it automatically.
-            let singleton = engine
-                .get_singleton(singleton_name.clone())
-                .expect("cannot retrieve the singleton");
-
-            // Unregistering singleton and freeing the object itself is needed 
-            // to avoid memory leaks and warnings, especially for hot reloading.
-            engine.unregister_singleton(singleton_name);
-            singleton.free();
+            // Here, we manually retrieve our singleton(s) that we've registered,
+            // so we can unregister them and free them from memory - unregistering
+            // singletons isn't handled automatically by the library.
+            if let Some(my_singleton) = engine.get_singleton(singleton_name) {
+                // Unregistering from Godot, and freeing from memory is required
+                // to avoid memory leaks, warnings, and hot reloading problems.
+                engine.unregister_singleton(singleton_name);
+                my_singleton.free();
+            } else {
+                // You can either recover, or panic from here.
+                godot_error!("Failed to get singleton");
+            }
         }
     }
 }
@@ -104,7 +106,7 @@ unsafe impl ExtensionLibrary for MyExtension {
 
 ```admonish warning title="Singletons inheriting from *RefCounted*"
 Use a manually-managed class as a base (often `Object` will be enough) for custom singletons to avoid prematurely freeing the object.
-If for any reason you need to have an instance of a reference-counted object registered as a singleton, this 
+If for any reason you need to have an instance of a reference-counted object registered as a singleton, this
 [issue thread][refcounted-singleton-issue] presents some possible workarounds.
 ```
 
