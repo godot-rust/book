@@ -74,7 +74,8 @@ rustflags = [
     "-C", "link-args=-sSIDE_MODULE=2",
     "-C", "link-args=-pthread", # was -sUSE_PTHREADS=1 in earlier emscripten versions
     "-C", "target-feature=+atomics,+bulk-memory,+mutable-globals",
-    "-Zlink-native-libraries=no"
+    "-Zlink-native-libraries=no",
+    "-Cllvm-args=-enable-emscripten-cxx-exceptions=0",
 ]
 ```
 
