@@ -236,7 +236,7 @@ that should solve the most common problems.
   - See [above](#rust-entry-point) for how.
 - Are your gdext and Godot versions compatible? See [this page][versioning] for how to select the correct versions.
 - Is your directory structure like this below?  It's much easier when you ask for help if it is.
-- Do you have godot in your `PATH` as `godot4` or an environment variable called `GODOT4_BIN`, containing the path to the Godot executable?
+- Do you have Godot in your `PATH` as `godot4` or an environment variable called `GODOT4_BIN`, containing the path to the Godot executable?
 
 ```txt
 my-cool-project
