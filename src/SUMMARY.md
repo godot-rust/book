@@ -36,6 +36,7 @@
     - [Inspector plugins](recipes/editor-plugin/inspector-plugins.md)
   - [Engine singletons](recipes/engine-singleton.md)
   - [Custom node icons](recipes/custom-icons.md)
+- [Ecosystem](ecosystem/index.md)
 - [Contributing to gdext](contribute/index.md)
   - [Philosophy](contribute/philosophy.md)
   - [Dev tools and testing](contribute/dev-tools.md)

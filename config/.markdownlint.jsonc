@@ -47,7 +47,11 @@
         "list_items": false
     },
     "proper-names": {
-        "names": ["Godot", "GDScript", "Rust", "GDExtension", "gdext", "godot-rust"],
+        "names": ["Godot", "GDScript", "Rust", "GDExtension", "gdext", "godot-rust",
+            // Exceptions because this tool can't recognize "godot-" isn't "godot"
+            "godot-sandbox", "godot-tokio"
+        ],
+
         "code_blocks": false
     },
     "no-inline-html": {
