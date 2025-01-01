@@ -49,7 +49,7 @@
     "proper-names": {
         "names": ["Godot", "GDScript", "Rust", "GDExtension", "gdext", "godot-rust",
             // Exceptions because this tool can't recognize "godot-" isn't "godot"
-            "godot-sandbox", "godot-tokio"
+            "godot-sandbox", "godot-tokio", "godot-fluent-translation"
         ],
 
         "code_blocks": false
