@@ -188,12 +188,14 @@ generally recommend to fix bugs rather than defensive programming.
 ## Conclusion
 
 Objects are a central concept in the Rust bindings. They represent instances of Godot classes, both engine- and user-defined.
-We have seen how to construct, manage and destroy them. The next chapter will go into calling Godot functions.
+We have seen how to construct, manage and destroy them.
+
+But we still have to _use_ objects, i.e. access functionality their class exposes. The next chapter will go into calling Godot functions.
 
 
-[issue-traits]: https://github.com/godot-rust/gdext/issues/426
-[api-gd-from-init-fn]: https://godot-rust.github.io/docs/gdext/master/godot/obj/struct.Gd.html#method.from_init_fn
 [api-gd-free]: https://godot-rust.github.io/docs/gdext/master/godot/obj/struct.Gd.html#method.free
+[api-gd-from-init-fn]: https://godot-rust.github.io/docs/gdext/master/godot/obj/struct.Gd.html#method.from_init_fn
 [api-gd]: https://godot-rust.github.io/docs/gdext/master/godot/obj/struct.Gd.html
 [api-newalloc]: https://godot-rust.github.io/docs/gdext/master/godot/obj/trait.NewAlloc.html
 [api-newgd]: https://godot-rust.github.io/docs/gdext/master/godot/obj/trait.NewGd.html
+[issue-traits]: https://github.com/godot-rust/gdext/issues/426
