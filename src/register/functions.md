@@ -80,7 +80,7 @@ So let's implement `to_string()`, here again showing the class definition for qu
 #[class(base=Node3D)]
 struct Monster {
     name: String,
-    hitpoints: i32
+    hitpoints: i32,
     
     base: Base<Node3D>,
 }
@@ -163,8 +163,171 @@ Of course, it is also possible to declare parameters.
 
 Associated functions are sometimes useful for user-defined constructors, as we will see in the next chapter.
 
-<!-- TODO: base() + base_mut() -->
-<!-- TODO: bind() + bind_mut() and their relation to &self/&mut self -->
+
+## Methods and object access
+
+When you define your own Rust functions, there are two use cases that occur very frequently:
+
+- You want to invoke your Rust methods from outside, through a `Gd` pointer.
+- You want to access methods of the base class (e.g. `Node3D`).
+
+This section explains how to do both.
+
+
+### Calling Rust methods (binds)
+
+If you now have a `monster: Gd<Monster>`, which stores a `Monster` object as defined above, you won't be able to simply call
+`monster.damage(123)`. Rust is stricter than C++ and requires that only one `&mut Monster` reference exists at any point in time. Since
+`Gd` pointers can be freely cloned, direct access through `DerefMut` wouldn't be sufficient to ensure non-aliasing.
+
+To approach this, godot-rust uses the interior mutability pattern, which is quite similar to how [`RefCell`][rust-refcell] works.
+
+In short, whenever you need shared (immutable) access to a Rust object from a `Gd` pointer, use [`Gd::bind()`][api-gd-bind].
+Whenever you need exclusive (mutable) access, use [`Gd::bind_mut()`][api-gd-bindmut].
+
+```rust
+let monster: Gd<Monster> = ...;
+
+// Immutable access with bind():
+let name: GString = monster.bind().get_name();
+
+// Mutable access with bind_mut() -- we rebind the object first:
+let mut monster = monster;
+monster.bind_mut().damage(123);
+```
+
+Regular Rust visibility rules apply: if your function should be visible in another module, declare it as `pub` or `pub(crate)`.
+
+```admonish note title="The need for #[func]"
+The `#[func]` attribute _only_ makes a function available to the Godot engine. It is orthogonal to Rust visibility (`pub`, `pub(crate)`, ...)
+and does not influence whether a method can be accessed through `Gd::bind()` and `Gd::bind_mut()`.
+
+If you only need to call a function in Rust, do not annotate it with `#[func]`. You can always add this later.
+```
+
+`bind()` and `bind_mut()` return _guard objects_. At runtime, the library verifies that the borrow rules are upheld, and panics otherwise.
+It can be beneficial to reuse guards across multiple statements, but make sure to keep their scope limited to not unnecessarily constrain access
+to objects (especially when using `bind_mut()`).
+
+```rust
+fn apply_monster_damage(mut monster: Gd<Monster>, raw_damage: i32) {
+    // Artificial scope:
+    {
+        let guard = monster.bind_mut(); // locks object -->
+        let armor = guard.get_armor_multiplier();
+        
+        let damage = (raw_damage as f32 * armor) as i32;
+
+        guard.damage(damage)
+    } // <-- until here, where guard lifetime ends.
+
+    // Now you can pass the pointer on to other routines again.
+    check_if_dead(monster);
+}
+```
+
+
+### Base access from `self`
+
+Within a class, you don't directly have a `Gd<T>` pointing to the own instance with base class methods. So you cannot use the approach explained
+in the [_Calling functions_ chapter][book-godot-api-functions], where you would simply use `gd.set_position(...)` or similar.
+
+Instead, you can access base class APIs via [`base()` and `base_mut()`][api-withbasefield-base]. This requires that your class defines a
+`Base<T>` field. Let's say we add a `velocity` field and two new methods:
+
+```rust
+#[derive(GodotClass)]
+#[class(base=Node3D)]
+struct Monster {
+    // ...
+    velocity: Vector2,
+    base: Base<Node3D>,
+}
+
+#[godot_api]
+impl Monster {
+    pub fn apply_movement(&mut self, delta: f32) {
+        // Read access:
+        let pos = self.base().get_position();
+      
+        // Write access (mutating methods):
+        self.base_mut().set_position(pos + self.velocity * delta)
+    }
+
+    // This method has only read access (&self).
+    pub fn is_inside_area(&self, rect: Rect2) -> String 
+    {
+        // We can only call base() here, not base_mut().
+        let node_name = self.base().get_name();
+        
+        format!("Monster(name={}, velocity={})", node_name, self.velocity)
+    }
+}
+```
+
+Both `base()` and `base_mut()` are defined in an extension trait [`WithBaseField`][api-withbasefield]. They return _guard objects_, which prevent
+other access to `self` in line with Rust's borrow rules. You can reuse a guard across multiple statements, but make sure to keep its scope
+limited to not unnecessarily constrain access to `self`:
+
+```rust
+    pub fn apply_movement(&mut self, delta: f32) {
+        // Artificial scope:
+        {
+            let guard = self.base_mut(); // locks `self` -->
+            let pos = guard.get_position();
+  
+            guard.set_position(pos + self.velocity * delta)
+        } // <-- until here, where guard lifetime ends.
+  
+        // Now can invoke other self methods again.
+        self.on_position_updated();
+    }
+```
+
+
+Instead of an extra scope, you can of course also just call [`drop(guard)`][rust-mem-drop].
+
+
+```admonish note title="Do not combine bind/bind_mut + base/base_mut"
+Code like `object.bind().base().some_method()` is unnecessarily verbose and slow.  
+If you have a `Gd<T>` pointer, use `object.some_method()` directly. 
+
+Combining `bind()`/`bind_mut()` immediately with `base()`/`base_mut()`
+is a mistake. The latter two should only be called from within the class `impl`. 
+```
+
+
+### Obtaining `Gd<Self>` from within
+
+In some cases, you need to get a `Gd<T>` pointer to the current instance. This can occur if you want to pass it to other methods, or if you need
+to store a pointer to `self` in a data structure.
+
+`WithBaseField` offers a method `to_gd()`, returning a `Gd<Self>` with the correct type.
+
+Here’s an example. The `monster` is passed a hash map, in which it can register/unregister itself, depending on whether it's alive or not.
+
+```rust
+#[godot_api]
+impl Monster {
+    // Function that registers each monster by name, or unregisters it if dead.
+    fn update_registry(&self, registry: &mut HashMap<String, Gd<Monster>>) {
+        if self.is_alive() {
+            let self_as_gd: Gd<Self> = self.to_gd();
+            registry.insert(self.name.clone(), self_as_gd);
+        } else {
+            registry.remove(&self.name);
+        }
+    }
+}
+```
+
+```admonish warning title="Don't bind to_gd() inside class methods"
+The methods `base()` and `base_mut()` use a clever mechanism that "re-borrows" the current object reference. This enables re-entrant calls,
+such as `self.base().notify(...)`, which may e.g. call `ready(&mut self)`. The `&mut self` here is a reborrow of the call-site `self`.
+
+When you use `to_gd()`, the borrow checker will treat this as an independent object. If you call `bind_mut()` on it, while inside the class impl,
+you will immediately get a double-borrow panic. Intead, use `to_gd()` to hand out a pointer and don't access until the current method has ended.
+```
 
 
 ## Conclusion
@@ -174,9 +337,18 @@ This page gave you an overview of registering functions with Godot:
 - Special methods that hook into the lifecycle of your object.
 - User-defined methods and associated functions to expose a Rust API to Godot.
 
+It also showed how methods and objects interact: calling Rust methods through `Gd<T>` and working with base class APIs.
+
 These are just a few use cases, you are very flexible in how you design your interface between Rust and GDScript.
 In the next page, we will look into a special kind of functions: constructors.
 
 [api-godot-api]: https://godot-rust.github.io/docs/gdext/master/godot/register/attr.godot_api.html
 [api-inode3d]: https://godot-rust.github.io/docs/gdext/master/godot/classes/trait.INode3D.html
 [godot-gdscript-functions]: https://docs.godotengine.org/en/stable/tutorials/scripting/gdscript/gdscript_basics.html#functions
+[api-withbasefield]: https://godot-rust.github.io/docs/gdext/master/godot/obj/trait.WithBaseField.html
+[api-withbasefield-base]: https://godot-rust.github.io/docs/gdext/master/godot/obj/trait.WithBaseField.html#method.base
+[rust-refcell]: https://doc.rust-lang.org/std/cell/struct.RefCell.html
+[rust-mem-drop]: https://doc.rust-lang.org/std/mem/fn.drop.html
+[book-godot-api-functions]: ../godot-api/functions.html#godot-functions
+[api-gd-bind]: https://godot-rust.github.io/docs/gdext/master/godot/prelude/struct.Gd.html#method.bind
+[api-gd-bindmut]: https://godot-rust.github.io/docs/gdext/master/godot/prelude/struct.Gd.html#method.bind_mut
