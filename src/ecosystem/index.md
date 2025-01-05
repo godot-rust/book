@@ -34,6 +34,7 @@ A list for games is also planned, and will be showcased on a separate page.
 | **[gd-rehearse]**<br/>Unit tests for godot-rust code.                          | [Discord][gd-rehearse-discord]                                           | ![gd-rehearse][gd-rehearse-badge]             |
 | **[gd-props]**<br/>Resource serialization using `serde`.                       | [Discord][gd-props-discord]                                              | ![gd-props][gd-props-badge]                   |
 | **[gdext-generation]**<br/>Auto-generate the `.gdextension` file.              | [Discord][gdext-generation-discord]                                      | ![gdext-generation][gdext-generation-badge]   |
+| **[godot-rust-cli]**<br/>CLI scripts for Godot with Rust.                      | [Discord][godot-rust-cli-discord]                                        | ![godot-rust-cli][godot-rust-cli-badge]   |
 | ___________________________________________________                            |                                                                          |                                               |
 | 📜 _**Scripting**_                                                             |                                                                          |                                               |
 | **[godot-rust-script]**<br/>Allows Rust scripts to be added to nodes.          |                                                                          | ![godot-rust-script][godot-rust-script-badge] |
@@ -44,8 +45,8 @@ A list for games is also planned, and will be showcased on a separate page.
 
 [gdext-coroutines]: https://github.com/Houtamelo/gdext_coroutines
 [gdext-coroutines-crate]: https://crates.io/crates/gdext_coroutines
-[gdext-coroutines-discord]: https://discord.com/channels/723850269347283004/1255555232390451293/1255555232390451293
-[gdext-coroutines-badge]: https://img.shields.io/github/last-commit/Houtamelo/gdext_coroutines
+[gdext-coroutines-discord]: https://discord.com/channels/723850269347283004/1255555232390451293/125555523
+[gdext-coroutines-badge]: https://img.shields.io/github/last-commit/Houtamelo/gdext_coroutines2390451293
 
 [godot-tokio]: https://github.com/2-3-5-41/godot_tokio
 [godot-tokio-discord]: https://discord.com/channels/723850269347283004/1312490414762364928/1312490414762364928
@@ -63,6 +64,10 @@ A list for games is also planned, and will be showcased on a separate page.
 [gdext-generation]: https://github.com/sylbeth/gdext-generation
 [gdext-generation-discord]: https://discord.com/channels/723850269347283004/1316664276819247124
 [gdext-generation-badge]: https://img.shields.io/github/last-commit/sylbeth/gdext-generation
+
+[godot-rust-cli]: https://github.com/TheColorRed/godot-rust
+[godot-rust-cli-badge]: https://img.shields.io/github/last-commit/TheColorRed/godot-rust
+[godot-rust-cli-discord]: https://discord.com/channels/723850269347283004/1325220721340977253
 
 [godot-rust-script]: https://github.com/titannano/godot-rust-script
 [godot-rust-script-badge]: https://img.shields.io/github/last-commit/titannano/godot-rust-script
