@@ -100,7 +100,9 @@ A list for games is also planned, and will be showcased on a separate page.
 | ___________________________________________________                           |                                         |                                                     |
 | 🏗️ _**Project workflow**_                                                    |                                         |                                                     |
 | **[godot-sandbox]**<br/>Secure modding support for C++, Rust and others.      |                                         | ![godot-sandbox][godot-sandbox-badge]               |
-
+| ___________________________________________________                           |                                         |                                                     |
+| 🌐 _**Localization**_                                                        |                                         |                                                     |
+| **[Fluent Translation]**<br/>Translation using Mozilla's Fluent (FTL).       | [Asset Library][godot-fluent-translation-assetlib] | ![godot-fluent-translation][godot-fluent-translation-badge] |
 
 [Godot-Tour]: https://github.com/Decapitated/Godot-Tour
 [godot-tour-discord]: https://discord.com/channels/723850269347283004/1272688558070698037/1272688558070698037
@@ -124,6 +126,10 @@ A list for games is also planned, and will be showcased on a separate page.
 
 [godot-sandbox]: https://github.com/libriscv/godot-sandbox
 [godot-sandbox-badge]: https://img.shields.io/github/last-commit/libriscv/godot-sandbox
+
+[Fluent Translation]: https://github.com/RedMser/godot-fluent-translation
+[godot-fluent-translation-assetlib]: https://godotengine.org/asset-library/asset/2937
+[godot-fluent-translation-badge]: https://img.shields.io/github/last-commit/RedMser/godot-fluent-translation
 
 
 ### 🖥️ Applications
