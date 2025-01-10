@@ -127,7 +127,7 @@ A list for games is also planned, and will be showcased on a separate page.
 [godot-sandbox]: https://github.com/libriscv/godot-sandbox
 [godot-sandbox-badge]: https://img.shields.io/github/last-commit/libriscv/godot-sandbox
 
-[godot-fluent-translation]: https://github.com/RedMser/godot-fluent-translation
+[Fluent Translation]: https://github.com/RedMser/godot-fluent-translation
 [godot-fluent-translation-assetlib]: https://godotengine.org/asset-library/asset/2937
 [godot-fluent-translation-badge]: https://img.shields.io/github/last-commit/RedMser/godot-fluent-translation
 
