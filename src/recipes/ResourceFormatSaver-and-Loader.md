@@ -6,151 +6,145 @@
 -->
 
 # ResourceFormatSaver/Loader
-The [ResourceFormatSaver](https://docs.godotengine.org/en/stable/classes/class_resourceformatsaver.html) and [ResourceFormatLoader](https://docs.godotengine.org/en/stable/classes/class_resourceformatloader.html) classes allow you to serialize and deserialize your godot-rust resource derived classes with a custom procedure aswell as define new recognized file-extensions. This is mostly usefull if you have resources that contain Pure-Rust-State. Pure-Rust-State in this context are members of your struct that dont have any #[var] or similar annotations and godot doesnt know about. This can easily be the case when you work with rust libraries. The following content is intended to give you a copy/paste starting point while for advanced usecases the godot-docs of these classes should be consulted.
 
-First of all you need to call the provided functions in your library entrypoint at the `InitLevel::Scene`.
-This ensures proper initialization and freeing of your Loader/Saver.
+The [`ResourceFormatSaver`] and [`ResourceFormatLoader`] classes allow you to serialize and deserialize your godot-rust resource-derived
+classes with a custom procedure, as well as define new recognized file extensions. This is mostly useful if you have resources that contain
+_pure Rust state_. "Pure" in this context refers to members of your struct that don’t have any `#[var]` or similar annotations, i.e. Godot
+isn't aware of them. This can easily be the case when you work with Rust libraries.
+
+The following example gives you a starting point to copy-and-paste. For advanced use cases, consult the Godot documentation for these classes.
+
+First of all, you need to call the provided functions in your library entry point at the `InitLevel::Scene`. This ensures proper initialization
+and cleanup of your loader/saver.
+
 ```rust
-/// Entrypoint into the library
+// These imports will be needed across the following code samples.
+use godot::classes::{
+    Engine, IResourceFormatLoader, IResourceFormatSaver, ResourceFormatLoader,
+    ResourceFormatSaver, ResourceLoader, ResourceSaver,
+};
+use godot::prelude::*;
+
 #[gdextension]
-unsafe impl ExtensionLibrary for YourGdExtension {
+unsafe impl ExtensionLibrary for MyGDExtension {
+    // Register the singleton when the extension is loading.
     fn on_level_init(level: InitLevel) {
         if level == InitLevel::Scene {
-            register_input_output();
+            Engine::singleton().register_singleton(
+                "MyAssetSingleton",
+                &MyAssetSingleton::new_alloc(),
+            );
         }
     }
+
+    // Unregisters the singleton when the extension exits.
     fn on_level_init(level: InitLevel) {
         if level == InitLevel::Scene {
-            unregister_input_output();
+            Engine::singleton().unregister_singleton("MyAssetSingleton");
         }
     }
 }
 ```
-Second copy paste this whereever you want in your library deleting everything not necessary for your usecase.
+
+Second, copy and paste this wherever you want in your library, deleting everything not necessary for your use case.
 
 ```rust
-//required imports
-use godot::{
-    classes::{
-        Engine,  IResourceFormatLoader, IResourceFormatSaver,
-        ResourceFormatLoader, ResourceFormatSaver, ResourceLoader, ResourceSaver,
-    },
-    prelude::*,
-};
-
-
-//Registering the Singleton with the Engine
-pub fn register_input_output() {
-    Engine::singleton().register_singleton(
-        "YourInputOutputSingleton",
-        &YourInputOutputSingleton::new_alloc(),
-    );
-}
-
-//Unregisters the Singleton when the Engine exits
-pub fn unregister_input_output() {
-    Engine::singleton().unregister_singleton("YourInputOutputSingleton");
-}
-
-//The definition of the Singleton with all your loader/savers as members
-//to keep the object references for destruction later
+// The definition of the singleton with all your loader/savers as members,
+// to keep the object references for destruction later.
 #[derive(GodotClass)]
-#[class(tool, base=Object)]
-struct YourInputOutputSingleton {
+#[class(base=Object, tool)]
+struct MyAssetSingleton {
     base: Base<Object>,
-    loader: Gd<YourAssetLoader>,
-    saver: Gd<YourAssetSaver>,
+    loader: Gd<MyAssetLoader>,
+    saver: Gd<MyAssetSaver>,
 }
 
 #[godot_api]
-impl IObject for YourInputOutputSingleton {
+impl IObject for MyAssetSingleton {
     fn init(base: Base<Object>) -> Self {
-        let plugin = Self {
-            base,
-            loader: YourAssetLoader::new_gd(),
-            saver: YourAssetSaver::new_gd(),
-        };
-        // Registering the Loader and Saver in Godot.
-        ResourceSaver::singleton().add_resource_format_saver(&plugin.saver);
-        ResourceLoader::singleton().add_resource_format_loader(&plugin.loader);
-        plugin
+        let saver = MyAssetSaver::new_gd();
+        let loader = MyAssetLoader::new_gd();
+        
+        // Register the loader and saver in Godot.
+        ResourceSaver::singleton().add_resource_format_saver(&saver);
+        ResourceLoader::singleton().add_resource_format_loader(&loader);
+        
+        Self { base, loader, saver }
     }
 }
 
-
 #[derive(GodotClass)]
-#[class(init,tool, base=ResourceFormatSaver)]
-struct YourAssetSaver {
+#[class(base=ResourceFormatSaver, init, tool)]
+struct MyAssetSaver {
     base: Base<ResourceFormatSaver>,
 }
 
 #[godot_api]
-impl IResourceFormatSaver for YourAssetSaver {
-    //If you want a custom extension name e.g. resource.gdext override this 
+impl IResourceFormatSaver for MyAssetSaver {
+    // If you want a custom extension name (e.g., resource.myextension), then override this.
     fn get_recognized_extensions(&self, res: Option<Gd<Resource>>) -> PackedStringArray {
         let mut array = PackedStringArray::new();
-        //Even though the godot docs imply you dont need this check it is in fact necessary
-        if res.expect("Godot called this without a input resource?")
-            .is_class("YourResourceType") {
-                array.push("yourfileextensionname");
+        
+        // Even though the Godot docs imply you don't need this check, it is in fact necessary.
+        if Self::is_recognized_resource(res) {
+            array.push("myextension");
         }
+        
         array
     }
 
-    //All resource types that this Saver should handle must return true 
-    fn recognize(&self, res: Option<Gd<Resource>>) -> bool {
-        res.expect("Godot called this without a input resource?")
-            .is_class("YourResourceType")
+    // All resource types that this saver should handle must return true.
+    fn is_recognized_resource(res: Option<Gd<Resource>>) -> bool {
+        res.expect("Godot called this without an input resource?")
+            .is_class("MyResourceType")
     }
 
-    // This defines your logic for actually saving your Resource
+    // This defines your logic for actually saving your resource.
     fn save(
         &mut self,
         resource: Option<Gd<Resource>>,
         path: GString,
         flags: u32,
     ) -> godot::global::Error {
+        // TODO: Put your saving logic in here, with the `FileAccess` API.
         
-        //TODO please put your saving logic in here with the FileAccess api
-
         godot::global::Error::OK
     }
 }
 
-
 #[derive(GodotClass)]
-#[class(init,tool, base=ResourceFormatLoader)]
-struct YourAssetLoader {
+#[class(init, tool, base=ResourceFormatLoader)]
+struct MyAssetLoader {
     base: Base<ResourceFormatLoader>,
 }
 
 #[godot_api]
-impl IResourceFormatLoader for YourAssetLoader {
-    //All file extensions you want to be redirected to you loader should be added here
+impl IResourceFormatLoader for MyAssetLoader {
+    // All file extensions you want to be redirected to your loader should be added here.
     fn get_recognized_extensions(&self) -> PackedStringArray {
         let mut arr = PackedStringArray::new();
-        arr.push("yourfileextensionname");
+        arr.push("myextension");
         arr
     }
 
-    //All resource types that this Loader handles
-    fn handles_type(&self, typ: StringName) -> bool {
-        typ == "YourResourceType".into()
+    // All resource types that this loader handles.
+    fn handles_type(&self, ty: StringName) -> bool {
+        ty == "MyResourceType".into()
     }
 
-    //The stringified name of your Resource should be returned  
+    // The stringified name of your resource should be returned.
     fn get_resource_type(&self, path: GString) -> GString {
-        //this is a slight hack to check if it has the right extension
-        //you can change this to you hearts content
-        if path.to_string().ends_with(".yourfileextensionname") {
-            "YourResourceType".into()
+        // This is a slight hack to check if the file has the right extension.
+        // You can change this to your heart's content.
+        if path.to_string().ends_with(".myextension") {
+            "MyResourceType".into()
         } else {
-            //In case of not handling given resource it must return an empty string
-            "".into()
+            // In case of not handling the given resource, it must return an empty string.
+            GString::new()
         }
     }
 
-    // The actual loading and parsing your data
+    // The actual loading and parsing of your data.
     fn load(
         &self,
         path: GString,
@@ -158,10 +152,15 @@ impl IResourceFormatLoader for YourAssetLoader {
         use_sub_threads: bool,
         cache_mode: i32,
     ) -> Variant {
-        //TODO please put your loading logic in here.
+        // TODO: Please put your loading logic in here.
     }
 }
 ```
 
-Note:
-- Technically the Singleton is not necessary as godot will keep the references around and on exit ClassDB will clean up for you - thus not leaking the memory - but this approch is cleaner and performance of one singleton is negligable.
+```admonish note title="The need for a singleton"
+ Technically, the singleton is not strictly necessary -- Godot will keep the references around, and on exit, `ClassDB` will clean up for you
+  -- thus not leaking memory. However, this approach is cleaner, and the performance cost of one singleton is negligible.
+```
+
+[`ResourceFormatSaver`]: https://docs.godotengine.org/en/stable/classes/class_resourceformatsaver.html
+[`ResourceFormatLoader`]: https://docs.godotengine.org/en/stable/classes/class_resourceformatloader.html
