@@ -5,7 +5,7 @@
   ~ file, You can obtain one at https://mozilla.org/MPL/2.0/.
 -->
 
-# ResourceFormatSaver/Loader
+# `Resource` savers and loaders
 
 The [`ResourceFormatSaver`] and [`ResourceFormatLoader`] classes allow you to serialize and deserialize your godot-rust resource-derived
 classes with a custom procedure, as well as define new recognized file extensions. This is mostly useful if you have resources that contain
