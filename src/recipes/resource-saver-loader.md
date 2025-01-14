@@ -41,12 +41,13 @@ unsafe impl ExtensionLibrary for MyGDExtension {
     fn on_level_init(level: InitLevel) {
         if level == InitLevel::Scene {
             Engine::singleton().unregister_singleton("MyAssetSingleton");
+            my_singleton.free();
         }
     }
 }
 ```
 
-Second, copy and paste this wherever you want in your library, deleting everything not necessary for your use case.
+Define the singleton to keep track of your Loaders and Savers. 
 
 ```rust
 // The definition of the singleton with all your loader/savers as members,
@@ -66,13 +67,23 @@ impl IObject for MyAssetSingleton {
         let loader = MyAssetLoader::new_gd();
         
         // Register the loader and saver in Godot.
-        ResourceSaver::singleton().add_resource_format_saver(&saver);
+        ResourceSaver::singleton().add_resource_format_saver_ex(&saver)
+            // If you want your default extension to be the one defined by your loader
+            // set the at_front parameter to be true. Otherwise you can also remove the builder.
+            // Godot currently doesn't provide a way to completely deactivate the built in loaders. 
+            // WARNING: The built in loaders won't work if you have _pure Rust state_.
+            .at_front(false)
+            .done();
         ResourceLoader::singleton().add_resource_format_loader(&loader);
         
         Self { base, loader, saver }
     }
 }
+```
 
+The minimal code for a Saver with all required virtual methods defined. 
+
+```rust
 #[derive(GodotClass)]
 #[class(base=ResourceFormatSaver, init, tool)]
 struct MyAssetSaver {
@@ -87,6 +98,7 @@ impl IResourceFormatSaver for MyAssetSaver {
         
         // Even though the Godot docs imply you don't need this check, it is in fact necessary.
         if Self::is_recognized_resource(res) {
+            // It is also possible to add multible extensions per Saver.
             array.push("myextension");
         }
         
@@ -95,6 +107,7 @@ impl IResourceFormatSaver for MyAssetSaver {
 
     // All resource types that this saver should handle must return true.
     fn is_recognized_resource(res: Option<Gd<Resource>>) -> bool {
+        // It is also possible to add multible resource types per Saver.
         res.expect("Godot called this without an input resource?")
             .is_class("MyResourceType")
     }
@@ -102,16 +115,26 @@ impl IResourceFormatSaver for MyAssetSaver {
     // This defines your logic for actually saving your resource.
     fn save(
         &mut self,
+        // The resource that is currently getting saved.
         resource: Option<Gd<Resource>>,
+        // The path that the resource is getting saved at.
         path: GString,
+        // These are SaverFlags if you want to handle these look into the Godot Docs.
+        // https://docs.godotengine.org/en/stable/classes/class_resourcesaver.html#enum-resourcesaver-saverflags
         flags: u32,
     ) -> godot::global::Error {
-        // TODO: Put your saving logic in here, with the `FileAccess` API.
+        // TODO: Put your saving logic in here, with the `GFile` API see:
+        // https://godot-rust.github.io/docs/gdext/master/godot/prelude/struct.GFile.html
         
         godot::global::Error::OK
     }
 }
+```
 
+The minimal code for a Loader with all required virtual methods defined. 
+
+
+```rust
 #[derive(GodotClass)]
 #[class(init, tool, base=ResourceFormatLoader)]
 struct MyAssetLoader {
@@ -134,9 +157,8 @@ impl IResourceFormatLoader for MyAssetLoader {
 
     // The stringified name of your resource should be returned.
     fn get_resource_type(&self, path: GString) -> GString {
-        // This is a slight hack to check if the file has the right extension.
-        // You can change this to your heart's content.
-        if path.to_string().ends_with(".myextension") {
+        // Getting the extension always comes with a . in Godot so don't forget it ;) .
+        if path.get_extension().to_lower() == ".myextension".into() {
             "MyResourceType".into()
         } else {
             // In case of not handling the given resource, it must return an empty string.
@@ -147,19 +169,27 @@ impl IResourceFormatLoader for MyAssetLoader {
     // The actual loading and parsing of your data.
     fn load(
         &self,
+        // The path that should be openend to load the resource.
         path: GString,
+        // If the resource was part of a import step you can access the original file with this.
+        // Otherwise this path is equal to the normal path.
         original_path: GString,
-        use_sub_threads: bool,
+        // This parameter is set when the resource is loaded with load_threaded_request().
+        // Internal implementations in Godot also ignore this parameter.
+        _use_sub_threads: bool,
+        // If you want to provide custom caching this parameter is the CacheMode enum.
+        // You can look into the ResourceLoader docs if you want to learn about the values.
+        // When calling the default load() method it is always set to CacheMode::REUSE.
+        // https://docs.godotengine.org/en/stable/classes/class_resourceformatloader.html#enum-resourceformatloader-cachemode
         cache_mode: i32,
     ) -> Variant {
-        // TODO: Please put your loading logic in here.
+        // TODO: Put your saving logic in here, with the `GFile` API see:
+        // https://godot-rust.github.io/docs/gdext/master/godot/prelude/struct.GFile.html
+
+        // If your loading operation failed and you want to handle errors
+        // you can return a godot::global::Error and cast it to a Variant.
     }
 }
-```
-
-```admonish note title="The need for a singleton"
- Technically, the singleton is not strictly necessary -- Godot will keep the references around, and on exit, `ClassDB` will clean up for you
-  -- thus not leaking memory. However, this approach is cleaner, and the performance cost of one singleton is negligible.
 ```
 
 [`ResourceFormatSaver`]: https://docs.godotengine.org/en/stable/classes/class_resourceformatsaver.html
