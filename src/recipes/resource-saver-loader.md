@@ -47,7 +47,7 @@ unsafe impl ExtensionLibrary for MyGDExtension {
 }
 ```
 
-Define the singleton to keep track of your Loaders and Savers. 
+Define the singleton to keep track of your Loaders and Savers.
 
 ```rust
 // The definition of the singleton with all your loader/savers as members,
@@ -81,7 +81,7 @@ impl IObject for MyAssetSingleton {
 }
 ```
 
-The minimal code for a Saver with all required virtual methods defined. 
+The minimal code for a Saver with all required virtual methods defined.
 
 ```rust
 #[derive(GodotClass)]
@@ -131,7 +131,7 @@ impl IResourceFormatSaver for MyAssetSaver {
 }
 ```
 
-The minimal code for a Loader with all required virtual methods defined. 
+The minimal code for a Loader with all required virtual methods defined.
 
 
 ```rust
