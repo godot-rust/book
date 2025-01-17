@@ -35,6 +35,7 @@
   - [Editor plugins](recipes/editor-plugin/index.md)
     - [Inspector plugins](recipes/editor-plugin/inspector-plugins.md)
   - [Engine singletons](recipes/engine-singleton.md)
+  - [`Resource` savers and loaders](recipes/resource-saver-loader.md)
   - [Custom node icons](recipes/custom-icons.md)
 - [Ecosystem](ecosystem/index.md)
 - [Contributing to gdext](contribute/index.md)

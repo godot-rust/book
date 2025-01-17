@@ -25,6 +25,11 @@ An Engine Singleton is a class instance that is always globally available (follo
 it cannot access the `SceneTree` through any reliable means.
 
 
+## `ResourceFormatSaver` and `ResourceFormatLoader`
+
+Provide custom logic for saving and loading your `Resource` derived classes.
+
+
 ## Custom icons
 
 Adding custom icons to your classes is actually fairly simple!
