@@ -7,10 +7,10 @@
 
 # `Resource` savers and loaders
 
-The [`ResourceFormatSaver`] and [`ResourceFormatLoader`] classes allow you to serialize and deserialize your godot-rust resource-derived
-classes with a custom procedure, as well as define new recognized file extensions. This is mostly useful if you have resources that contain
-_pure Rust state_. "Pure" in this context refers to members of your struct that don’t have any `#[var]` or similar annotations, i.e. Godot
-isn't aware of them. This can easily be the case when you work with Rust libraries.
+The [`ResourceFormatSaver`][godot-saver] and [`ResourceFormatLoader`][godot-loader] classes allow you to serialize and deserialize your Rust
+`Resource`-derived classes with a custom procedure, as well as define new recognized file extensions. This is mostly useful if you have resources
+that contain _pure Rust state_. "Pure" in this context refers to members of your struct that don’t have any `#[var]` or similar annotations, i.e.
+Godot isn't aware of them. This can easily be the case when you work with Rust libraries.
 
 The following example gives you a starting point to copy-and-paste. For advanced use cases, consult the Godot documentation for these classes.
 
@@ -67,11 +67,13 @@ impl IObject for MyAssetSingleton {
         let loader = MyAssetLoader::new_gd();
         
         // Register the loader and saver in Godot.
+        //
+        // If you want your default extension to be the one defined by your loader,
+        // set the `at_front` parameter to true. Otherwise you can also remove the 
+        // builder. Godot currently doesn't provide a way to completely deactivate 
+        // the built-in loaders. 
+        // WARNING: The built-in loaders won't work if you have _pure Rust state_.
         ResourceSaver::singleton().add_resource_format_saver_ex(&saver)
-            // If you want your default extension to be the one defined by your loader
-            // set the at_front parameter to be true. Otherwise you can also remove the builder.
-            // Godot currently doesn't provide a way to completely deactivate the built in loaders. 
-            // WARNING: The built in loaders won't work if you have _pure Rust state_.
             .at_front(false)
             .done();
         ResourceLoader::singleton().add_resource_format_loader(&loader);
@@ -81,7 +83,13 @@ impl IObject for MyAssetSingleton {
 }
 ```
 
-The minimal code for a Saver with all required virtual methods defined.
+```admonish warning title="at_front behavior"
+The ordering of `at_front` may currently not work as expected in Godot. For more information, see PR [godot#101543] or
+book discussion [#65][book#65].
+```
+
+
+The minimal code for a **saver**, with all required virtual methods defined:
 
 ```rust
 #[derive(GodotClass)]
@@ -92,13 +100,18 @@ struct MyAssetSaver {
 
 #[godot_api]
 impl IResourceFormatSaver for MyAssetSaver {
-    // If you want a custom extension name (e.g., resource.myextension), then override this.
-    fn get_recognized_extensions(&self, res: Option<Gd<Resource>>) -> PackedStringArray {
+    // If you want a custom extension name (e.g., resource.myextension), 
+    // then override this.
+    fn get_recognized_extensions(
+        &self,
+        res: Option<Gd<Resource>>
+    ) -> PackedStringArray {
         let mut array = PackedStringArray::new();
         
-        // Even though the Godot docs imply you don't need this check, it is in fact necessary.
+        // Even though the Godot docs state that you don't need this check, it is
+        // in fact necessary.
         if Self::is_recognized_resource(res) {
-            // It is also possible to add multible extensions per Saver.
+            // It is also possible to add multiple extensions per Saver.
             array.push("myextension");
         }
         
@@ -119,20 +132,20 @@ impl IResourceFormatSaver for MyAssetSaver {
         resource: Option<Gd<Resource>>,
         // The path that the resource is getting saved at.
         path: GString,
-        // These are SaverFlags if you want to handle these look into the Godot Docs.
-        // https://docs.godotengine.org/en/stable/classes/class_resourcesaver.html#enum-resourcesaver-saverflags
+        // Flags for saving (see link below).
         flags: u32,
     ) -> godot::global::Error {
-        // TODO: Put your saving logic in here, with the `GFile` API see:
-        // https://godot-rust.github.io/docs/gdext/master/godot/prelude/struct.GFile.html
+        // TODO: Put your saving logic in here, with the `GFile` API (see link below).
         
         godot::global::Error::OK
     }
 }
 ```
 
-The minimal code for a Loader with all required virtual methods defined.
+Here are direct doc links to `SaverFlags` ([Godot][godot-saverflags], [Rust][api-saverflags]) and [`GFile`][api-gfile].
 
+
+The minimal code for a **loader**, with all required virtual methods defined:
 
 ```rust
 #[derive(GodotClass)]
@@ -143,7 +156,8 @@ struct MyAssetLoader {
 
 #[godot_api]
 impl IResourceFormatLoader for MyAssetLoader {
-    // All file extensions you want to be redirected to your loader should be added here.
+    // All file extensions you want to be redirected to your loader 
+    // should be added here.
     fn get_recognized_extensions(&self) -> PackedStringArray {
         let mut arr = PackedStringArray::new();
         arr.push("myextension");
@@ -157,11 +171,12 @@ impl IResourceFormatLoader for MyAssetLoader {
 
     // The stringified name of your resource should be returned.
     fn get_resource_type(&self, path: GString) -> GString {
-        // Getting the extension always comes with a . in Godot so don't forget it ;) .
+        // The extension arg always comes with a `.` in Godot, so don't forget it ;)
         if path.get_extension().to_lower() == ".myextension".into() {
             "MyResourceType".into()
         } else {
-            // In case of not handling the given resource, it must return an empty string.
+            // In case of not handling the given resource, this function must
+            // return an empty string.
             GString::new()
         }
     }
@@ -171,26 +186,37 @@ impl IResourceFormatLoader for MyAssetLoader {
         &self,
         // The path that should be openend to load the resource.
         path: GString,
-        // If the resource was part of a import step you can access the original file with this.
-        // Otherwise this path is equal to the normal path.
+        // If the resource was part of a import step you can access the original file
+        // with this. Otherwise this path is equal to the normal path.
         original_path: GString,
-        // This parameter is set when the resource is loaded with load_threaded_request().
+        // This parameter is true when the resource is loaded with
+        // load_threaded_request(). 
         // Internal implementations in Godot also ignore this parameter.
         _use_sub_threads: bool,
         // If you want to provide custom caching this parameter is the CacheMode enum.
-        // You can look into the ResourceLoader docs if you want to learn about the values.
-        // When calling the default load() method it is always set to CacheMode::REUSE.
-        // https://docs.godotengine.org/en/stable/classes/class_resourceformatloader.html#enum-resourceformatloader-cachemode
+        // You can look into the ResourceLoader docs to learn about the values.
+        // When calling the default load() method, cache_mode is CacheMode::REUSE.
         cache_mode: i32,
     ) -> Variant {
-        // TODO: Put your saving logic in here, with the `GFile` API see:
-        // https://godot-rust.github.io/docs/gdext/master/godot/prelude/struct.GFile.html
+        // TODO: Put your saving logic in here, with the `GFile` API (see link below).
 
-        // If your loading operation failed and you want to handle errors
+        // If your loading operation failed and you want to handle errors,
         // you can return a godot::global::Error and cast it to a Variant.
     }
 }
 ```
 
-[`ResourceFormatSaver`]: https://docs.godotengine.org/en/stable/classes/class_resourceformatsaver.html
-[`ResourceFormatLoader`]: https://docs.godotengine.org/en/stable/classes/class_resourceformatloader.html
+Direct link to `CacheMode` ([Godot][godot-cachemode], [Rust][api-cachemode]) and [`GFile`][api-gfile].
+
+[godot-cachemode]: https://docs.godotengine.org/en/stable/classes/class_resourceformatloader.html#enum-resourceformatloader-cachemode
+[api-cachemode]: https://godot-rust.github.io/docs/gdext/master/godot/classes/resource_loader/enum.CacheMode.html
+
+[godot-saverflags]: https://docs.godotengine.org/en/stable/classes/class_resourcesaver.html#enum-resourcesaver-saverflags
+[api-saverflags]: https://godot-rust.github.io/docs/gdext/master/godot/classes/resource_saver/struct.SaverFlags.html
+[api-gfile]: https://godot-rust.github.io/docs/gdext/master/godot/prelude/struct.GFile.html
+
+[godot-saver]: https://docs.godotengine.org/en/stable/classes/class_resourceformatsaver.html
+[godot-loader]: https://docs.godotengine.org/en/stable/classes/class_resourceformatloader.html
+
+[godot#101543]: https://github.com/godotengine/godot/pull/101543
+[book#65]: https://github.com/godot-rust/book/pull/65#issuecomment-2585403123
