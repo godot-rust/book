@@ -376,6 +376,7 @@ in this example -- is done via `base()` and `base_mut()` methods.
 Do not use the `self.base` field directly. Use `self.base()` or `self.base_mut()` instead, otherwise you won't be able to access and call
 the base class methods.
 ```
+
 Add the line `mod player;` to your `lib.rs` file.
 This is a point where you can see the result. Compile your code and launch the Godot editor.
 Right-click on your `Sprite2D` in the scene tree, and choose "Change Type..."
