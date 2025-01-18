@@ -377,6 +377,7 @@ Do not use the `self.base` field directly. Use `self.base()` or `self.base_mut()
 the base class methods.
 ```
 
+Add the line `mod player;` to your `lib.rs` file.
 This is a point where you can see the result. Compile your code and launch the Godot editor.
 Right-click on your `Sprite2D` in the scene tree, and choose "Change Type..."
 Find and choose the `Player` node type, which will be a child of `Sprite2D` in the Change Type dialog that appears.
