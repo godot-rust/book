@@ -282,7 +282,7 @@ struct Player {
 
 Let's break this down.
 
-1. The gdext prelude contains the most common symbols. Less frequent classes are located in the [`engine`][api-class-engine] module.
+1. The `godot` prelude contains the most common symbols. Less frequent classes are located in the [`engine`][api-class-engine] module.
 
 2. The `#[derive]` attribute registers `Player` as a class in the Godot engine.
    See [API docs][api-derive-godotclass] for details about `#[derive(GodotClass)]`.
