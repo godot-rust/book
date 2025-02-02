@@ -44,7 +44,7 @@ struct Monster {
 }
 ```
 
-To provide another default value, use `#[init(default = value)]`. This should only be used for simple cases, as it may lead to difficult-to-read
+To provide another default value, use `#[init(val = value)]`. This should only be used for simple cases, as it may lead to difficult-to-read
 code and error messages. This API may also still change.
 
 ```rust
@@ -53,7 +53,7 @@ code and error messages. This API may also still change.
 struct Monster {
     name: String,          // initialized to ""
    
-    #[init(default = 100)]
+    #[init(val = 100)]
     hitpoints: i32,        // initialized to 100
     
     base: Base<Node3D>,    // wired up
