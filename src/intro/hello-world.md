@@ -266,7 +266,7 @@ Rust does not natively support inheritance, but the gdext API emulates it to a c
 
 In this example, we declare a class called `Player`, which inherits Sprite2D (a node type).
 This can be either defined in `lib.rs` or in a separate file `player.rs`.
-In case you go for the latter, don't forget to declare mod player; in your lib.rs file.
+In case you go for the latter, don't forget to declare `mod player;` in your `lib.rs` file.
 
 ```rust
 use godot::prelude::*;
