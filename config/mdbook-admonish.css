@@ -131,7 +131,9 @@ details[open].admonition > summary.admonition-title::after {
 }
 
 :is(.admonish-note) > :is(.admonition-title, summary.admonition-title) {
-  background-color: rgba(68, 138, 255, 0.1);
+  /*background-color: rgba(68, 138, 255, 0.15);*/
+  /*background-color: rgba(53, 107, 198, 0.15);*/
+  background-color: rgba(29, 86, 181, 0.15);
 }
 :is(.admonish-note) > :is(.admonition-title, summary.admonition-title)::before {
   background-color: #448aff;
@@ -148,7 +150,7 @@ details[open].admonition > summary.admonition-title::after {
 }
 
 :is(.admonish-abstract, .admonish-summary, .admonish-tldr) > :is(.admonition-title, summary.admonition-title) {
-  background-color: rgba(0, 176, 255, 0.1);
+  background-color: rgba(0, 176, 255, 0.15);
 }
 :is(.admonish-abstract, .admonish-summary, .admonish-tldr) > :is(.admonition-title, summary.admonition-title)::before {
   background-color: #00b0ff;
@@ -182,7 +184,7 @@ details[open].admonition > summary.admonition-title::after {
 }
 
 :is(.admonish-tip, .admonish-hint, .admonish-important) > :is(.admonition-title, summary.admonition-title) {
-  background-color: rgba(0, 191, 165, 0.1);
+  background-color: rgba(0, 191, 165, 0.15);
 }
 :is(.admonish-tip, .admonish-hint, .admonish-important) > :is(.admonition-title, summary.admonition-title)::before {
   background-color: #00bfa5;
@@ -233,7 +235,7 @@ details[open].admonition > summary.admonition-title::after {
 }
 
 :is(.admonish-warning, .admonish-caution, .admonish-attention) > :is(.admonition-title, summary.admonition-title) {
-  background-color: rgba(255, 145, 0, 0.1);
+  background-color: rgba(193, 129, 43, 0.2);
 }
 :is(.admonish-warning, .admonish-caution, .admonish-attention) > :is(.admonition-title, summary.admonition-title)::before {
   background-color: #ff9100;
@@ -339,10 +341,13 @@ details[open].admonition > summary.admonition-title::after {
   background-color: var(--theme-hover);
 }
 
+/* bromeon: disabled to use light admonish theme in Rust */
+/*
 .rust :is(.admonition) {
   background-color: var(--sidebar-bg);
   color: var(--sidebar-fg);
 }
+*/
 .rust .admonition-anchor-link:link, .rust .admonition-anchor-link:visited {
   color: var(--sidebar-fg);
 }
