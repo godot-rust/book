@@ -20,7 +20,7 @@ you will only have symbols for stack frames in Rust code.
 Here is an example launch configuration for Visual Studio Code. Launch configurations should be added to  `./.vscode/launch.json`, relative
 to your project's root. This example assumes you have the [CodeLLDB] extension installed, which is common for Rust development.
 
-```jsonc
+```json
 {
     "configurations": [
         {
