@@ -25,6 +25,7 @@ header:
 
   paths-ignore:
     - 'ReadMe.md'
+    - 'theme/ThemeNotes.md'
     - '.github/ISSUE_TEMPLATE'
 
   comment: on-failure

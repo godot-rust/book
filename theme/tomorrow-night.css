@@ -5,7 +5,7 @@
 
 /* Tomorrow Comment */
 .hljs-comment {
-  color: #969896;
+  color: #7b7c7b;
 }
 
 /* Tomorrow Red */
@@ -22,7 +22,8 @@
 .css .hljs-id,
 .css .hljs-class,
 .css .hljs-pseudo {
-  color: #cc6666;
+  /*color: #cc6666;*/
+  color: rgb(109, 194, 223);
 }
 
 /* Tomorrow Orange */
@@ -33,7 +34,8 @@
 .hljs-literal,
 .hljs-params,
 .hljs-constant {
-  color: #de935f;
+  /*color: rgb(76, 179, 213);*/
+  color: rgb(79, 191, 174);
 }
 
 /* Tomorrow Yellow */
@@ -43,6 +45,7 @@
 }
 
 /* Tomorrow Green */
+/* bromeon: strings */
 .hljs-string,
 .hljs-value,
 .hljs-inheritance,
@@ -50,14 +53,15 @@
 .hljs-name,
 .ruby .hljs-symbol,
 .xml .hljs-cdata {
-  color: #b5bd68;
+  /*color: #b17037;*/
+  color: #dfa558;
 }
 
 /* Tomorrow Aqua */
+/* bromeon: class + fn names */
 .hljs-title,
-.hljs-section,
 .css .hljs-hexcolor {
-  color: #8abeb7;
+  color: rgb(228, 162, 123)
 }
 
 /* Tomorrow Blue */
@@ -73,15 +77,26 @@
 }
 
 /* Tomorrow Purple */
+.hljs-section, /* TOML/YAML headers */
 .hljs-keyword,
 .javascript .hljs-function {
-  color: #b294bb;
+  /* color: #b294bb;*/
+  color: rgb(33, 154, 223);
+
+}
+
+/* bromeon: proc-macro attributes */
+.hljs-meta {
+  /*color: #c69c79;*/
+  /*color: #b57c4d;*/
+  color: #9f9280;
 }
 
 .hljs {
   display: block;
   overflow-x: auto;
-  background: #1d1f21;
+
+  background: rgb(48, 43, 40);
   color: #c5c8c6;
 }
 

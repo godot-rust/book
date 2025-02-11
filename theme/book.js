@@ -295,6 +295,9 @@ function playground_text(playground, hidden = true) {
     });
     var stylesheets = {
         ayuHighlight: document.querySelector("[href$='ayu-highlight.css']"),
+        /* bromeon: tomorrowNoon is the custom highlight.js for godot-rust-light. */
+        tomorrowNoon: document.querySelector("[href$='config/tomorrow-noon.css']"),
+        /* bromeon: godot-rust-dark uses pre-existing tomorrowNight, shared with Coal/Rust. */
         tomorrowNight: document.querySelector("[href$='tomorrow-night.css']"),
         highlight: document.querySelector("[href$='highlight.css']"),
     };
@@ -331,19 +334,27 @@ function playground_text(playground, hidden = true) {
     function set_theme(theme, store = true) {
         let ace_theme;
 
-        if (theme == 'coal' || theme == 'navy') {
+        if (theme == 'coal' || theme == 'navy' || theme == 'godot-rust-dark') {
             stylesheets.ayuHighlight.disabled = true;
+            stylesheets.tomorrowNoon.disabled = true;
             stylesheets.tomorrowNight.disabled = false;
             stylesheets.highlight.disabled = true;
-
             ace_theme = "ace/theme/tomorrow_night";
+        } else if (theme == 'godot-rust-light') {
+            stylesheets.ayuHighlight.disabled = true;
+            stylesheets.tomorrowNoon.disabled = false;
+            stylesheets.tomorrowNight.disabled = true;
+            stylesheets.highlight.disabled = true;
+            ace_theme = "ace/theme/dawn";
         } else if (theme == 'ayu') {
             stylesheets.ayuHighlight.disabled = false;
+            stylesheets.tomorrowNoon.disabled = true;
             stylesheets.tomorrowNight.disabled = true;
             stylesheets.highlight.disabled = true;
             ace_theme = "ace/theme/tomorrow_night";
         } else {
             stylesheets.ayuHighlight.disabled = true;
+            stylesheets.tomorrowNoon.disabled = true;
             stylesheets.tomorrowNight.disabled = true;
             stylesheets.highlight.disabled = false;
             ace_theme = "ace/theme/dawn";

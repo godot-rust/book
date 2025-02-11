@@ -63,6 +63,18 @@
     --copy-button-filter-hover: invert(68%) sepia(55%) saturate(531%) hue-rotate(341deg) brightness(104%) contrast(101%);
 }
 
+
+/* bromeon: extend class from chrome.css */
+.menu-title {
+    color: #985944;
+}
+/** bromeon: fallback to --fg if not defined.
+  !important overrides the equivalent setting from general.css, so we don't need that whole file. */
+.content .header:link,
+.content .header:visited {
+    color: var(--fg-header, var(--fg)) !important;
+}
+
 .coal {
     --bg: hsl(200, 7%, 8%);
     --fg: #98a3ad;
@@ -110,6 +122,113 @@
     --copy-button-filter: invert(26%) sepia(8%) saturate(575%) hue-rotate(169deg) brightness(87%) contrast(82%);
     /* Same as `--sidebar-active` */
     --copy-button-filter-hover: invert(36%) sepia(70%) saturate(503%) hue-rotate(167deg) brightness(98%) contrast(89%);
+}
+
+
+/* CSS theme adopted from https://github.com/godot-rust/godot-rust.github.io/blob/master/website/static/css/main.css */
+.godot-rust-dark {
+    --fg: #aeb8c1;
+    --fg-header: rgb(192, 162, 141);
+
+    --sidebar-bg: rgb(52, 44, 41);
+    --bg: rgb(40, 34, 30);
+    --bg-admonish: rgb(46, 45, 43);
+
+    --sidebar-fg: #a1adb8;
+    --sidebar-non-existant: #505254;
+    --sidebar-active: #4b91d1;
+    --sidebar-spacer: #393939;
+
+    --scrollbar: var(--sidebar-fg);
+
+    --links: rgb(47, 173, 239);
+
+    --inline-code-color: #c5c8c6;
+
+    --theme-popup-bg: rgb(30, 50, 67);
+    --theme-popup-border: #43484d;
+    --theme-hover: rgb(17, 77, 114);
+
+    --quote-bg: rgb(52, 44, 41);
+    --quote-border: rgb(69, 58, 55);
+
+    --warning-border: #ff8e00;
+
+    --table-border-color: rgb(83, 72, 64);
+    --table-header-bg: rgb(55, 49, 45);
+    --table-alternate-bg: rgb(51, 43, 40);
+
+    --searchbar-border-color: rgb(192, 162, 141);
+    --searchbar-shadow-color: rgb(192, 162, 141);
+    --searchbar-bg: rgb(96, 137, 163);
+    --searchbar-fg: #000;
+    --searchresults-header-fg: #666;
+    --searchresults-border-color: rgb(17, 77, 114);
+    --searchresults-li-bg: #2b2b2f;
+    --search-mark-bg: #355c7d;
+
+    --color-scheme: dark;
+
+    --icons: rgb(192, 162, 141);
+    --icons-hover: rgb(106, 78, 50);
+    /* Same as `--icons` */
+    /*--copy-button-filter: invert(26%) sepia(8%) saturate(575%) hue-rotate(169deg) brightness(87%) contrast(82%);*/
+    --copy-button-filter: invert(70%) sepia(100%);
+    /* Same as `--sidebar-active` */
+    --copy-button-filter-hover: invert(36%) sepia(70%) saturate(503%) hue-rotate(167deg) brightness(98%) contrast(89%);
+}
+
+
+/* CSS theme adopted from https://github.com/godot-rust/godot-rust.github.io/blob/master/website/static/css/main.css */
+.godot-rust-light {
+    --fg: hsl(0, 0%, 0%);
+    --fg-header: rgb(131, 85, 42);
+
+    --sidebar-bg: rgb(185, 161, 153);
+    --bg: rgb(218, 198, 189);
+    --bg-admonish: rgb(218, 210, 206);
+
+    --sidebar-fg: hsl(0, 0%, 0%);
+    --sidebar-non-existant: #aaaaaa;
+    --sidebar-active: rgb(2, 77, 117);
+    --sidebar-spacer: #f4f4f4;
+
+    --scrollbar: #8F8F8F;
+
+    --links: #1d5790;
+
+    --inline-code-color: #301900;
+
+    --theme-popup-bg: rgb(104, 177, 218);
+    --theme-popup-border: #cccccc;
+    --theme-hover: rgb(23, 115, 166);
+
+    --quote-bg: rgb(185, 161, 153);
+    --quote-border: rgb(154, 132, 125);
+
+    --warning-border: #ff8e00;
+
+    --table-border-color: hsl(0, 0%, 95%);
+    --table-header-bg: rgb(163, 136, 125);
+    --table-alternate-bg: rgb(204, 182, 173);
+
+    --searchbar-border-color: #aaa;
+    --searchbar-bg: #fafafa;
+    --searchbar-fg: #000;
+    --searchbar-shadow-color: #aaa;
+    --searchresults-header-fg: #666;
+    --searchresults-border-color: #888;
+    --searchresults-li-bg: #e4f2fe;
+    --search-mark-bg: #a2cff5;
+
+    --color-scheme: light;
+
+    --icons: #515151;
+    --icons-hover: #000000;
+    /* Same as `--icons` */
+    --copy-button-filter: invert(20%);
+    /* Same as `--sidebar-active` */
+    /*--copy-button-filter-hover: invert(14%) sepia(93%) saturate(4250%) hue-rotate(243deg) brightness(99%) contrast(130%);*/
 }
 
 .light, html:not(.js) {
