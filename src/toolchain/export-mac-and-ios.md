@@ -7,10 +7,19 @@
 
 # Export to macOS and iOS
 
-Mac libraries that are intended to be shared with other people require Code Signing and Notarization. For this you will need:
 
-- A Mac Computer
-- An Apple ID enrolled in Apple Developer Program (99 USD per year)
+Mac libraries that are intended to be shared with other people require _Code Signing_ and _Notarization_.
+This page will introduce you to the process of building a macOS universal library and an iOS library, which you can distribute to other people.
+
+<!-- toc -->
+
+
+## Building a redistributable library
+
+For this tutorial, you will need:
+
+- a Mac Computer
+- an Apple ID enrolled in Apple Developer Program (99 USD per year).
 
 Without Code Signing and Notarization, the other person can still use the built library, but either needs to:
 
@@ -23,8 +32,7 @@ Prerequisites:
 - Download and install [Xcode](https://developer.apple.com/xcode/) on your Mac computer.
 
 
-## Building macOS universal lib
-
+### Building a macOS universal lib
 
 Add both x64 and arm64 targets. This is needed in order to create a universal build.
 
@@ -123,8 +131,7 @@ macos.release = "res://../rust/target/release/lib{YourCrate}.macos.framework"
 ```
 
 
-## Building an iOS library
-
+### Building an iOS library
 
 Add as target arm64 iOS.
 
@@ -313,7 +320,7 @@ The user is responsible for the security and up-to-dateness of the script.
 ```
 
 
-## Godot Build
+## Godot export
 
 
 After building the libraries, you can now distribute them as they are, or build the whole game using Godot.

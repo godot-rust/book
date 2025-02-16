@@ -4,10 +4,11 @@
 # file, You can obtain one at https://mozilla.org/MPL/2.0/.
 
 [book]
-authors = ["The godot-rust developers"]
+authors = ["Bromeon", "godot-rust contributors"]
 multilingual = false
+language = "en"
 src = "src"
-title = "The godot-rust Book"
+title = "The godot-rust book"
 
 [preprocessor.toc]
 max-level = 3
@@ -18,9 +19,12 @@ renderer = ["html"]
 command = "mdbook-admonish"
 assets_version = "3.0.2" # do not edit: managed by `mdbook-admonish install`
 
+# See also notes about theme in theme/ThemeNotes.md.
 [output.html]
 git-repository-url = "https://github.com/godot-rust/book"
-additional-css = ["config/mdbook-admonish.css"]
+additional-css = ["config/mdbook-admonish.css", "config/tomorrow-noon.css"]
+default-theme = "godot-rust-light"
+preferred-dark-theme = "godot-rust-dark"
 
 
 [output.html.redirect]

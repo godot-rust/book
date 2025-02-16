@@ -227,8 +227,8 @@ you run Godot with the Mono runtime.
 The library also provides a dedicated trait [`ScriptInstance`][api-scriptinstance], which allows users to provide Rust-based "scripts".
 Consult its docs for detailed information.
 
-You can also configure scripts entirely programmatically, using the [`engine::Script`][api-class-script] API and its inherited classes, such
-as [`engine::GDScript`][api-class-gdscript]. This typically defeats the purpose of scripting, but is mentioned here for completeness.
+You can also configure scripts entirely programmatically, using the [`classes::Script`][api-class-script] API and its inherited classes, such
+as [`classes::GDScript`][api-class-gdscript]. This typically defeats the purpose of scripting, but is mentioned here for completeness.
 
 
 ## Conclusion
@@ -238,5 +238,5 @@ integration layer between the two languages and allows to effortlessly experimen
 
 [api-class-gdscript]: https://godot-rust.github.io/docs/gdext/master/godot/classes/struct.GDScript.html
 [api-class-script]: https://godot-rust.github.io/docs/gdext/master/godot/classes/struct.Script.html
-[api-scriptinstance]: https://godot-rust.github.io/docs/gdext/master/godot/classes/trait.ScriptInstance.html
+[api-scriptinstance]: https://godot-rust.github.io/docs/gdext/master/godot/obj/script/trait.ScriptInstance.html
 [godot-csharp]: https://docs.godotengine.org/en/stable/tutorials/scripting/c_sharp/index.html

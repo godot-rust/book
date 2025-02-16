@@ -151,7 +151,7 @@ Of course, it is always possible to adjust existing scene files, but this involv
 ```admonish warning title="Enums in GDScript"
 Enums are not first-class citizens in Godot. Even if you define them in GDScript, they are mostly syntactic sugar for constants.
 This declaration:
-~~~php
+~~~java
 enum Planet {
     EARTH,
     VENUS,
@@ -161,7 +161,7 @@ enum Planet {
 @export var favorite_planet: Planet
 ~~~
 is roughly the same as:
-~~~php
+~~~java
 const EARTH = 0
 const VENUS = 1
 const MARS = 2
@@ -169,7 +169,7 @@ const MARS = 2
 @export_enum("EARTH", "VENUS", "MARS") var favorite_planet = Planet.EARTH
 ~~~
 However, the enum is not type-safe, you can just do this:
-~~~php
+~~~java
 var p: Planet = 5
 ~~~
 Furthermore, unless you initialize the constants with string values, you cannot retrieve their names, making debugging harder. There is no

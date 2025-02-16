@@ -109,7 +109,7 @@ The next chapters cover functions and constructors.
 
 ---
 
-[^inference] You can tweak the type detection using the `#[hint]` attribute, see [the corresponding docs][api-derive-godotclass-inference].
+[^inference]: You can tweak the type detection using the `#[hint]` attribute, see [the corresponding docs][api-derive-godotclass-inference].
 
 
 [api-derive-godotclass]: https://godot-rust.github.io/docs/gdext/master/godot/register/derive.GodotClass.html
