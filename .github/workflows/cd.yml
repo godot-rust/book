@@ -13,9 +13,9 @@ on:
 env:
   # Use fixed versions for now, replace with 'latest' to auto-use latest
   # Note: during build, there's a warning when using mdbook-toc compiled against an older mdbook version, should work though.
-  MDBOOK_VERSION: "0.4.40"
+  MDBOOK_VERSION: "0.4.44"
   MDBOOK_TOC_VERSION: "0.14.2"
-  MDBOOK_ADMONISH_VERSION: "1.17.1"
+  MDBOOK_ADMONISH_VERSION: "1.18.0"
   MDBOOK_BIN: "/tmp/mdbook-bin"
   OXIPNG_VERSION: "9.1.1"
   MARKDOWNLINT_CLI2_VERSION: "0.13.0"
