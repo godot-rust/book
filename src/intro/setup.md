@@ -29,18 +29,18 @@ For beta and older versions, you can also check the [download archive][godot-dow
 
 ```bash
 # --- Linux ---
-# For Ubuntu or Debian-based distros
+# For Ubuntu or Debian-based distros.
 apt install godot
 
-# For Fedora/RHEL
+# For Fedora/RHEL.
 dnf install godot
 
-# Distro-independent through Flatpak
+# Distro-independent through Flatpak.
 flatpak install flathub org.godotengine.Godot
 
 
 # --- Windows ---
-# Windows installations can be made through WinGet
+# Windows installations can be made through WinGet.
 winget install --id=GodotEngine.GodotEngine -e
 
 
