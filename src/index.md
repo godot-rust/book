@@ -12,7 +12,12 @@ Welcome to the **godot-rust book**! This is a work-in-progress user guide for **
 If you're new to Rust, before getting started, it is highly recommended that you familiarize yourself with concepts outlined in the officially
 maintained [Rust Book](https://doc.rust-lang.org/book/).
 
-To read the book about gdnative (Godot 3 binding), follow [this link](../gdnative-book).
+Additional resources that may be interesting for you:
+
+📘 [Latest API docs][api-docs]  
+⚗️ [Demo projects][demo-projects]  
+🀄 [This book in Simplified Chinese][book-zh-cn]  
+📔 [Book on gdnative (Godot 3 binding)][gdnative-book]  
 
 
 ## The purpose of godot-rust
@@ -91,7 +96,11 @@ That said, there are some notable differences:
 [issue #66231]: https://github.com/godotengine/godot/issues/66231
 [extension-library-doc]: https://godot-rust.github.io/docs/gdext/master/godot/init/trait.ExtensionLibrary.html#method.editor_run_behavior
 
+[api-docs]: https://godot-rust.github.io/docs/gdext
 [api-obj-script]: https://godot-rust.github.io/docs/gdext/master/godot/obj/script/index.html
+[book-zh-cn]: https://colinwttt.github.io/godot-rust-book-chinese
+[demo-projects]: https://github.com/godot-rust/demo-projects
+[gdnative-book]: ../gdnative-book
 [github-contributors]: https://github.com/godot-rust/gdext/graphs/contributors
 [github-gdext]: https://github.com/godot-rust/gdext
 [github-gdnative]: https://github.com/godot-rust/gdnative
