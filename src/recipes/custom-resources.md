@@ -17,16 +17,33 @@ This workflow is similar to the [Hello World example][hello]:
 
 ```rust
 #[derive(GodotClass)]
-#[class(tool, init, base=Resource)]
+#[class(init, base=Resource)]
 struct ResourceType {
     base: Base<Resource>,
 }
 ```
 
+The above resource does not export any variables. While not all resources require exported variables, most do.
+
+If your custom resource has lifecycle methods (`ready()`, `process()` etc.) that need to run in the editor,
+you should annotate the class with `#[class(tool)]`.
+
+```rust
+#[derive(GodotClass)]
+#[class(tool, init, base=Resource)]
+struct ResourceType {
+    base: Base<Resource>,
+}
+
+#[godot_api]
+impl IResource for ResourceType {
+  fn init(base: Base<Resource>) -> Self { ... }
+}
+
+```
+
 It is important that similar to defining custom resources in GDScript, marking this class as a "tool class"
 is required to be usable within the editor.
-
-The above resource does not export any variables. While not all resources require exported variables, most do.
 
 The systems for registering functions, properties, and more are described in detail in the
 [Registering Rust symbols][register] section.
