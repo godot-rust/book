@@ -38,6 +38,7 @@ Let's define a simple class named `Monster`:
 
 ```rust
 #[derive(GodotClass)]
+#[class(init)] // more about this later.
 struct Monster {
     name: String,
     hitpoints: i32,
