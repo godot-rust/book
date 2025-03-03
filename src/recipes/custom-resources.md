@@ -37,7 +37,8 @@ struct ResourceType {
 
 #[godot_api]
 impl IResource for ResourceType {
-  fn init(base: Base<Resource>) -> Self { ... }
+    fn ready(&mut self) { ... }
+    fn process(&mut self, delta: f64) { ... }
 }
 
 ```
