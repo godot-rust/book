@@ -25,7 +25,7 @@ struct ResourceType {
 
 The above resource does not export any variables. While not all resources require exported variables, most do.
 
-If your custom resource has lifecycle methods that need to run in the editor,
+To execute code within the Godot Editor (e.g., overriding `set_property` to run custom logic when editing Inspector properties),
 you should annotate the class with `#[class(tool)]`.
 
 ```rust
