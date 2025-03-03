@@ -24,21 +24,23 @@ A list for games is also planned, and will be showcased on a separate page.
 
 ### 🏛️ Rust libraries
 
+<!-- separator ‗ Alternatives: •• ▁ ＿ or space   -->
+
 | Project                                                                        | Further links                                                            | Activity                                      |
 |--------------------------------------------------------------------------------|--------------------------------------------------------------------------|-----------------------------------------------|
 | 🌀 _**Async**_                                                                 |                                                                          |                                               |
 | **[gdext-coroutines]**<br/>Integrate Rust coroutines with Godot's async/await. | [crates.io][gdext-coroutines-crate], [Discord][gdext-coroutines-discord] | ![gdext-coroutines][gdext-coroutines-badge]   |
 | **[godot-tokio]**<br/>Create Tokio runtime for use with godot-rust.            | [crates.io][godot-tokio-crate], [Discord][godot-tokio-discord]           | ![godot-tokio][godot-tokio-badge]             |
-| ___________________________________________________                            |                                                                          |                                               |
+| ‗‗‗‗‗‗‗‗‗‗‗‗‗‗‗‗‗‗‗‗‗‗‗‗‗‗‗‗‗‗‗‗‗‗‗‗‗‗‗‗‗‗‗‗‗‗‗‗‗‗‗‗‗‗‗                                                                              |                                                                          |                                               |
 | 🏗️ _**Project workflow**_                                                     |                                                                          |                                               |
 | **[gd-rehearse]**<br/>Unit tests for godot-rust code.                          | [Discord][gd-rehearse-discord]                                           | ![gd-rehearse][gd-rehearse-badge]             |
 | **[gd-props]**<br/>Resource serialization using `serde`.                       | [Discord][gd-props-discord]                                              | ![gd-props][gd-props-badge]                   |
 | **[gdext-generation]**<br/>Auto-generate the `.gdextension` file.              | [Discord][gdext-generation-discord]                                      | ![gdext-generation][gdext-generation-badge]   |
-| **[godot-rust-cli]**<br/>CLI scripts for Godot with Rust.                      | [Discord][godot-rust-cli-discord]                                        | ![godot-rust-cli][godot-rust-cli-badge]   |
-| ___________________________________________________                            |                                                                          |                                               |
+| **[godot-rust-cli]**<br/>CLI scripts for Godot with Rust.                      | [Discord][godot-rust-cli-discord]                                        | ![godot-rust-cli][godot-rust-cli-badge]       |
+| ‗‗‗‗‗‗‗‗‗‗‗‗‗‗‗‗‗‗‗‗‗‗‗‗‗‗‗‗‗‗‗‗‗‗‗‗‗‗‗‗‗‗‗‗‗‗‗‗‗‗‗‗‗‗‗                                                                              |                                                                          |                                               |
 | 📜 _**Scripting**_                                                             |                                                                          |                                               |
 | **[godot-rust-script]**<br/>Allows Rust scripts to be added to nodes.          |                                                                          | ![godot-rust-script][godot-rust-script-badge] |
-| ___________________________________________________                            |                                                                          |                                               |
+| ‗‗‗‗‗‗‗‗‗‗‗‗‗‗‗‗‗‗‗‗‗‗‗‗‗‗‗‗‗‗‗‗‗‗‗‗‗‗‗‗‗‗‗‗‗‗‗‗‗‗‗‗‗‗‗                                                                              |                                                                          |                                               |
 | 🎮 _**Game development**_                                                      |                                                                          |                                               |
 | **[SpireTween]**<br/>Alternative tweening library for Godot 4.2+.              | [Discord][spire-tween-discord]                                           | ![SpireTween][spire-tween-badge]              |
 | **[GridForge]**<br/>Generic abstraction for grid maps.                         | [Discord][gridforge-discord]                                             | ![GridForge][gridforge-badge]                 |
@@ -83,26 +85,26 @@ A list for games is also planned, and will be showcased on a separate page.
 
 ### 🧩 Editor plugins
 
-| Project                                                                       | Further links                           | Activity                                            |
-|-------------------------------------------------------------------------------|-----------------------------------------|-----------------------------------------------------|
-| 📐 _**User interface**_                                                       |                                         |                                                     |
-| **[Godot-Tour]**<br/>UI tours/tutorials for editor and in-game.               | [Discord][godot-tour-discord]           | ![Godot-Tour][godot-tour-badge]                     |
-| ___________________________________________________                           |                                         |                                                     |
-| 🎨 _**Graphics**_                                                             |                                         |                                                     |
-| **[Godot Trail 3D]**<br/>Adds a `Trail3D` node to Godot.                      | [Discord][godot-trail-3d-discord]       | ![Godot Trail 3D][godot-trail-3d-badge]             |
-| ___________________________________________________                           |                                         |                                                     |
-| 🧲 _**Physics**_                                                              |                                         |                                                     |
-| **[Godot Rapier Physics]**<br/>Rapier 2D + 3D integration for Godot.          | [Discord][godot-rapier-physics-discord] | ![Godot Rapier Physics][godot-rapier-physics-badge] |
-| **[Godot Rapier 3D]**<br/>GDExtension that enables Rapier physics with Godot. | [Discord][godot-rapier-3d-discord]      | ![Godot Rapier 3D][godot-rapier-3d-badge]           |
-| ___________________________________________________                           |                                         |                                                     |
-| 🧙‍♂️ _**Storytelling**_                                                      |                                         |                                                     |
- | **[nobodywho]**<br/>Interact with local LLMs for interactive storytelling.    | [Discord][nobodywho-discord]            | ![nobodywho][nobodywho-badge]                       |
-| ___________________________________________________                           |                                         |                                                     |
-| 🏗️ _**Project workflow**_                                                    |                                         |                                                     |
-| **[godot-sandbox]**<br/>Secure modding support for C++, Rust and others.      |                                         | ![godot-sandbox][godot-sandbox-badge]               |
-| ___________________________________________________                           |                                         |                                                     |
-| 🌐 _**Localization**_                                                        |                                         |                                                     |
-| **[Fluent Translation]**<br/>Translation using Mozilla's Fluent (FTL).       | [Asset Library][godot-fluent-translation-assetlib] | ![godot-fluent-translation][godot-fluent-translation-badge] |
+| Project                                                                       | Further links                                      | Activity                                                    |
+|-------------------------------------------------------------------------------|----------------------------------------------------|-------------------------------------------------------------|
+| 📐 _**User interface**_                                                       |                                                    |                                                             |
+| **[Godot-Tour]**<br/>UI tours/tutorials for editor and in-game.               | [Discord][godot-tour-discord]                      | ![Godot-Tour][godot-tour-badge]                             |
+| ‗‗‗‗‗‗‗‗‗‗‗‗‗‗‗‗‗‗‗‗‗‗‗‗‗‗‗‗‗‗‗‗‗‗‗‗‗‗‗‗‗‗‗‗‗‗‗‗‗‗‗‗‗‗‗                                                                             |                                                    |                                                             |
+| 🎨 _**Graphics**_                                                             |                                                    |                                                             |
+| **[Godot Trail 3D]**<br/>Adds a `Trail3D` node to Godot.                      | [Discord][godot-trail-3d-discord]                  | ![Godot Trail 3D][godot-trail-3d-badge]                     |
+| ‗‗‗‗‗‗‗‗‗‗‗‗‗‗‗‗‗‗‗‗‗‗‗‗‗‗‗‗‗‗‗‗‗‗‗‗‗‗‗‗‗‗‗‗‗‗‗‗‗‗‗‗‗‗‗                                                                             |                                                    |                                                             |
+| 🧲 _**Physics**_                                                              |                                                    |                                                             |
+| **[Godot Rapier Physics]**<br/>Rapier 2D + 3D integration for Godot.          | [Discord][godot-rapier-physics-discord]            | ![Godot Rapier Physics][godot-rapier-physics-badge]         |
+| **[Godot Rapier 3D]**<br/>GDExtension that enables Rapier physics with Godot. | [Discord][godot-rapier-3d-discord]                 | ![Godot Rapier 3D][godot-rapier-3d-badge]                   |
+| ‗‗‗‗‗‗‗‗‗‗‗‗‗‗‗‗‗‗‗‗‗‗‗‗‗‗‗‗‗‗‗‗‗‗‗‗‗‗‗‗‗‗‗‗‗‗‗‗‗‗‗‗‗‗‗                                                                             |                                                    |                                                             |
+| 🧙‍♂️ _**Storytelling**_                                                      |                                                    |                                                             |
+ | **[nobodywho]**<br/>Interact with local LLMs for interactive storytelling.    | [Discord][nobodywho-discord]                       | ![nobodywho][nobodywho-badge]                               |
+| ‗‗‗‗‗‗‗‗‗‗‗‗‗‗‗‗‗‗‗‗‗‗‗‗‗‗‗‗‗‗‗‗‗‗‗‗‗‗‗‗‗‗‗‗‗‗‗‗‗‗‗‗‗‗‗                                                                             |                                                    |                                                             |
+| 🏗️ _**Project workflow**_                                                    |                                                    |                                                             |
+| **[godot-sandbox]**<br/>Secure modding support for C++, Rust and others.      |                                                    | ![godot-sandbox][godot-sandbox-badge]                       |
+| ‗‗‗‗‗‗‗‗‗‗‗‗‗‗‗‗‗‗‗‗‗‗‗‗‗‗‗‗‗‗‗‗‗‗‗‗‗‗‗‗‗‗‗‗‗‗‗‗‗‗‗‗‗‗‗                                                                             |                                                    |                                                             |
+| 🌐 _**Localization**_                                                         |                                                    |                                                             |
+| **[Fluent Translation]**<br/>Translation using Mozilla's Fluent (FTL).        | [Asset Library][godot-fluent-translation-assetlib] | ![godot-fluent-translation][godot-fluent-translation-badge] |
 
 [Godot-Tour]: https://github.com/Decapitated/Godot-Tour
 [godot-tour-discord]: https://discord.com/channels/723850269347283004/1272688558070698037/1272688558070698037
@@ -139,7 +141,7 @@ A list for games is also planned, and will be showcased on a separate page.
 | 🎛️ _**Software platforms**_                                            |                                        |                                                   |
 | **[Godot Boy]**<br/>Game boy emulator in Godot, written in Rust.        | [Discord][godot-boy-discord]           | ![Godot Boy][godot-boy-badge]                     |
 | **[GDScript Transpiler]**<br/>Reimplements parts of GDScript in Rust.   | [Discord][gdscript-transpiler-discord] | ![GDScript Transpiler][gdscript-transpiler-badge] |
-| ___________________________________________________                     |                                        |                                                   |
+| ‗‗‗‗‗‗‗‗‗‗‗‗‗‗‗‗‗‗‗‗‗‗‗‗‗‗‗‗‗‗‗‗‗‗‗‗‗‗‗‗‗‗‗‗‗‗‗‗‗‗‗‗‗‗‗                                                                       |                                        |                                                   |
 | 🛸 _**Tech demos**_                                                     |                                        |                                                   |
 | **[Godot boids]**<br/>Addon for Godot that adds 2D/3D boids (flocking). | [Discord][godot-boids-discord]         | ???                                               |
 
