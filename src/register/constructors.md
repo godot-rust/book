@@ -254,5 +254,5 @@ can provide as many custom constructors with different signatures as you like.
 [api-gd-from-init-fn]: https://godot-rust.github.io/docs/gdext/master/godot/obj/struct.Gd.html#method.from_init_fn
 [api-gd-from-object]: https://godot-rust.github.io/docs/gdext/master/godot/obj/struct.Gd.html#method.from_object
 [api-gd]: https://godot-rust.github.io/docs/gdext/master/godot/obj/struct.Gd.html
-[book-objects]: ../intro/objects.md
+[book-objects]: ../godot-api/objects.md
 [wiki-raii]: https://en.wikipedia.org/wiki/Resource_acquisition_is_initialization
