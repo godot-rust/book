@@ -131,6 +131,9 @@ With the proposed initial configuration from ["Project configuration"](#project-
 your extension would break. If you'd like your extension to support builds without multi-threading as well to avoid this problem,
 you will need to update your build setup in one of the two following ways.
 
+Note that earlier versions of emscripten expected `link-args=-sUSE_PTHREADS=1` instead of `link-args=-pthread`, but this flag has
+been deprecated.
+
 
 ### Building without multi-threading support
 
