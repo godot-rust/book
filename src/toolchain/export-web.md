@@ -249,8 +249,8 @@ Here's how this can be done:
         ```
 
 5. Optionally, if you'd like to disable certain functionality in your extension for `nothreads` builds
-(e.g. disable a certain multi-threaded function call), you can use `#[cfg(nothreads)]` and its variants to conditionally compile certain code
-under single-threaded builds, thanks to the `nothreads` feature created in step 2. For example:
+(e.g. disable a certain multi-threaded function call), you can use `#[cfg(feature = "nothreads")]` and its variants to conditionally compile certain
+code under single-threaded builds, thanks to the `nothreads` feature created in step 2. For example:
 
     ```rs
     fn maybe_threaded_function() {
@@ -325,9 +325,10 @@ whether it's a problem with your game or with Firefox.
 ## Troubleshooting
 
 1. Make sure _Extensions Support_ is turned on when exporting.
-2. When using Godot 4.3+, _Thread Support_ has to be turned on during export unless your extension supports a `nothreads` build,
+2. Make sure you are using the recommended compiler flags.
+3. When using Godot 4.3+, _Thread Support_ has to be turned on during export unless your extension supports a `nothreads` build,
 as described in the ["Thread Support" section](#thread-support-godot-43-or-later).
-3. If the game was exported with _Thread Support_ enabled (or targeting Godot 4.1 or 4.2), make sure the webserver you use to host your game supports
+4. If the game was exported with _Thread Support_ enabled (or targeting Godot 4.1 or 4.2), make sure the webserver you use to host your game supports
 Cross-Origin Isolation. Web games hosted on [itch.io](https://itch.io), for example, should already support this out of the box.
 
     To test it locally, you can either use the Godot editor's built-in web game runner (shown in ["Running the webserver"](#running-the-webserver)),
@@ -339,9 +340,53 @@ Cross-Origin Isolation. Web games hosted on [itch.io](https://itch.io), for exam
     more environments, which is the main advantage of disabling that option. You may even have success in running those games by simply
     double-clicking the generated HTML file. The main caveat is that they may only run single-threaded.
 
-4. Make sure your Rust library and Godot project are named differently (for example, `cool-game-extension` and `cool-game`),
+5. Make sure your Rust library and Godot project are named differently (for example, `cool-game-extension` and `cool-game`),
 as otherwise your extension's `.wasm` file may be overwritten, leading to confusing runtime errors.
-5. Make sure you're using at least the minimum recommended `emcc` version in the guide.
+6. Try using exactly the recommended `emcc` version in the guide.
+
+
+### Understanding common errors
+
+1. `RuntimeError: Aborted(undefined). Build with -sASSERTIONS for more info.`
+
+    The game aborted unexpectedly. This likely means some Rust code called `panic!()` or unsuccessful `assert!(condition)`.
+
+    Unfortunately, gdext cannot catch panics in Wasm yet due to limitations in the Rust compiler, so your game will abort.
+
+    Please fix any panics indicated in the browser console, perhaps using [debugging tools](#debugging). The suggested `-sASSERTIONS` flag will
+    likely not help at all.
+
+    Some common panic causes include:
+      - Attempting to call certain threaded code in a `nothreads` build, such as `std::thread::spawn(...)` or `thread_local!`;
+      - Using panicking variants of methods, such as `Array::at` instead of `Array::get`;
+      - Calling `.unwrap()` on `Option::None` or `Result::Err`.
+
+2. `TypeError: resolved is not a function`
+
+    This likely indicates you specified the `-sASSERTIONS` emscripten flag, which is not entirely supported at the moment. Try removing it.
+
+3. `Wasm module '{YourCrate}.wasm' not found. Check the console for more information.`
+
+    This indicates the extension's Wasm binary filename is using a name that is unexpected to gdext.
+
+    By default, on game startup (only on the Wasm target), gdext will look for binaries named `{YourCrate}.wasm` or `{YourCrate}.threads.wasm`.
+    If your GDExtension is using a different Wasm filename, please either rename it to one of those names, or tell gdext the name of the Wasm binary
+    you are using as below. Don't forget to update the binary name in your `.gdextension` file to match.
+
+    ```rs
+    // lib.rs of your main crate
+    struct MyExtension;
+
+    #[gdextension]
+    unsafe impl ExtensionLibrary for MyExtension {
+        fn override_wasm_binary() -> Option<&'static str> {
+            // Tell gdext we are using a custom name for our Wasm binary
+            Some("some-different-name.wasm")
+        }
+    }
+    ```
+
+    In addition, please note that **gdext 0.3 or later** is required to fix this error.
 
 
 ### Customizing `emcc` flags
