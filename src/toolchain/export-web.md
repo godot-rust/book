@@ -30,14 +30,14 @@ Assuming that Rust was installed with `rustup`, this is quite simple.
   ```
 
 Next, install Emscripten.  The simplest way to achieve this is to install [`emsdk` from the git repo][emsdk-git].
-We recommend version 3.1.62 or later when targeting Godot 4.3 or later.[^1]
+We recommend version 3.1.62 or later (≤ 3.1.73) when targeting Godot 4.3 or later.[^1]
 
 ```sh
 git clone https://github.com/emscripten-core/emsdk.git
 cd emsdk
 ./emsdk install 3.1.62
 ./emsdk activate 3.1.62
-source ./emsdk.sh     (or ./emsdk.bat on windows)
+source ./emsdk.sh # On Windows: `run ./emsdk.bat`
 ```
 
 It would also be **highly** recommended to follow the instructions in the terminal to add `emcc`[^2] to your `PATH`.
@@ -118,8 +118,10 @@ Note that you may have to use a different build command in order to let the exte
 ## Thread support (Godot 4.3 or later)
 
 ```admonish note
-The following section assumes your extension targets Godot 4.3 or later. If your extension will only target Godot 4.2 or 4.1, you may
+The following section assumes your extension targets **Godot 4.3 or later**. If your extension will only target Godot 4.2 or 4.1, you may
 keep the initial configuration from [Project Configuration](#project-configuration) without any changes.
+
+In addition, this section's instructions require **gdext 0.3 or later**.
 ```
 
 The above settings assume that multi-threading support is always needed for your extension. However, starting with Godot 4.3, when the end user
@@ -178,7 +180,7 @@ Here's how this can be done:
 
     ```toml
     [features]
-    nothreads = ["gdext/experimental-wasm-nothreads"]
+    nothreads = ["godot/experimental-wasm-nothreads"]
     ```
 
     Note that this feature should be enabled on any crates depending on gdext, so if you have more than one crate in your workspace,
@@ -196,10 +198,11 @@ Here's how this can be done:
     nothreads = [
         "lib1/nothreads",
         "lib2/nothreads",
-        "gdext/experimental-wasm-nothreads"
+        "godot/experimental-wasm-nothreads"
     ]
     ```
-3. Edit your `.gdextension` file to list two separate Wasm binary paths - one for the threaded build and one for the `nothreads` build, as follows:
+3. Edit your `.gdextension` file to list two separate Wasm binary paths - one for the threaded build with the `.threads.wasm` suffix and one for the
+`nothreads` build without a different suffix, as follows:
 
     ```ini
     [libraries]
@@ -214,16 +217,25 @@ Here's how this can be done:
     1. **Building with multi-threading support:** you must add the `-pthread` flag back manually through the `RUSTFLAGS` environment variable,
     but NOT enable the `nothreads` feature yet.
 
+        ```admonish warning
+        Specifying `RUSTFLAGS` will cause flags in `.cargo/config.toml` to be ignored, so all flags in it must be specified again.
+        ```
+
         Afterwards, you should rename the generated Wasm binary, such that it can be picked up by the modified `.gdextension` file
         as a threaded build:
 
-       ```sh
-       RUSTFLAGS="-C link-args=-pthread" cargo +nightly build -Zbuild-std --target wasm32-unknown-emscripten
-       mv target/debug/{YourCrate}.wasm target/debug/{YourCrate}.threads.wasm
-       # On Batch (Windows), use instead: REN target\debug\{YourCrate}.wasm {YourCrate}.threads.wasm
-       ```
+        ```sh
+        RUSTFLAGS="-C link-args=-pthread \
+        -C link-args=-sSIDE_MODULE=2 \
+        -C target-feature=+atomics,+bulk-memory,+mutable-globals \
+        -Zlink-native-libraries=no \
+        -Cllvm-args=-enable-emscripten-cxx-exceptions=0" cargo +nightly build -Zbuild-std --target wasm32-unknown-emscripten
 
-       For a release mode build, you'd replace `debug` with `release` in the last command.
+        mv target/wasm32-unknown-emscripten/debug/{YourCrate}.wasm target/wasm32-unknown-emscripten/debug/{YourCrate}.threads.wasm
+        # On Batch (Windows), use instead: REN target\wasm32-unknown-emscripten\debug\{YourCrate}.wasm {YourCrate}.threads.wasm
+        ```
+
+        For a release mode build, you'd replace `debug` with `release` in the last command.
 
     2. **Building without multi-threading support:** build without the `-pthread` flag, but this time enabling your `nothreads` feature
         created in the second step.
@@ -242,12 +254,12 @@ under single-threaded builds, thanks to the `nothreads` feature created in step 
 
     ```rs
     fn maybe_threaded_function() {
-        #[cfg(nothreads)]
+        #[cfg(feature = "nothreads")]
         {
             /* single-threaded code */
         }
 
-        #[cfg(not(nothreads))]
+        #[cfg(not(feature = "nothreads"))]
         {
             std::thread::spawn(|| { /* multi-threaded code */ }).join().unwrap();
         }
@@ -342,15 +354,14 @@ Make sure to also check or comment on the [WebAssembly thread on GitHub][webasse
 to that thread over time.
 
 Besides that, it's possible that you may have to enable additional `emcc` flags during compilation for your extension to work properly,
-which are specified at build time as `-C link-args=-FLAG_HERE` either in the `RUSTFLAGS` environment variable (temporarily)
-or in the `.cargo/config.toml` file (permanently).
+which are specified at build time as `-C link-args=-FLAG_HERE` either in the `RUSTFLAGS` environment variable
+or in the `.cargo/config.toml` file (note that using `RUSTFLAGS` causes all flags in `.cargo/config.toml` to be ignored).
 
 If that's the case, you may check out the [Emscripten documentation](https://emscripten.org/docs/tools_reference/emcc.html)
-for a list of some of the accepted flags.
+for a list of some of the accepted flags. For example, `-C link-args=-g` enables linking back to Rust code while [debugging](#debugging).
 
 [This additional list](https://emscripten.org/docs/tools_reference/settings_reference.html) also contains useful `emcc` flags which may be specified
-only with the `-s` prefix. For example, `-C link-args=-sASSERTIONS=2` enables more debug assertions at runtime, at the cost of performance,
-which may be helpful while [debugging](#debugging).
+only with the `-s` prefix.
 
 If you found a set of flags that worked for your case, please share it in the [WebAssembly GitHub thread][webassembly-github-thread] to help
 others in a similar situation.
@@ -366,10 +377,15 @@ Currently, the only option for Wasm debugging is
 for Chrome. It adds support for breakpoints and a memory viewer into the F12 menu.
 
 If Rust source code doesn't appear in the browser's debug panel, you should compile your extension in debug mode and add `-g` to linker flags.
-For example:
+For example, in a multi-threaded build:
 
 ```sh
-RUSTFLAGS="-C link-args=-g" cargo +nightly build -Zbuild-std --target wasm32-unknown-emscripten
+RUSTFLAGS="-C link-args=-g \
+-C link-args=-pthread \
+-C link-args=-sSIDE_MODULE=2 \
+-C target-feature=+atomics,+bulk-memory,+mutable-globals \
+-Zlink-native-libraries=no \
+-Cllvm-args=-enable-emscripten-cxx-exceptions=0" cargo +nightly build -Zbuild-std --target wasm32-unknown-emscripten
 ```
 
 
