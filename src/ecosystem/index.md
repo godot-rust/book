@@ -35,8 +35,8 @@ A list for games is also planned, and will be showcased on a separate page.
 | **[gd-props]**<br/>Resource serialization using `serde`.                       | [Discord][gd-props-discord]                                              | ![gd-props][gd-props-badge]                   |
 | **[gdext-generation]**<br/>Auto-generate the `.gdextension` file.              | [Discord][gdext-generation-discord]                                      | ![gdext-generation][gdext-generation-badge]   |
 | **[godot-rust-cli]**<br/>CLI scripts for Godot with Rust.                      | [Discord][godot-rust-cli-discord]                                        | ![godot-rust-cli][godot-rust-cli-badge]   |
-| **[gdext-cli]**<br/>A CLI tool to generate Godot-Rust projects and scripts.    |                                                                          | ![gdext-cli][gdext-cli-badge]                 |                
-| ___________________________________________________                            |                                      |              
+| **[gdext-cli]**<br/>A CLI tool to generate Godot-Rust projects and scripts.    |                                                                          | ![gdext-cli][gdext-cli-badge]                 |
+| ___________________________________________________                            |                                      |
 | 📜 _**Scripting**_                                                             |                                                                          |                                               |
 | **[godot-rust-script]**<br/>Allows Rust scripts to be added to nodes.          |                                                                          | ![godot-rust-script][godot-rust-script-badge] |
 | ___________________________________________________                            |                                                                          |                                               |
