@@ -35,7 +35,8 @@ A list for games is also planned, and will be showcased on a separate page.
 | **[gd-props]**<br/>Resource serialization using `serde`.                       | [Discord][gd-props-discord]                                              | ![gd-props][gd-props-badge]                   |
 | **[gdext-generation]**<br/>Auto-generate the `.gdextension` file.              | [Discord][gdext-generation-discord]                                      | ![gdext-generation][gdext-generation-badge]   |
 | **[godot-rust-cli]**<br/>CLI scripts for Godot with Rust.                      | [Discord][godot-rust-cli-discord]                                        | ![godot-rust-cli][godot-rust-cli-badge]   |
-| ___________________________________________________                            |                                                                          |                                               |
+| **[gdext-cli]**<br/>A CLI tool to generate godot-rust projects and scripts.    |                                                                          | ![gdext-cli][gdext-cli-badge]                 |
+| ___________________________________________________|                            |                                      |
 | 📜 _**Scripting**_                                                             |                                                                          |                                               |
 | **[godot-rust-script]**<br/>Allows Rust scripts to be added to nodes.          |                                                                          | ![godot-rust-script][godot-rust-script-badge] |
 | ___________________________________________________                            |                                                                          |                                               |
@@ -68,6 +69,9 @@ A list for games is also planned, and will be showcased on a separate page.
 [godot-rust-cli]: https://github.com/TheColorRed/godot-rust
 [godot-rust-cli-badge]: https://img.shields.io/github/last-commit/TheColorRed/godot-rust
 [godot-rust-cli-discord]: https://discord.com/channels/723850269347283004/1325220721340977253
+
+[gdext-cli]: https://github.com/FrankCasanova/gdext-cli
+[gdext-cli-badge]: https://img.shields.io/github/last-commit/FrankCasanova/gdext-cli
 
 [godot-rust-script]: https://github.com/titannano/godot-rust-script
 [godot-rust-script-badge]: https://img.shields.io/github/last-commit/titannano/godot-rust-script
