@@ -30,14 +30,14 @@ Assuming that Rust was installed with `rustup`, this is quite simple.
   ```
 
 Next, install Emscripten.  The simplest way to achieve this is to install [`emsdk` from the git repo][emsdk-git].
-We recommend version 3.1.62 or later when targeting Godot 4.3 or later.[^1]
+We recommend version 3.1.62 or later (≤ 3.1.73) when targeting Godot 4.3 or later.[^1]
 
 ```sh
 git clone https://github.com/emscripten-core/emsdk.git
 cd emsdk
 ./emsdk install 3.1.62
 ./emsdk activate 3.1.62
-source ./emsdk.sh     (or ./emsdk.bat on windows)
+source ./emsdk.sh # On Windows: `run ./emsdk.bat`
 ```
 
 It would also be **highly** recommended to follow the instructions in the terminal to add `emcc`[^2] to your `PATH`.
@@ -118,8 +118,10 @@ Note that you may have to use a different build command in order to let the exte
 ## Thread support (Godot 4.3 or later)
 
 ```admonish note
-The following section assumes your extension targets Godot 4.3 or later. If your extension will only target Godot 4.2 or 4.1, you may
+The following section assumes your extension targets **Godot 4.3 or later**. If your extension will only target Godot 4.2 or 4.1, you may
 keep the initial configuration from [Project Configuration](#project-configuration) without any changes.
+
+In addition, this section's instructions require **gdext 0.3 or later**.
 ```
 
 The above settings assume that multi-threading support is always needed for your extension. However, starting with Godot 4.3, when the end user
@@ -178,7 +180,7 @@ Here's how this can be done:
 
     ```toml
     [features]
-    nothreads = ["gdext/experimental-wasm-nothreads"]
+    nothreads = ["godot/experimental-wasm-nothreads"]
     ```
 
     Note that this feature should be enabled on any crates depending on gdext, so if you have more than one crate in your workspace,
@@ -196,10 +198,11 @@ Here's how this can be done:
     nothreads = [
         "lib1/nothreads",
         "lib2/nothreads",
-        "gdext/experimental-wasm-nothreads"
+        "godot/experimental-wasm-nothreads"
     ]
     ```
-3. Edit your `.gdextension` file to list two separate Wasm binary paths - one for the threaded build and one for the `nothreads` build, as follows:
+3. Edit your `.gdextension` file to list two separate Wasm binary paths - one for the threaded build with the `.threads.wasm` suffix and one for the
+`nothreads` build without a different suffix, as follows:
 
     ```ini
     [libraries]
@@ -214,16 +217,25 @@ Here's how this can be done:
     1. **Building with multi-threading support:** you must add the `-pthread` flag back manually through the `RUSTFLAGS` environment variable,
     but NOT enable the `nothreads` feature yet.
 
+        ```admonish warning
+        Specifying `RUSTFLAGS` will cause flags in `.cargo/config.toml` to be ignored, so all flags in it must be specified again.
+        ```
+
         Afterwards, you should rename the generated Wasm binary, such that it can be picked up by the modified `.gdextension` file
         as a threaded build:
 
-       ```sh
-       RUSTFLAGS="-C link-args=-pthread" cargo +nightly build -Zbuild-std --target wasm32-unknown-emscripten
-       mv target/debug/{YourCrate}.wasm target/debug/{YourCrate}.threads.wasm
-       # On Batch (Windows), use instead: REN target\debug\{YourCrate}.wasm {YourCrate}.threads.wasm
-       ```
+        ```sh
+        RUSTFLAGS="-C link-args=-pthread \
+        -C link-args=-sSIDE_MODULE=2 \
+        -C target-feature=+atomics,+bulk-memory,+mutable-globals \
+        -Zlink-native-libraries=no \
+        -Cllvm-args=-enable-emscripten-cxx-exceptions=0" cargo +nightly build -Zbuild-std --target wasm32-unknown-emscripten
 
-       For a release mode build, you'd replace `debug` with `release` in the last command.
+        mv target/wasm32-unknown-emscripten/debug/{YourCrate}.wasm target/wasm32-unknown-emscripten/debug/{YourCrate}.threads.wasm
+        # On Batch (Windows), use instead: REN target\wasm32-unknown-emscripten\debug\{YourCrate}.wasm {YourCrate}.threads.wasm
+        ```
+
+        For a release mode build, you'd replace `debug` with `release` in the last command.
 
     2. **Building without multi-threading support:** build without the `-pthread` flag, but this time enabling your `nothreads` feature
         created in the second step.
@@ -237,17 +249,17 @@ Here's how this can be done:
         ```
 
 5. Optionally, if you'd like to disable certain functionality in your extension for `nothreads` builds
-(e.g. disable a certain multi-threaded function call), you can use `#[cfg(nothreads)]` and its variants to conditionally compile certain code
-under single-threaded builds, thanks to the `nothreads` feature created in step 2. For example:
+(e.g. disable a certain multi-threaded function call), you can use `#[cfg(feature = "nothreads")]` and its variants to conditionally compile certain
+code under single-threaded builds, thanks to the `nothreads` feature created in step 2. For example:
 
     ```rs
     fn maybe_threaded_function() {
-        #[cfg(nothreads)]
+        #[cfg(feature = "nothreads")]
         {
             /* single-threaded code */
         }
 
-        #[cfg(not(nothreads))]
+        #[cfg(not(feature = "nothreads"))]
         {
             std::thread::spawn(|| { /* multi-threaded code */ }).join().unwrap();
         }
@@ -313,9 +325,10 @@ whether it's a problem with your game or with Firefox.
 ## Troubleshooting
 
 1. Make sure _Extensions Support_ is turned on when exporting.
-2. When using Godot 4.3+, _Thread Support_ has to be turned on during export unless your extension supports a `nothreads` build,
+2. Make sure you are using the recommended compiler flags.
+3. When using Godot 4.3+, _Thread Support_ has to be turned on during export unless your extension supports a `nothreads` build,
 as described in the ["Thread Support" section](#thread-support-godot-43-or-later).
-3. If the game was exported with _Thread Support_ enabled (or targeting Godot 4.1 or 4.2), make sure the webserver you use to host your game supports
+4. If the game was exported with _Thread Support_ enabled (or targeting Godot 4.1 or 4.2), make sure the webserver you use to host your game supports
 Cross-Origin Isolation. Web games hosted on [itch.io](https://itch.io), for example, should already support this out of the box.
 
     To test it locally, you can either use the Godot editor's built-in web game runner (shown in ["Running the webserver"](#running-the-webserver)),
@@ -327,9 +340,53 @@ Cross-Origin Isolation. Web games hosted on [itch.io](https://itch.io), for exam
     more environments, which is the main advantage of disabling that option. You may even have success in running those games by simply
     double-clicking the generated HTML file. The main caveat is that they may only run single-threaded.
 
-4. Make sure your Rust library and Godot project are named differently (for example, `cool-game-extension` and `cool-game`),
+5. Make sure your Rust library and Godot project are named differently (for example, `cool-game-extension` and `cool-game`),
 as otherwise your extension's `.wasm` file may be overwritten, leading to confusing runtime errors.
-5. Make sure you're using at least the minimum recommended `emcc` version in the guide.
+6. Try using exactly the recommended `emcc` version in the guide.
+
+
+### Understanding common errors
+
+1. `RuntimeError: Aborted(undefined). Build with -sASSERTIONS for more info.`
+
+    The game aborted unexpectedly. This likely means some Rust code called `panic!()` or unsuccessful `assert!(condition)`.
+
+    Unfortunately, gdext cannot catch panics in Wasm yet due to limitations in the Rust compiler, so your game will abort.
+
+    Please fix any panics indicated in the browser console, perhaps using [debugging tools](#debugging). The suggested `-sASSERTIONS` flag will
+    likely not help at all.
+
+    Some common panic causes include:
+      - Attempting to call certain threaded code in a `nothreads` build, such as `std::thread::spawn(...)` or `thread_local!`;
+      - Using panicking variants of methods, such as `Array::at` instead of `Array::get`;
+      - Calling `.unwrap()` on `Option::None` or `Result::Err`.
+
+2. `TypeError: resolved is not a function`
+
+    This likely indicates you specified the `-sASSERTIONS` emscripten flag, which is not entirely supported at the moment. Try removing it.
+
+3. `Wasm module '{YourCrate}.wasm' not found. Check the console for more information.`
+
+    This indicates the extension's Wasm binary filename is using a name that is unexpected to gdext.
+
+    By default, on game startup (only on the Wasm target), gdext will look for binaries named `{YourCrate}.wasm` or `{YourCrate}.threads.wasm`.
+    If your GDExtension is using a different Wasm filename, please either rename it to one of those names, or tell gdext the name of the Wasm binary
+    you are using as below. Don't forget to update the binary name in your `.gdextension` file to match.
+
+    ```rs
+    // lib.rs of your main crate
+    struct MyExtension;
+
+    #[gdextension]
+    unsafe impl ExtensionLibrary for MyExtension {
+        fn override_wasm_binary() -> Option<&'static str> {
+            // Tell gdext we are using a custom name for our Wasm binary
+            Some("some-different-name.wasm")
+        }
+    }
+    ```
+
+    In addition, please note that **gdext 0.3 or later** is required to fix this error.
 
 
 ### Customizing `emcc` flags
@@ -342,15 +399,14 @@ Make sure to also check or comment on the [WebAssembly thread on GitHub][webasse
 to that thread over time.
 
 Besides that, it's possible that you may have to enable additional `emcc` flags during compilation for your extension to work properly,
-which are specified at build time as `-C link-args=-FLAG_HERE` either in the `RUSTFLAGS` environment variable (temporarily)
-or in the `.cargo/config.toml` file (permanently).
+which are specified at build time as `-C link-args=-FLAG_HERE` either in the `RUSTFLAGS` environment variable
+or in the `.cargo/config.toml` file (note that using `RUSTFLAGS` causes all flags in `.cargo/config.toml` to be ignored).
 
 If that's the case, you may check out the [Emscripten documentation](https://emscripten.org/docs/tools_reference/emcc.html)
-for a list of some of the accepted flags.
+for a list of some of the accepted flags. For example, `-C link-args=-g` enables linking back to Rust code while [debugging](#debugging).
 
 [This additional list](https://emscripten.org/docs/tools_reference/settings_reference.html) also contains useful `emcc` flags which may be specified
-only with the `-s` prefix. For example, `-C link-args=-sASSERTIONS=2` enables more debug assertions at runtime, at the cost of performance,
-which may be helpful while [debugging](#debugging).
+only with the `-s` prefix.
 
 If you found a set of flags that worked for your case, please share it in the [WebAssembly GitHub thread][webassembly-github-thread] to help
 others in a similar situation.
@@ -366,10 +422,15 @@ Currently, the only option for Wasm debugging is
 for Chrome. It adds support for breakpoints and a memory viewer into the F12 menu.
 
 If Rust source code doesn't appear in the browser's debug panel, you should compile your extension in debug mode and add `-g` to linker flags.
-For example:
+For example, in a multi-threaded build:
 
 ```sh
-RUSTFLAGS="-C link-args=-g" cargo +nightly build -Zbuild-std --target wasm32-unknown-emscripten
+RUSTFLAGS="-C link-args=-g \
+-C link-args=-pthread \
+-C link-args=-sSIDE_MODULE=2 \
+-C target-feature=+atomics,+bulk-memory,+mutable-globals \
+-Zlink-native-libraries=no \
+-Cllvm-args=-enable-emscripten-cxx-exceptions=0" cargo +nightly build -Zbuild-std --target wasm32-unknown-emscripten
 ```
 
 
