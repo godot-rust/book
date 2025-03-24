@@ -81,4 +81,4 @@ Note that many such breaking changes are externally motivated, for example:
 - There are subtleties in the type system or runtime guarantees that can be modeled in a better, safer way (e.g. typed arrays, RIDs).
 - We get feedback from game developers and other users stating that certain workflows are very cumbersome.
 
-Once we get into a more stable feature set, we plan to release versions on crates.io and follow semantic versioning.
+Our [crates.io releases](https://crates.io/crates/godot) adhere to SemVer, but may lag behind the master branch.
