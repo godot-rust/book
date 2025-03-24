@@ -28,15 +28,15 @@ A list for games is also planned, and will be showcased on a separate page.
 |--------------------------------------------------------------------------------|--------------------------------------------------------------------------|-----------------------------------------------|
 | 🌀 _**Async**_                                                                 |                                                                          |                                               |
 | **[gdext-coroutines]**<br/>Integrate Rust coroutines with Godot's async/await. | [crates.io][gdext-coroutines-crate], [Discord][gdext-coroutines-discord] | ![gdext-coroutines][gdext-coroutines-badge]   |
-| **[godot-tokio]**<br/>Create Tokio runtime for use with godot-rust.            | [crates.io][godot-tokio-crate], [Discord][godot-tokio-discord]           | ![godot-tokio][godot-tokio-badge]             |
+| **[godot-tokio]**<br/>Create Tokio runtime for use with godot-rust.            | [crates.io][godot-tokio-crate], [Discord][godot-tokio-discord]          | ![godot-tokio][godot-tokio-badge]             |
 | ___________________________________________________                            |                                                                          |                                               |
 | 🏗️ _**Project workflow**_                                                     |                                                                          |                                               |
-| **[gd-rehearse]**<br/>Unit tests for godot-rust code.                          | [Discord][gd-rehearse-discord]                                           | ![gd-rehearse][gd-rehearse-badge]             |
-| **[gd-props]**<br/>Resource serialization using `serde`.                       | [Discord][gd-props-discord]                                              | ![gd-props][gd-props-badge]                   |
-| **[gdext-generation]**<br/>Auto-generate the `.gdextension` file.              | [Discord][gdext-generation-discord]                                      | ![gdext-generation][gdext-generation-badge]   |
-| **[godot-rust-cli]**<br/>CLI scripts for Godot with Rust.                      | [Discord][godot-rust-cli-discord]                                        | ![godot-rust-cli][godot-rust-cli-badge]       |
+| **[gd-rehearse]**<br/>Unit tests for godot-rust code.                          | [Discord][gd-rehearse-discord]                                          | ![gd-rehearse][gd-rehearse-badge]             |
+| **[gd-props]**<br/>Resource serialization using `serde`.                       | [Discord][gd-props-discord]                                             | ![gd-props][gd-props-badge]                   |
+| **[gdext-generation]**<br/>Auto-generate the `.gdextension` file.              | [Discord][gdext-generation-discord]                                     | ![gdext-generation][gdext-generation-badge]   |
+| **[godot-rust-cli]**<br/>CLI scripts for Godot with Rust.                      | [Discord][godot-rust-cli-discord]                                       | ![godot-rust-cli][godot-rust-cli-badge]       |
 | **[gdext-cli]**<br/>A CLI tool to generate Godot-Rust projects and scripts.    |                                                                          | ![gdext-cli][gdext-cli-badge]                 |                
-| ___________________________________________________                            |                                                                          |                                               |
+| ___________________________________________________                            |                                      |                                               |
 | 📜 _**Scripting**_                                                             |                                                                          |                                               |
 | **[godot-rust-script]**<br/>Allows Rust scripts to be added to nodes.          |                                                                          | ![godot-rust-script][godot-rust-script-badge] |
 | ___________________________________________________                            |                                                                          |                                               |
@@ -72,7 +72,6 @@ A list for games is also planned, and will be showcased on a separate page.
 
 [gdext-cli]: https://github.com/FrankCasanova/gdext-cli
 [gdext-cli-badge]: https://img.shields.io/github/last-commit/FrankCasanova/gdext-cli
-
 
 [godot-rust-script]: https://github.com/titannano/godot-rust-script
 [godot-rust-script-badge]: https://img.shields.io/github/last-commit/titannano/godot-rust-script
