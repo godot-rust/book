@@ -187,7 +187,7 @@ on what you want to achieve.
 
 ```rust
 #[derive(GodotClass)]
-#[class(tool, init, editor_plugin, base=EditorPlugin)]
+#[class(tool, init, base=EditorPlugin)]
 struct RustEditorPlugin {
     base: Base<EditorPlugin>,
     random_inspector: Gd<RandomInspectorPlugin>,
