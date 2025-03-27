@@ -275,7 +275,7 @@ details[open].admonition > summary.admonition-title::after {
 }
 
 :is(.admonish-danger, .admonish-error) > :is(.admonition-title, summary.admonition-title) {
-  background-color: rgba(255, 23, 68, 0.1);
+  background-color: rgba(255, 23, 68, 0.12);
 }
 :is(.admonish-danger, .admonish-error) > :is(.admonition-title, summary.admonition-title)::before {
   background-color: #ff1744;
