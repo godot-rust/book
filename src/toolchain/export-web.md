@@ -77,8 +77,8 @@ Start by adding the following contents to that file:
 [target.wasm32-unknown-emscripten]
 rustflags = [
     "-C", "link-args=-pthread", # /!\ Read 'Thread support' below regarding this flag
+    "-C", "target-feature=+atomics", # /!\ Read 'Thread support' below regarding this flag
     "-C", "link-args=-sSIDE_MODULE=2",
-    "-C", "target-feature=+atomics,+bulk-memory,+mutable-globals",
     "-Zlink-native-libraries=no",
     "-Cllvm-args=-enable-emscripten-cxx-exceptions=0",
 ]
@@ -133,8 +133,14 @@ With the proposed initial configuration from ["Project configuration"](#project-
 your extension would break. If you'd like your extension to support builds without multi-threading as well to avoid this problem,
 you will need to update your build setup in one of the two following ways.
 
-Note that earlier versions of emscripten expected `link-args=-sUSE_PTHREADS=1` instead of `link-args=-pthread`, but this flag has
+```admonish note
+Ensure you're using recommended versions of Emscripten (between 3.1.62 and 3.1.73) and nightly Rust (at least Rust 1.85 is recommended).
+
+This is because earlier versions of Emscripten expected `link-args=-sUSE_PTHREADS=1` instead of `link-args=-pthread`, but this flag has
 been deprecated.
+
+In addition, earlier Rust versions required additional `+bulk-memory,+mutable-globals` target features, but they appear to not be needed anymore. 
+```
 
 
 ### Building without multi-threading support
@@ -142,7 +148,7 @@ been deprecated.
 In this scenario, you'd like to build your extension without any multi-threading support, that is, to have your extension only work
 when _Thread Support_ is disabled.
 
-To do that, you must remove the line with the `-pthread` flag from `.cargo/config.toml`,
+To do that, you must remove the lines with the `-pthread` and `target-feature=+atomics` flags from `.cargo/config.toml`,
 as well as enable the [`experimental-wasm-nothreads`][api-cargo-features] feature in `Cargo.toml`.
 
 The remaining configuration and build command do not require further changes.
@@ -162,14 +168,13 @@ when exporting to the web.
 
 Here's how this can be done:
 
-1. Remove `"-C", "link-args=-pthread"` from `.cargo/config.toml` so that you may conditionally enable it afterwards,
-    resulting in the following updated `.cargo/config.toml` file:
+1. Remove `"-C", "link-args=-pthread"` and `"-C", "target-feature=+atomics"` from `.cargo/config.toml` so that you may conditionally enable them
+    afterwards, resulting in the following updated `.cargo/config.toml` file:
 
     ```toml
     [target.wasm32-unknown-emscripten]
     rustflags = [
         "-C", "link-args=-sSIDE_MODULE=2",
-        "-C", "target-feature=+atomics,+bulk-memory,+mutable-globals",
         "-Zlink-native-libraries=no",
         "-Cllvm-args=-enable-emscripten-cxx-exceptions=0",
     ]
@@ -214,8 +219,8 @@ Here's how this can be done:
     ```
 
 4. Have two separate build commands, executed in the following order:
-    1. **Building with multi-threading support:** you must add the `-pthread` flag back manually through the `RUSTFLAGS` environment variable,
-    but NOT enable the `nothreads` feature yet.
+    1. **Building with multi-threading support:** you must add the `-pthread` and `target-feature=+atomics` flags back manually through
+    the `RUSTFLAGS` environment variable, but NOT enable the `nothreads` feature yet.
 
         ```admonish warning
         Specifying `RUSTFLAGS` will cause flags in `.cargo/config.toml` to be ignored, so all flags in it must be specified again.
@@ -226,8 +231,8 @@ Here's how this can be done:
 
         ```sh
         RUSTFLAGS="-C link-args=-pthread \
+        -C target-feature=+atomics \
         -C link-args=-sSIDE_MODULE=2 \
-        -C target-feature=+atomics,+bulk-memory,+mutable-globals \
         -Zlink-native-libraries=no \
         -Cllvm-args=-enable-emscripten-cxx-exceptions=0" cargo +nightly build -Zbuild-std --target wasm32-unknown-emscripten
 
@@ -237,8 +242,8 @@ Here's how this can be done:
 
         For a release mode build, you'd replace `debug` with `release` in the last command.
 
-    2. **Building without multi-threading support:** build without the `-pthread` flag, but this time enabling your `nothreads` feature
-        created in the second step.
+    2. **Building without multi-threading support:** build without the `-pthread` or `target-feature=+atomics` flags, but this time enabling
+        your `nothreads` feature created in the second step.
 
         No further renaming is needed, but make sure the previous build's resulting binary was renamed to avoid accidentally overwriting it.
 
@@ -427,8 +432,8 @@ For example, in a multi-threaded build:
 ```sh
 RUSTFLAGS="-C link-args=-g \
 -C link-args=-pthread \
+-C target-feature=+atomics \
 -C link-args=-sSIDE_MODULE=2 \
--C target-feature=+atomics,+bulk-memory,+mutable-globals \
 -Zlink-native-libraries=no \
 -Cllvm-args=-enable-emscripten-cxx-exceptions=0" cargo +nightly build -Zbuild-std --target wasm32-unknown-emscripten
 ```
@@ -445,4 +450,6 @@ to compile your extension as well, but newer `emcc` versions might still work re
 
 [^2]: `emcc` is the name of Emscripten's compiler.
 
-[^3]: The primary reason for this is it is necessary to compile with `-sSHARED_MEMORY` enabled. The shipped `std` does not, so building `std` is a requirement. Related info on about WASM support can be found [here](https://github.com/rust-lang/rust/issues/77839).
+[^3]: The primary reason for this is it is necessary to compile with `-pthread` and `-Ctarget-feature=+atomics` enabled for multi-threaded builds.
+The shipped `std` does not, and may also build with other flags we don't use, so building `std` is a requirement.
+Related info on about WASM support can be found [here](https://github.com/rust-lang/rust/issues/77839).
