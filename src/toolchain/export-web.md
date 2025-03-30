@@ -362,7 +362,7 @@ as otherwise your extension's `.wasm` file may be overwritten, leading to confus
     likely not help at all.
 
     Some common panic causes include:
-      - Attempting to call certain threaded code in a `nothreads` build, such as `std::thread::spawn(...)` or `thread_local!`;
+      - Attempting to call certain multi-threaded code in a `nothreads` build, such as `std::thread::spawn(...)`;
       - Using panicking variants of methods, such as `Array::at` instead of `Array::get`;
       - Calling `.unwrap()` on `Option::None` or `Result::Err`.
 
