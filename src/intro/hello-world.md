@@ -235,6 +235,7 @@ that should solve the most common problems.
 - Have you written the Rust code necessary to generate the entry point symbol?
   - See [above](#rust-entry-point) for how.
 - Are your gdext and Godot versions compatible? See [this page][versioning] for how to select the correct versions.
+- Did you try clearing the Godot cache, i.e. deleting all files in the `.godot` folder except for `extension_list.cfg`?
 - In case you use `api-custom`, do you have
   - Godot in your `PATH` as `godot4`,
   - or an environment variable called `GODOT4_BIN`, containing the path to the Godot executable?
