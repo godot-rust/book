@@ -143,6 +143,7 @@ A list for games is also planned, and will be showcased on a separate page.
 | 🎛️ _**Software platforms**_                                            |                                        |                                                   |
 | **[Godot Boy]**<br/>Game boy emulator in Godot, written in Rust.        | [Discord][godot-boy-discord]           | ![Godot Boy][godot-boy-badge]                     |
 | **[GDScript Transpiler]**<br/>Reimplements parts of GDScript in Rust.   | [Discord][gdscript-transpiler-discord] | ![GDScript Transpiler][gdscript-transpiler-badge] |
+| **[Termdot]**<br/>Terminal built for Godot, enhance your workflow.      | [Discord][termdot-discord]             | ![Termdot][termdot-badge]                         |
 | ___________________________________________________                     |                                        |                                                   |
 | 🛸 _**Tech demos**_                                                     |                                        |                                                   |
 | **[Godot boids]**<br/>Addon for Godot that adds 2D/3D boids (flocking). | [Discord][godot-boids-discord]         | ???                                               |
@@ -158,6 +159,9 @@ A list for games is also planned, and will be showcased on a separate page.
 [Godot boids]: https://git.gaze.systems/dusk/godot_boids
 [godot-boids-discord]: https://discord.com/channels/723850269347283004/1279645654439821393/1279645654439821393
 
+[Termdot]: https://github.com/termdot/termdot
+[termdot-discord]: https://discord.gg/phg7YvSStX
+[termdot-badge]: https://img.shields.io/github/last-commit/termdot/termdot
 
 ## Contributing
 
