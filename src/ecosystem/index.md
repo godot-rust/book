@@ -163,6 +163,7 @@ A list for games is also planned, and will be showcased on a separate page.
 [termdot-discord]: https://discord.gg/phg7YvSStX
 [termdot-badge]: https://img.shields.io/github/last-commit/termdot/termdot
 
+
 ## Contributing
 
 If you have a project that might fit this list, great! You don't have to be the author -- if you've come across something that will make other
