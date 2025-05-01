@@ -104,6 +104,7 @@ A list for games is also planned, and will be showcased on a separate page.
 | ___________________________________________________                           |                                         |                                                     |
 | 🏗️ _**Project workflow**_                                                    |                                         |                                                     |
 | **[godot-sandbox]**<br/>Secure modding support for C++, Rust and others.      |                                         | ![godot-sandbox][godot-sandbox-badge]               |
+| **[Termdot]**<br/>Terminal built for Godot, enhance your workflow.            | [Discord][termdot-discord]              | ![Termdot][termdot-badge]                           |
 | ___________________________________________________                           |                                         |                                                     |
 | 🌐 _**Localization**_                                                        |                                         |                                                     |
 | **[Fluent Translation]**<br/>Translation using Mozilla's Fluent (FTL).       | [Asset Library][godot-fluent-translation-assetlib] | ![godot-fluent-translation][godot-fluent-translation-badge] |
@@ -134,6 +135,10 @@ A list for games is also planned, and will be showcased on a separate page.
 [Fluent Translation]: https://github.com/RedMser/godot-fluent-translation
 [godot-fluent-translation-assetlib]: https://godotengine.org/asset-library/asset/2937
 [godot-fluent-translation-badge]: https://img.shields.io/github/last-commit/RedMser/godot-fluent-translation
+
+[Termdot]: https://github.com/termdot/termdot
+[termdot-discord]: https://discord.gg/phg7YvSStX
+[termdot-badge]: https://img.shields.io/github/last-commit/termdot/termdot
 
 
 ### 🖥️ Applications
