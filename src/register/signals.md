@@ -12,6 +12,12 @@ Signals are a Godot mechanism to implement the Observer pattern. You can emit ev
 read the [GDScript tutorial][godot-gdscript-signals].
 
 
+```admonish note title="Compatibility"
+Typed signals require at least Godot 4.2 and godot-rust v0.3.  
+`#[signal]` for registration alone is available before.  
+```
+
+
 ## Table of contents
 
 <!-- toc -->
@@ -98,7 +104,7 @@ are not supported.
 
 ### Generated code
 
-As soon as you register at least one signal, godot-rust will implement the [`WithSignals`][api-withsignals] trait for your class.
+As soon as you register at least one signal, godot-rust will implement the [`WithUserSignals`][api-withusersignals] trait for your class.
 This provides the `signals()` method, which can now be accessed inside class methods.
 
 `signals()` returns a _signal collection_, i.e. a struct which exposes all signals as named methods:
@@ -162,9 +168,9 @@ impl INode3D for Monster {
     fn ready(&mut self) {
         self.signals()
             .damage_taken()
-            .connect_self(|this: &mut Self, amount| {
-                //               ^^^^^^^^^
-                //               must be explicit; other parameters types are inferred.
+            .connect_self(|this, amount| {
+                //         ^^^^  ^^^^^^
+                //         types inferred as &mut Self, i32
 
                 ... // Update healthbar, play sound, etc.
             });
@@ -243,7 +249,8 @@ Like `connect*()` methods, `emit()` is fully type-safe. You can only pass a sing
 `bool` or `enum` value for the type of damage, the compiler will catch all `connect*` and `emit` calls. You'll sleep well after refactorings.
 
 The nice thing about `emit()` is that it also comes with parameter names, as provided in the `#[signal]` attribute. This lets IDEs provide
-more context, e.g. show parameter inlay hints in `emit()` calls.
+more context, e.g. show parameter inlay hints in `emit()` calls. The parameter types use the [`AsArg<T>` trait][api-asarg], which follows
+engine APIs and provides flexibility in the argument types. For example, `"string"` can be passed for `impl AsArg<GString>`.
 
 In addition to the specific `emit()` method, the `TypedSignal` (deref target of the custom signal type) also provides a generic method
 `emit_tuple()`, which takes a tuple of all arguments, by value. This is rarely needed, but can be useful in situations where you want to pass
@@ -257,14 +264,77 @@ self.signals().damage_taken().emit_tuple((amount,));
 ## Accessing signals outside the class
 
 As your game grows in interactions, you may want to configure or emit signals not just within `impl Monster` blocks, but also from other parts
-of your codebase. The trait method [`WithSignals::signals()`][api-withsignals] allows direct access from `&mut self`, but outside you often
-only have a `Gd<Monster>`. You could technically `bind_mut()` that object, but there's a better way without borrow-checking.
+of your codebase. The trait method [`WithUserSignals::signals()`][api-withusersignals] allows direct access from `&mut self`, but outside you
+often only have a `Gd<Monster>`. You could technically `bind_mut()` that object, but there's a better way without borrow-checking.
 
 For this reason, `Gd` itself [_also_ provides a `signals()` method][api-gd-signals], returning the exact same _signal collection_ API:
 
 ```rust
 let monster: Gd<Monster> = ...;
 let sig = monster.signals().damage_taken();
+```
+
+
+### Godot built-in signals
+
+Godot provides many built-in signals to hook into lifecycles and events. All engine-provided classes implement the
+[`WithSignals`][api-withsignals] trait, which is a supertrait of [`WithUserSignals`][api-withusersignals].
+
+Every class `T` has its own signal collection, accessible by `Gd<T>::signals()`. Like class methods, signals are inherited, so you can do
+the following:
+
+```rust
+// tree_entered is a signal declared on Node.
+let node: Gd<Node> = ...;
+let sig = node.signals().tree_entered();
+
+// You can also access it from a derived class.
+let node: Gd<Node3D> = ...;
+let sig = node.signals().tree_entered();
+```
+
+This works also in user-defined classes. This means we can extend our previous `ready()` implementation to connect Godot signals:
+
+```rust
+#[godot_api]
+impl INode3D for Monster {
+    fn ready(&mut self) {
+        // Previous code.
+        self.signals()
+            .damage_taken()
+            .connect_obj(&*self.shield, Shield::on_damage_taken);
+        
+        // Connect to the `Node::renamed` signal, which is invoked
+        // when a node name changes.
+        self.signals()
+            .renamed()
+            .connect_self(|this| {
+                let new_name = this.base().get_name();
+                println!("Monster node renamed to {new_name}.");
+            });
+    }
+}
+```
+
+```admonish tip title="Disabling typed signals"
+The generated API for typed signals usually does no harm even if you don't use it. However, it is possible to disable code generation with:
+~~~rust
+#[godot_api(no_typed_signals)]
+impl MyClass { ... }
+~~~
+
+This still allows you to use `#[signal]` and will register each signal declared as such, but it won't generate a `signals()` collection.
+```
+
+```admonish note title="Availability of signal API"
+The typed signal API is generated for your class under the following conditions:
+
+- Your class declares a `Base<T>` field.
+- You have a `#[godot_api]` block (empty if necessary).
+   - This is a technical limitation that may be lifted in the future.
+- You do not opt out from typed signals with `no_typed_signals`.
+
+Signals, typed or not, **cannot** be declared in secondary `impl` blocks (those annotated with `#[godot_api(secondary)]` attribute).
 ```
 
 
@@ -383,8 +453,8 @@ Godot's low-level APIs for dealing with untyped signals are still available:
 - [`Signal::connect()`][api-signal-connect]
 - [`Signal::emit()`][api-signal-emit]
 
-They can be used as a fallback for areas that the new typed signal API doesn't cover yet (e.g. Godot's built-in signals), or in situations
-where you only have some information available at runtime.
+The new typed-signal API should cover the full functionality, but there are situations where information is only available at runtime, making
+the untyped reflection APIs a good fit. We might also combine the two in the future.
 
 Certain typed-signal features are still planned and will make working with signals even more streamlined. Other features are likely not going
 to be ported to godot-rust, e.g. a `Callable::bind()` equivalent for typed Rust methods. Just use closures instead.
@@ -397,14 +467,13 @@ and avoid certain pitfalls of GDScript.
 Rust function references or closures can be directly connected to signals, and emitting is achieved with regular function calls.
 
 
-[api-object]: https://godot-rust.github.io/docs/gdext/master/godot/classes/struct.Object.html
-[api-signal]: https://godot-rust.github.io/docs/gdext/master/godot/register/derive.GodotClass.html#signals
+[api-asarg]: https://godot-rust.github.io/docs/gdext/master/godot/meta/trait.AsArg.html
 [api-withsignals]: https://godot-rust.github.io/docs/gdext/master/godot/obj/trait.WithSignals.html
+[api-withusersignals]: https://godot-rust.github.io/docs/gdext/master/godot/obj/trait.WithUserSignals.html
 [api-gd-signals]: https://godot-rust.github.io/docs/gdext/master/godot/obj/struct.Gd.html#method.signals
 [godot-gdscript-signals]: https://docs.godotengine.org/en/stable/tutorials/scripting/gdscript/gdscript_basics.html#signals
 [api-typedsignal]: https://godot-rust.github.io/docs/gdext/master/godot/register/struct.TypedSignal.html
 [api-typedsignal-connectbuilder]: https://godot-rust.github.io/docs/gdext/master/godot/register/struct.TypedSignal.html#method.connect_builder
-
 [api-object-connect]: https://godot-rust.github.io/docs/gdext/master/godot/classes/struct.Object.html#method.connect
 [api-object-emitsignal]: https://godot-rust.github.io/docs/gdext/master/godot/classes/struct.Object.html#method.emit_signal
 [api-signal-connect]: https://godot-rust.github.io/docs/gdext/master/godot/builtin/struct.Signal.html#method.connect
