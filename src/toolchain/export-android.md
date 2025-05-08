@@ -14,7 +14,7 @@ Specifically, the Android SDK Command Line Tools and JDK 17 as mentioned in Godo
 Once you have those installed, you then need to follow Godot's instructions for setting up the build system
 [here](https://docs.godotengine.org/en/stable/contributing/development/compiling/compiling_for_android.html#setting-up-the-buildsystem).
 
-To find the jdk and nkd versions that are needed, reference the Godot configuration that your version of Godot is using.  For example:
+To find the JDK and NDK versions that are needed, reference the Godot configuration that your version of Godot is using.  For example:
 
 - [master branch](https://github.com/godotengine/godot/blob/master/platform/android/java/app/config.gradle)
 - [4.2.2-stable tag](https://github.com/godotengine/godot/blob/4.2.2-stable/platform/android/java/app/config.gradle)
