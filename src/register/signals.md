@@ -386,6 +386,17 @@ Godot's low-level APIs for dealing with untyped signals are still available:
 They can be used as a fallback for areas that the new typed signal API doesn't cover yet (e.g. Godot's built-in signals), or in situations
 where you only have some information available at runtime.
 
+In order to emit an untyped signal, you need to access a mutable reference to the Base property of your struct, as it inherits Object, letting you call its `emit_signal` method.
+Considering the `Monster` struct from the previous examples, we could emit its signal with:
+```rust
+self.base_mut().emit_signal(
+    "damage_taken",
+    &[
+        Variant::from(amount_damage_taken),
+    ]
+);
+```
+
 Certain typed-signal features are still planned and will make working with signals even more streamlined. Other features are likely not going
 to be ported to godot-rust, e.g. a `Callable::bind()` equivalent for typed Rust methods. Just use closures instead.
 
