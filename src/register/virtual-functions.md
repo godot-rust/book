@@ -14,7 +14,6 @@ Hence the emphasis on "script-virtual".
 
 ```admonish note title="Compatibility"
 This feature is available from Godot 4.3 onwards.  
-<sub>(This includes dev and nightly versions after 2024-02-13).</sub>
 ```
 
 
