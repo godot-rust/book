@@ -180,6 +180,8 @@ See [The Cargo Book](https://doc.rust-lang.org/cargo/reference/config.html) for 
 [no-custom-support]: compatibility.md#out-of-scope
 [setup-llvm]: ../intro/setup.md#llvm
 
+<br>
+
 ---
 
 **Footnotes**
