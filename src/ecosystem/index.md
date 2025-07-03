@@ -105,6 +105,7 @@ A list for games is also planned, and will be showcased on a separate page.
 | 🏗️ _**Project workflow**_                                                    |                                         |                                                     |
 | **[godot-sandbox]**<br/>Secure modding support for C++, Rust and others.      |                                         | ![godot-sandbox][godot-sandbox-badge]               |
 | **[Termdot]**<br/>Terminal built for Godot, enhance your workflow.            | [Discord][termdot-discord]              | ![Termdot][termdot-badge]                           |
+| **[Stag Toolkit]**<br/>Procedural terrain and real-time simulations.          | [Island Builder][stagtoolkit-island-breakdown] | ![Stag Toolkit][stagtoolkit-badge]           |
 | ___________________________________________________                           |                                         |                                                     |
 | 🌐 _**Localization**_                                                        |                                         |                                                     |
 | **[Fluent Translation]**<br/>Translation using Mozilla's Fluent (FTL).       | [Asset Library][godot-fluent-translation-assetlib] | ![godot-fluent-translation][godot-fluent-translation-badge] |
@@ -139,6 +140,10 @@ A list for games is also planned, and will be showcased on a separate page.
 [Termdot]: https://github.com/termdot/termdot
 [termdot-discord]: https://discord.gg/phg7YvSStX
 [termdot-badge]: https://img.shields.io/github/last-commit/termdot/termdot
+
+[Stag Toolkit]: https://github.com/arocull/stag-toolkit
+[stagtoolkit-island-breakdown]: https://alanocull.com/topic/island_builder
+[stagtoolkit-badge]: https://img.shields.io/github/last-commit/arocull/stag-toolkit
 
 
 ### 🖥️ Applications
