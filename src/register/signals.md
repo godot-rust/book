@@ -336,9 +336,8 @@ The typed signal API is generated for your class under the following conditions:
 
 - Your class declares a `Base<T>` field.
 - You do not opt out from typed signals with `no_typed_signals`.
-- You have a `#[godot_api]` block  on your class `impl` (empty if necessary).
-   - Requires seperate blocks for both `impl Monster` and `impl INode3D for Monster`
-   - This is a technical limitation that may be lifted in the future.
+- You have a `#[godot_api]` block  on your class' inherent `impl` block (not the `I*` trait `impl`).
+  Leave it empty if necessary. This is a technical limitation that may be lifted in the future.
 
 Signals, typed or not, **cannot** be declared in secondary `impl` blocks (those annotated with `#[godot_api(secondary)]` attribute).
 ```
