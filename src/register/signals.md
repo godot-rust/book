@@ -11,7 +11,6 @@ Signals are a Godot mechanism to implement the Observer pattern. You can emit ev
 ("connected") to the signal, decoupling sender and receiver. If you haven't worked with Godot signals before, you should definitely
 read the [GDScript tutorial][godot-gdscript-signals].
 
-
 ```admonish note title="Compatibility"
 Typed signals require at least Godot 4.2 and godot-rust v0.3.  
 `#[signal]` for registration alone is available before.  
@@ -133,6 +132,17 @@ signature of `fn damage_taken(amount: i32)`. Each `#[signal]` attribute generate
 The signal type is implementation-defined. Besides the `#[signal]`-specific custom API, it also implements `Deref/DerefMut` with target
 [`TypedSignal`][api-typedsignal], meaning you can additionally use all _those_ methods on each signal type.
 
+```admonish note title="Availability of signal API"
+For typed signals to be available, you need:
+
+- A `#[godot_api] impl MyClass {}` block.  
+  - This must be an inherent impl, the `I*` trait `impl` won't be enough.
+  - Leave the impl empty if necessary.
+- A `Base<T>` field.
+
+Signals, typed or not, **cannot** be declared in secondary `impl` blocks (those annotated with `#[godot_api(secondary)]` attribute).
+```
+
 
 ## Connecting signals
 
@@ -181,6 +191,10 @@ impl INode3D for Monster {
             });
     }
 }
+```
+
+```admonish note title="One signal at a time"
+If you want to connect multiple signals, call `self.signals()` repeatedly. You cannot store it in a variable for reuse.
 ```
 
 
@@ -329,17 +343,6 @@ impl MyClass { ... }
 ~~~
 
 This still allows you to use `#[signal]` and will register each signal declared as such, but it won't generate a `signals()` collection.
-```
-
-```admonish note title="Availability of signal API"
-The typed signal API is generated for your class under the following conditions:
-
-- Your class declares a `Base<T>` field.
-- You do not opt out from typed signals with `no_typed_signals`.
-- You have a `#[godot_api]` block  on your class' inherent `impl` block (not the `I*` trait `impl`).
-  Leave it empty if necessary. This is a technical limitation that may be lifted in the future.
-
-Signals, typed or not, **cannot** be declared in secondary `impl` blocks (those annotated with `#[godot_api(secondary)]` attribute).
 ```
 
 
