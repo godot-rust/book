@@ -74,7 +74,7 @@ unsafe impl ExtensionLibrary for MyExtension {
             // The `&str` identifies your singleton and can be
             // used later to access it.
             Engine::singleton().register_singleton(
-                "MyEngineSingleton",
+                &MyEngineSingleton::class_name().to_string_name(),
                 &MyEngineSingleton::new_alloc(),
             );
         }
@@ -85,7 +85,7 @@ unsafe impl ExtensionLibrary for MyExtension {
             // Let's keep a variable of our Engine singleton instance,
             // and MyEngineSingleton name.
             let mut engine = Engine::singleton();
-            let singleton_name = "MyEngineSingleton";
+            let singleton_name = &MyEngineSingleton::class_name().to_string_name();
 
             // Here, we manually retrieve our singleton(s) that we've registered,
             // so we can unregister them and free them from memory - unregistering
