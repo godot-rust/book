@@ -31,16 +31,19 @@ unsafe impl ExtensionLibrary for MyGDExtension {
     fn on_level_init(level: InitLevel) {
         if level == InitLevel::Scene {
             Engine::singleton().register_singleton(
-                "MyAssetSingleton",
+                &MyAssetSingleton::class_name().to_string_name(),
                 &MyAssetSingleton::new_alloc(),
             );
         }
     }
 
-    // Unregisters the singleton when the extension exits.
-    fn on_level_init(level: InitLevel) {
+    // Unregister the singleton when the extension is unloaded.
+    fn on_level_deinit(level: InitLevel) {
         if level == InitLevel::Scene {
-            Engine::singleton().unregister_singleton("MyAssetSingleton");
+            let mut engine = Engine::singleton();
+            let singleton_name = &MyAssetSingleton::class_name().to_string_name();
+            let my_singleton = engine.get_singleton(singleton_name).unwrap();
+            engine.unregister_singleton(singleton_name);
             my_singleton.free();
         }
     }
@@ -79,6 +82,14 @@ impl IObject for MyAssetSingleton {
         ResourceLoader::singleton().add_resource_format_loader(&loader);
         
         Self { base, loader, saver }
+    }
+}
+
+// Unregister the loader and saver when the extension is unloaded.
+impl Drop for MyAssetSingleton {
+    fn drop(&mut self) {
+        ResourceSaver::singleton().remove_resource_format_saver(&self.saver);
+        ResourceLoader::singleton().remove_resource_format_loader(&self.loader);
     }
 }
 ```
