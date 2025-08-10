@@ -14,6 +14,16 @@ Godot isn't aware of them. This can easily be the case when you work with Rust l
 
 The following example gives you a starting point to copy-and-paste. For advanced use cases, consult the Godot documentation for these classes.
 
+
+## Project Configuration
+
+Enable the [`experimental-threads`][api-cargo-features] feature in your `Cargo.toml`.
+If this feature is not enabled, the application will panic if Godot uses your `ResourceFormatLoader` in a thread other than the main thread,
+such as in the editor.
+
+
+## Example saver and loader
+
 First of all, you need to call the provided functions in your library entry point at the `InitLevel::Scene`. This ensures proper initialization
 and cleanup of your loader/saver.
 
@@ -219,6 +229,7 @@ impl IResourceFormatLoader for MyAssetLoader {
 
 Direct link to `CacheMode` ([Godot][godot-cachemode], [Rust][api-cachemode]) and [`GFile`][api-gfile].
 
+[api-cargo-features]: https://godot-rust.github.io/docs/gdext/master/godot/#cargo-features
 [godot-cachemode]: https://docs.godotengine.org/en/stable/classes/class_resourceformatloader.html#enum-resourceformatloader-cachemode
 [api-cachemode]: https://godot-rust.github.io/docs/gdext/master/godot/classes/resource_loader/enum.CacheMode.html
 
