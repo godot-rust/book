@@ -424,7 +424,7 @@ The returned [`ConnectBuilder`][api-connectbuilder] provides several dimensions 
 - Connection flags: `DEFERRED`, `ONESHOT`, `PERSIST`
 - Single-threaded (default) or thread-crossing ("sync")
 
-To finish it, `done()` is invoked. Some example setups:
+Some example setups:
 
 ```rust
 // Connect -> Self::log_event(&mut self, event: String)
