@@ -162,9 +162,11 @@ enum Planet {
 ~~~
 is roughly the same as:
 ~~~java
-const EARTH = 0
-const VENUS = 1
-const MARS = 2
+const Planet: Dictionary = {
+    EARTH = 0,
+    VENUS = 1,
+    MARS = 2,
+}
 
 @export_enum("EARTH", "VENUS", "MARS") var favorite_planet = Planet.EARTH
 ~~~
@@ -172,8 +174,9 @@ However, the enum is not type-safe, you can just do this:
 ~~~java
 var p: Planet = 5
 ~~~
-Furthermore, unless you initialize the constants with string values, you cannot retrieve their names, making debugging harder. There is no
-reflection either, such as "get number of enum values" or "iterate over all of them". If you have the choice, consider keeping enums in Rust.
+Furthermore, you can also not easily retrieve the name `"EARTH"` from the expression `Planet.EARTH`.[^enum-name]
+
+See [GDScript enums][godot-gdscript-enums] for more details.
 ```
 
 
@@ -212,3 +215,13 @@ As a general rule, try to stay close to Godot's own types, e.g. `Array`, `Dictio
 [api-var-export]: https://godot-rust.github.io/docs/gdext/master/godot/register/derive.GodotClass.html#properties-and-exports
 [godot-gdscript-properties]: https://docs.godotengine.org/en/stable/tutorials/scripting/gdscript/gdscript_basics.html#properties
 [gh-godot-packedarray]: https://github.com/godotengine/godot/issues/76150
+[godot-gdscript-enums]: https://docs.godotengine.org/en/stable/tutorials/scripting/gdscript/gdscript_basics.html#enums
+
+<br>
+
+---
+
+**Footnotes**
+
+[^enum-name]: You _can_ obtain `"EARTH"` if you iterate the `Planet` dictionary and compare each value (assuming there are no duplicates).
+   That however requires that you know the type (`Planet`); the value itself does not hold this information.
