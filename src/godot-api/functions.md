@@ -151,6 +151,9 @@ let node = get_node_as::<Node2D>("path/to/MyScript");
 // Declare arguments as a slice of variants.
 let args = &["string".to_variant(), 42.to_variant()];
 
+// Or better, use the vslice! macro for this:
+let args = vslice!["string", 42];
+
 // Call the method dynamically.
 let val: Variant = node.call("my_method", args);
 

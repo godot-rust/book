@@ -7,3 +7,10 @@ tmp
 .idea/
 *.code-workspace
 mdbook-admonish.css
+
+# Node.js/Deno for linter
+/node_modules/.package-lock.json
+/deno.json
+/deno.lock
+/package.json
+/package-lock.json

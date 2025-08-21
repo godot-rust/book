@@ -100,7 +100,7 @@ That said, there are some notable differences:
 [api-obj-script]: https://godot-rust.github.io/docs/gdext/master/godot/obj/script/index.html
 [book-zh-cn]: https://colinwttt.github.io/godot-rust-book-chinese
 [demo-projects]: https://github.com/godot-rust/demo-projects
-[gdnative-book]: ../gdnative-book
+[gdnative-book]: https://godot-rust.github.io/gdnative-book/
 [github-contributors]: https://github.com/godot-rust/gdext/graphs/contributors
 [github-gdext]: https://github.com/godot-rust/gdext
 [github-gdnative]: https://github.com/godot-rust/gdnative

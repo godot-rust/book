@@ -77,7 +77,7 @@ After installation of rustup and the `stable` toolchain, you can verify that the
 
 ```bash
 $ rustc --version
-rustc 1.74.1 (a28077b28 2023-12-04)
+rustc 1.88.0 (6b00bc388 2025-06-23)
 ```
 
 

@@ -11,15 +11,6 @@ Signals are a Godot mechanism to implement the Observer pattern. You can emit ev
 ("connected") to the signal, decoupling sender and receiver. If you haven't worked with Godot signals before, you should definitely
 read the [GDScript tutorial][godot-gdscript-signals].
 
-```admonish note title="Compatibility"
-Typed signals require at least Godot 4.2 and godot-rust v0.3.  
-`#[signal]` for registration alone is available before.  
-```
-
-```admonish info title="New API"
-Typed signals are a major new feature in v0.3. The API may still change in the future, and some parts are not yet implemented.
-```
-
 
 ## Table of contents
 
@@ -466,9 +457,11 @@ Considering the `Monster` struct from the previous examples, you can emit its si
 ```rust
 self.base_mut().emit_signal(
     "damage_taken",
-    &[amount_damage_taken.to_variant()]
+    vslice![amount_damage_taken],
 );
 ```
+
+See [vslice!][api-vslice] docs for passing multiple variants in a slice.
 
 Certain typed-signal features are still planned and will make working with signals even more streamlined. Other features are likely not going
 to be ported to godot-rust, e.g. a `Callable::bind()` equivalent for typed Rust methods. Just use closures instead.
@@ -493,3 +486,4 @@ Rust function references or closures can be directly connected to signals, and e
 [api-object-emitsignal]: https://godot-rust.github.io/docs/gdext/master/godot/classes/struct.Object.html#method.emit_signal
 [api-signal-connect]: https://godot-rust.github.io/docs/gdext/master/godot/builtin/struct.Signal.html#method.connect
 [api-signal-emit]: https://godot-rust.github.io/docs/gdext/master/godot/builtin/struct.Signal.html#method.emit
+[api-vslice]: https://godot-rust.github.io/docs/gdext/master/godot/builtin/macro.vslice.html
