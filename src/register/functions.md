@@ -7,7 +7,7 @@
 
 # Registering functions
 
-Functions are essential in any programming language to execute logic. The gdext library allows you to register functions, so that they can
+Functions are essential in any programming language to execute logic. The godot-rust library allows you to register functions, so that they can
 be called from the Godot engine and GDScript.
 
 Registration of functions happens always inside `impl` blocks that are annotated with `#[godot_api]`.

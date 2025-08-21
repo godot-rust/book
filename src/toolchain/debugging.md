@@ -7,7 +7,7 @@
 
 # Debugging
 
-Extensions written in gdext can be debugged using LLDB, in a similar manner to other Rust programs. The primary difference is that LLDB will
+Extensions written in godot-rust can be debugged using LLDB, in a similar manner to other Rust programs. The primary difference is that LLDB will
 launch or attach to the Godot C++ executable: either the Godot editor or your custom Godot application.
 Godot then loads your extension (itself a dynamic library), and with it your Rust code.
 

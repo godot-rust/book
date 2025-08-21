@@ -77,7 +77,7 @@ The `cdylib` crate type is not very common in Rust. Instead of building an appli
 (`lib`), we create a _dynamic_ library, exposing an interface in the C programming language. This dynamic library is loaded by Godot at runtime,
 through the GDExtension interface.
 
-Now add gdext to your project with:
+Now add godot-rust to your project with:
 
 ```bash
 cargo add godot
@@ -135,7 +135,7 @@ macos.release.arm64 =    "res://../rust/target/release/lib{YourCrate}.dylib"
 
 The `[configuration]` section should be copied as-is.
 
-- Key `entry_symbol` refers to the entry point function that **gdext** exposes. We choose `"gdext_rust_init"`, which is gdext's default
+- Key `entry_symbol` refers to the entry point function that **godot-rust** exposes. We choose `"gdext_rust_init"`, which is the library's default
   (but can be configured if needed).
 - Key `compatibility_minimum` specifies the minimum version of **Godot** required by your extension to work.
   Opening the project with a version of Godot lower than this will prevent your extension from running.
@@ -197,7 +197,7 @@ which the Godot Editor may inappropriately attempt to import, resulting in an er
 ### Rust entry point
 
 As mentioned earlier, our compiled C library needs to expose an _entry point_ to Godot: a C function that can be called through
-the GDExtension. Setting this up requires quite some low-level [FFI][wikipedia-ffi] code, which gdext abstracts for you.
+the GDExtension. Setting this up requires quite some low-level [FFI][wikipedia-ffi] code, which godot-rust abstracts for you.
 
 In your `lib.rs`, replace the template with the following:
 
@@ -213,7 +213,7 @@ unsafe impl ExtensionLibrary for MyExtension {}
 There are multiple things going on here:
 
 1. Place the [`prelude`][api-prelude] module from the [`godot`][api-godot] crate into scope.
-   This module contains the most common symbols in the gdext API.
+   This module contains the most common symbols in the godot-rust API.
 2. Define a struct called `MyExtension`. This is just a type tag without data or methods, you can name it however you like.
 3. Implement the [`ExtensionLibrary`][api-extensionlibrary] trait for our type, and mark it with the `#[gdextension]` attribute.
 
@@ -234,7 +234,7 @@ that should solve the most common problems.
   - The paths must also be relative to the directory that `project.godot` is in.  Typically it'll be `res://../rust/...`.
 - Have you written the Rust code necessary to generate the entry point symbol?
   - See [above](#rust-entry-point) for how.
-- Are your gdext and Godot versions compatible? See [this page][versioning] for how to select the correct versions.
+- Are your godot-rust and Godot versions compatible? See [this page][versioning] for how to select the correct versions.
 - Did you try clearing the Godot cache, i.e. deleting all files in the `.godot` folder except for `extension_list.cfg`?
 - In case you use `api-custom`, do you have
   - Godot in your `PATH` as `godot4`,
@@ -260,7 +260,7 @@ my-cool-project
 Now, let's write Rust code to define a _class_ that can be used in Godot.
 
 Every class inherits an existing Godot-provided class (its _base class_ or just _base_).
-Rust does not natively support inheritance, but the gdext API emulates it to a certain extent.
+Rust does not natively support inheritance, but the godot-rust API emulates it to a certain extent.
 
 
 ### Class declaration
@@ -339,7 +339,7 @@ impl ISprite2D for Player {
 
 Again, those are multiple pieces working together, let's go through them one by one.
 
-1. `#[godot_api]` - this lets gdext know that the following `impl` block is part of the Rust API to expose to Godot.
+1. `#[godot_api]` - this lets godot-rust know that the following `impl` block is part of the Rust API to expose to Godot.
    This attribute is required here; accidentally forgetting it will cause a compile error.
 
 2. `impl ISprite2D` - each of the engine classes has a `I{ClassName}` trait, which comes with virtual functions for that
@@ -465,7 +465,7 @@ impl Player {
 
 API attributes typically follow the GDScript keyword names: `class`, `func`, `signal`, `export`, `var`, ...
 
-That's it for the _Hello World_ tutorial! The following chapters will go into more detail about the various features that gdext provides.
+That's it for the _Hello World_ tutorial! The following chapters will go into more detail about the various features that godot-rust provides.
 
 
 [api-class-engine]: https://godot-rust.github.io/docs/gdext/master/godot/classes/index.html

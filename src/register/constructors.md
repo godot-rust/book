@@ -22,10 +22,10 @@ GDScript.
 
 ## Default constructor
 
-The constructor of any `GodotClass` object is called `init` in gdext. This constructor is necessary to instantiate the object in Godot.
+The constructor of any `GodotClass` object is called `init` in godot-rust. This constructor is necessary to instantiate the object in Godot.
 It is invoked by the scene tree or when you write `Monster.new()` in GDScript.
 
-There are two options to define the constructor: let gdext generate it or define it manually. It is also possible to opt out of `init` if you
+There are two options to define the constructor: let godot-rust generate it or define it manually. It is also possible to opt out of `init` if you
 don't need Godot to default-construct your object.
 
 

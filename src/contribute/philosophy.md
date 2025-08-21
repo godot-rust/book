@@ -9,11 +9,11 @@
 
 Different gamedev projects have different goals, which determines how APIs are built and how they support various use cases.
 
-Understanding the vision behind gdext allows users to:
+Understanding the vision behind godot-rust allows users to:
 
 - decide whether the library is the right choice for them
 - comprehend design decisions that have influenced the library's status quo
-- contribute in ways that align with the project, thus saving time.
+- contribute in ways that align with the project.
 
 
 ## Mission statement
@@ -27,7 +27,7 @@ It focuses on a productive workflow for the development of games and interactive
 ```
 
 In our case, pragmatism means that progress is driven by solutions to real-world problems, rather than theoretical purity.
-Engineering comes with trade-offs, and gdext in particular is rather atypical for a Rust project. As such, we may sometimes deviate
+Engineering comes with trade-offs, and godot-rust is rather atypical for a Rust project. As such, we may sometimes deviate
 from Rust best practices that may apply in a clean-room setting, but fall apart when exposed to the interaction with a C++ game engine.
 
 At the end of the day, people use Godot and Rust to build games, simulations or other interactive applications. The library should be designed
@@ -38,12 +38,12 @@ In many ways, we follow [similar principles as the Godot engine][godot-contribut
 
 ## Scope
 
-gdext is primarily a _binding_ to the Godot engine. A priority is to make Godot functionality accessible for Rust developers, in ways
+godot-rust is primarily a _binding_ to the Godot engine. A priority is to make Godot functionality accessible for Rust developers, in ways
 that exploit the strengths of the language, while minimizing the friction.
 
 Since we are not building our own game engine, features need to be related to Godot. We aim to build a robust core for everyday workflows,
 while avoiding overly niche features. Integrations with other parts of the gamedev ecosystem (e.g. ECS, asset pipelines, GUI) are out of
-scope and best implemented as extensions.
+scope and [best implemented as extensions][ecosystem].
 
 
 ## API design principles
@@ -94,3 +94,4 @@ This aligns ideas early and saves time on approaches that may not work.
 [wiki-yagni]: https://en.wikipedia.org/wiki/YAGNI
 [lib-ergonomics-panics]: https://godot-rust.github.io/docs/gdext/master/godot/#ergonomics-and-panics
 [godot-contributor-best-practices]: https://docs.godotengine.org/en/stable/contributing/development/best_practices_for_engine_contributors.html
+[ecosystem]: ../ecosystem

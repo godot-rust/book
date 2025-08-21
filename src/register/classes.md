@@ -10,7 +10,7 @@
 Classes are the backbone of data modeling in Godot. If you want to build complex user-defined types in a type-safe way, you won't get around
 classes. Arrays, dictionaries and simple types only get you so far, and overusing them defeats the purpose of using a statically typed language.
 
-Rust makes class registration straightforward. As mentioned before, Rust syntax is used as a baseline, with gdext-specific additions.
+Rust makes class registration straightforward. As mentioned before, Rust syntax is used as a baseline, with godot-rust specific additions.
 
 
 See also [GDScript reference for classes][godot-gdscript-classes].
@@ -80,7 +80,7 @@ struct Monster {
 
 ## The base field
 
-Since Rust does not have inheritance, we need to use composition to achieve the same effect. gdext provides a `Base<T>` type, which lets us
+Since Rust does not have inheritance, we need to use composition to achieve the same effect. godot-rust provides a `Base<T>` type, which lets us
 store the instance of the Godot superclass (base class) as a field in our `Monster` class.
 
 ```rust

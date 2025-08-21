@@ -25,7 +25,7 @@ See also [GDScript reference for properties][godot-gdscript-properties].
 Previously, we defined a function `Monster::get_name()`. This works to fetch the name, but requires you to write `obj.get_name()` in GDScript.
 Sometimes, you do not need this extra encapsulation and would like to access the field directly.
 
-The gdext library provides an attribute `#[var]` to annotate fields that should be exposed as variables. This works like the `var` keyword in
+The godot-rust library provides an attribute `#[var]` to annotate fields that should be exposed as variables. This works like the `var` keyword in
 GDScript.
 
 Starting with the earlier struct declaration, we now add the `#[var]` attribute to the `name` field. We also change the type from `String` to
@@ -81,7 +81,7 @@ choice; private fields are primarily preventing _accidental_ mistakes or encapsu
 
 The `#[var]` attribute exposes a field to GDScript, but does not display it in the Godot editor UI.
 
-Making a property available to the editor is called _exporting_. Like the GDScript annotation `@export`, gdext provides exports through the
+Making a property available to the editor is called _exporting_. Like the GDScript annotation `@export`, godot-rust provides exports through the
 `#[export]` attribute. You might see a pattern with naming here.
 
 The following code not only makes the `name` field available to GDScript, but it also adds a property UI in the editor. This allows you to

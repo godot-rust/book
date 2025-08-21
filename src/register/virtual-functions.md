@@ -170,7 +170,7 @@ when it comes to more complex scenarios than just computing a single damage numb
 - Switching behaviors does not require recompiling Rust code. This can be useful if you work with game designers, modders or artists who
   are less familiar with Rust, but want to experiment nonetheless.
 
-That said, if your compile times are short (gdext itself is quite lightweight) and you prefer having the logic in Rust, that is of course
+That said, if your compile times are short (godot-rust itself is quite lightweight) and you prefer having the logic in Rust, that is of course
 also a valid choice. To retain the option to quickly switch behaviors, you could use an `#[export]`'ed enum to select the behavior, and
 then dispatch on that in Rust.
 

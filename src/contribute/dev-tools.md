@@ -40,7 +40,7 @@ Use `dok` instead of `doc` to open the page in the browser.
 
 ### Unit tests
 
-Because most of gdext interacts with the Godot engine, which is not available from the test executable, unit tests
+Because most of godot-rust interacts with the Godot engine, which is not available from the test executable, unit tests
 (using `cargo test` and the `#[test]` attribute) are pretty limited in scope. They are primarily used for Rust-only logic.
 
 Unit tests also include [doctests], which are Rust code snippets embedded in the documentation.
@@ -122,7 +122,8 @@ cargo fmt
 
 ## Continuous Integration
 
-If you want to have the full CI experience, you can experiment as much as you like on your own gdext fork, before submitting a pull request.
+If you want to have the full CI experience, you can experiment as much as you like on your own fork of the repository, before
+submitting a pull request.
 
 
 ### Manually trigger a CI run

@@ -85,6 +85,7 @@ impl IObject for MyAssetSingleton {
         // set the `at_front` parameter to true. Otherwise you can also remove the 
         // builder. Godot currently doesn't provide a way to completely deactivate 
         // the built-in loaders. 
+        //
         // WARNING: The built-in loaders won't work if you have _pure Rust state_.
         ResourceSaver::singleton().add_resource_format_saver_ex(&saver)
             .at_front(false)
@@ -205,15 +206,19 @@ impl IResourceFormatLoader for MyAssetLoader {
     // The actual loading and parsing of your data.
     fn load(
         &self,
+        
         // The path that should be openend to load the resource.
         path: GString,
+        
         // If the resource was part of a import step you can access the original file
         // with this. Otherwise this path is equal to the normal path.
         original_path: GString,
+        
         // This parameter is true when the resource is loaded with
         // load_threaded_request(). 
         // Internal implementations in Godot also ignore this parameter.
         _use_sub_threads: bool,
+        
         // If you want to provide custom caching this parameter is the CacheMode enum.
         // You can look into the ResourceLoader docs to learn about the values.
         // When calling the default load() method, cache_mode is CacheMode::REUSE.
@@ -231,7 +236,7 @@ Direct link to `CacheMode` ([Godot][godot-cachemode], [Rust][api-cachemode]) and
 
 [api-cargo-features]: https://godot-rust.github.io/docs/gdext/master/godot/#cargo-features
 [godot-cachemode]: https://docs.godotengine.org/en/stable/classes/class_resourceformatloader.html#enum-resourceformatloader-cachemode
-[api-cachemode]: https://godot-rust.github.io/docs/gdext/master/godot/classes/resource_loader/enum.CacheMode.html
+[api-cachemode]: https://godot-rust.github.io/docs/gdext/master/godot/classes/resource_loader/struct.CacheMode.html
 
 [godot-saverflags]: https://docs.godotengine.org/en/stable/classes/class_resourcesaver.html#enum-resourcesaver-saverflags
 [api-saverflags]: https://godot-rust.github.io/docs/gdext/master/godot/classes/resource_saver/struct.SaverFlags.html

@@ -9,6 +9,6 @@ assignees: ''
 
 <!-- 
 Please include a brief overview of the API change and which documentation will need to be updated to reflect this.
-If you happen to have a link to the gdext PRs, that's a bonus.
+If you happen to have a link to the godot-rust PRs, that's a bonus.
 -->
 
