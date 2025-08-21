@@ -1,6 +1,6 @@
 # The godot-rust book
 
-The godot-rust book is a user guide for **gdext**, the Rust bindings to Godot 4.
+This book is a user guide for **godot-rust**, the Rust bindings to Godot 4.
 It covers a large part of the concepts and complements [the API docs][gdext-docs].
 There is also [gdnative-book] for Godot 3.
 
@@ -56,7 +56,7 @@ and read the [contributing guidelines][gdext-contribute].
 
 ## License
 
-Like gdext itself, the gdext book is licensed under [MPL 2.0][mpl].
+Like godot-rust itself, the godot-rust book is licensed under [MPL 2.0][mpl].
 
 [book-web]: https://godot-rust.github.io/book
 [gdext]: https://github.com/godot-rust/gdext

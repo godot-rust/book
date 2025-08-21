@@ -7,7 +7,7 @@
 
 # Selecting a Godot version
 
-Supporting multiple Godot versions is a key feature of gdext. Especially if you plan to share your extension with others (as a library or an
+Supporting multiple Godot versions is a key feature of godot-rust. Especially if you plan to share your extension with others (as a library or an
 editor plugin), this page elaborates your choices and their trade-offs in detail. The previous chapter about [compatibility][compat] is
 expected as a prerequisite.
 
@@ -21,7 +21,7 @@ expected as a prerequisite.
 
 To refresh, you have two Godot versions to consider:
 
-- **API version**, against which gdext compiles.
+- **API version**, against which godot-rust compiles.
   - Affects Rust symbols (classes, methods, etc.) you have available at compile time.
   - This sets a lower bound on the Godot binary you can run your extension in.
   
@@ -39,7 +39,8 @@ API version <= runtime version
   
 ### Why support multiple versions?
 
-The choice you have in the context of gdext is the **API version**. If you just make a game on your own, the defaults are typically good enough.
+The choice you have in the context of godot-rust is the **API version**. If you just make a game on your own, the defaults are typically
+good enough.
 
 Explicitly selecting an API version can be helpful in the following scenarios:
 
@@ -83,17 +84,17 @@ This is the core trade-off, and you need to decide based on your use case. If yo
 version, and bump it when you find yourself needing more recent features.
 
 
-## Selecting the API version in gdext
+## Selecting the API version in godot-rust
 
-Now that the _why_ part is clarified, let's get into _how_ you can choose the API version in gdext.
+Now that the _why_ part is clarified, let's get into _how_ you can choose the Godot API version.
 
 
 ### Default version
 
-By default, gdext uses the **current minor release** of Godot 4, with patch 0. This ensures that it can be run with all Godot patch versions
+By default, godot-rust uses the **current minor release** of Godot 4, with patch 0. This ensures that it can be run with all Godot patch versions
 for that minor release.
 
-Example: if the current release is Godot 4.3.5, then gdext will use API version 4.3.0.
+Example: if the current release is Godot 4.3.5, then godot-rust will use API version 4.3.0.
 
 
 ### Lower minor version
@@ -109,7 +110,7 @@ godot = { ..., features = ["api-4-2"] }
 ```
 
 You can also explicitly set the current minor version (the same as the default). This has the advantage that you keep that compatibility,
-even once gdext starts targeting a newer version by default.
+even once godot-rust starts targeting a newer version by default.
 
 ```admonish note title="Mutual exclusivity"
 Only one `api-*` feature can be active at any time.
@@ -118,7 +119,7 @@ Only one `api-*` feature can be active at any time.
 
 ### Lower or higher patch version
 
-gdext supports API version granularity on a patch level, if absolutely needed. This is rarely necessary and can cause confusion to users,
+godot-rust supports API version granularity on a patch level, if absolutely needed. This is rarely necessary and can cause confusion to users,
 so only select a patch-level API if you have a very good reasons. Also note that GDExtension itself is only updated in minor releases.
 
 Reasons to want this might be:

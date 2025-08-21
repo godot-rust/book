@@ -54,7 +54,7 @@ so best practices for absracting over Rust classes might change in the future.
 
 ## The `Gd` smart pointer
 
-[`Gd<T>`][api-gd] is the type you will encounter the most when working with gdext.  
+[`Gd<T>`][api-gd] is the type you will encounter the most when working with godot-rust.  
 
 It is also the most powerful and versatile type that the library provides.
 
@@ -127,7 +127,7 @@ Functionality to query and manage the object's lifetime is directly available on
 
 ### Conversions
 
-You can up- and downcast objects if they stand in an inheritance relation. gdext will statically ensure that the cast makes sense.
+You can up- and downcast objects if they stand in an inheritance relation. godot-rust will statically ensure that the cast makes sense.
 
 Downcasts are done via `cast::<U>()`. If the cast fails, the method will panic. You can also use `try_cast::<U>()` to get a `Result`.
 

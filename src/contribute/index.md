@@ -5,10 +5,10 @@
   ~ file, You can obtain one at https://mozilla.org/MPL/2.0/.
 -->
 
-# Contributing to gdext
+# Contributing to godot-rust
 
 This chapter provides deeper information for people who are interested in contributing to the library.
-In case you are simply using gdext, you can skip this chapter.
+In case you are simply _using_ godot-rust, you can skip this chapter.
 
 If you haven't already, please read the [Contributing guidelines] in the repository first.
 The rest of this chapter explains developer tools and workflows in more detail. Check out the respective subchapters.

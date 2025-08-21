@@ -7,7 +7,7 @@
 
 # Calling functions
 
-In general, the gdext library maps Godot functions in a way that feels as idiomatic as possible in Rust. Sometimes, signatures differ from
+In general, the godot-rust library maps Godot functions in a way that feels as idiomatic as possible in Rust. Sometimes, signatures differ from
 GDScript, and this page will go into such differences.
 
 
@@ -101,7 +101,7 @@ let button = dialog.add_button("Yes");
 
 Because Rust does not support default parameters, we have to emulate the other calls differently. We decided to use the builder pattern.
 
-Builder methods in gdext receive **the `_ex` suffix**. Such a method takes all required parameters, like the base method. It returns a builder
+Builder methods in the library receive **the `_ex` suffix**. Such a method takes all required parameters, like the base method. It returns a builder
 object, which offers methods to set the optional parameters by their name. Eventually, a `done()` method concludes the builder and returns the
 result of the Godot function call.
 

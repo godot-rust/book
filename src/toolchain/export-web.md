@@ -50,7 +50,7 @@ This is platform-specific.
 
 ## Project Configuration
 
-Enable the [`experimental-wasm`][api-cargo-features] feature on gdext in the `Cargo.toml` file.
+Enable the [`experimental-wasm`][api-cargo-features] feature on godot-rust in the `Cargo.toml` file.
 It is also recommended to enable the [`lazy-function-tables`][api-cargo-features] feature to avoid long compile times with release builds
 (this might be a bug and not necessary in the future). Edit the line to something like the following:
 
@@ -121,7 +121,7 @@ Note that you may have to use a different build command in order to let the exte
 The following section assumes your extension targets **Godot 4.3 or later**. If your extension will only target Godot 4.2 or 4.1, you may
 keep the initial configuration from [Project Configuration](#project-configuration) without any changes.
 
-In addition, this section's instructions require **gdext 0.3 or later**.
+In addition, this section's instructions require **godot-rust 0.3 or later**.
 ```
 
 The above settings assume that multi-threading support is always needed for your extension. However, starting with Godot 4.3, when the end user

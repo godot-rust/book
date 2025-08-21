@@ -7,7 +7,7 @@
 
 # Export to Android
 
-Exporting with gdext for Godot requires some of the same pieces that are required for building Godot from source.
+Exporting with godot-rust for Godot requires some of the same pieces that are required for building Godot from source.
 Specifically, the Android SDK Command Line Tools and JDK 17 as mentioned in Godot's documentation
 [here](https://docs.godotengine.org/en/stable/contributing/development/compiling/compiling_for_android.html#requirements).
 
@@ -34,7 +34,7 @@ export CLANG_PATH=\
 
 Then set the `CARGO_TARGET_{shoutTargetTriple}_LINKER` to point to the Android linker for the Android triple you are targeting.
 The `{shoutTargetTriple}` should be in `SHOUT_CASE` so that a triple such as `aarch64-linux-android` becomes `AARCH64_LINUX_ANDROID`.
-You need to compile your gdext library for each Android triple individually. Possible targets can be found by running:
+You need to compile your Rust extension library for each Android triple individually. Possible targets can be found by running:
 
 ```bash
 rustup target list

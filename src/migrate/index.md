@@ -6,3 +6,5 @@
 -->
 
 # Migration guides
+
+See sidebar for concrete guides.

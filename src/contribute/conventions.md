@@ -88,7 +88,7 @@ We use separators starting with  `// ---` to visually divide sections of related
 1. Avoid tuple-enums `enum E { Var(u32, u32) }` and tuple-structs `struct S(u32, u32)` with more than 1 field. Use named fields instead.
 
 2. Derive order is `#[derive(GdextTrait, ExternTrait, Default, Copy, Clone, Eq, PartialEq, Ord, PartialOrd, Hash, Debug)]`.
-   - `GdextTrait` is a custom derive defined by gdext itself (in any of the crates).
+   - `GdextTrait` is a custom derive defined by godot-rust itself (in any of the crates).
    - `ExternTrait` is a custom derive by a third-party crate, e.g. `nanoserde`.
    - The standard traits follow order _construction, comparison, hashing, debug display_.
      More expressive ones (`Copy`, `Eq`) precede their implied counterparts (`Clone`, `PartialEq`).
@@ -127,7 +127,7 @@ Concerns both `#[proc_macro_attribute]` and the attributes attached to a `#[proc
 
 The reason for this choice is that each attribute maps nicely to a map, where values can have different types.
 This allows for a recognizable and consistent syntax across all proc-macro APIs. Implementation-wise, this pattern is
-directly supported by the `KvParser` type in gdext, which makes it easy to parse and interpret attributes.
+directly supported by the `KvParser` type in godot-rust, which makes it easy to parse and interpret attributes.
 
 
 [lib-public-api]: https://godot-rust.github.io/docs/gdext/master/godot/#public-api
