@@ -29,19 +29,21 @@ For beta and older versions, you can also check the [download archive][godot-dow
 
 ```bash
 # --- Linux ---
-# For Ubuntu or Debian-based distros.
-apt install godot
-
-# For Fedora/RHEL.
+# Fedora/RHEL.
 dnf install godot
 
-# Distro-independent through Flatpak.
+# Arch Linux.
+pacman -Syu godot
+paru -Syu godot
+
+# Flatpak (e.g. Ubuntu, Debian, or distro-independent).
 flatpak install flathub org.godotengine.Godot
 
 
 # --- Windows ---
-# Windows installations can be made through WinGet.
-winget install --id=GodotEngine.GodotEngine -e
+winget install -e --id GodotEngine.GodotEngine
+choco install godot
+scoop bucket add extras && scoop install godot
 
 
 # --- macOS ---
@@ -67,7 +69,7 @@ install it via command-line.
 curl --proto '=https' --tlsv1.2 -sSf https://sh.rustup.rs | sh
 
 # Windows
-winget install --id=Rustlang.Rustup -e
+winget install -e --id Rustlang.Rustup
 
 # macOS
 brew install rustup
