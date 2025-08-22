@@ -443,7 +443,8 @@ The builder methods need to be called in the correct order ("stages"). See [API 
 
 Godot's low-level APIs for dealing with untyped signals are still available:
 
-- [`Object::connect()`][api-object-connect], `Object::connect_ex()`
+- [`Object::connect()`][api-object-connect]
+- [`Object::connect_ex()`][api-object-connect-ex]
 - [`Object::emit_signal()`][api-object-emitsignal]
 - [`Signal::connect()`][api-signal-connect]
 - [`Signal::emit()`][api-signal-emit]
@@ -451,8 +452,16 @@ Godot's low-level APIs for dealing with untyped signals are still available:
 The new typed-signal API should cover the full functionality, but there are situations where information is only available at runtime, making
 the untyped reflection APIs a good fit. We might also combine the two in the future.
 
-To emit an untyped signal, you can call the `Object::emit_signal` method by accessing the base class (mutably):
-Considering the `Monster` struct from the previous examples, you can emit its signal with:
+One way to connect signals the old-school is passing in the signal name and the `Callable`:
+
+```rust
+let monster: Gd<Monster> = ...;
+let damage_taken: Callable = monster.callable("damage_taken");
+monster.connect("damage_taken", &damage_taken);
+```
+
+To emit an untyped signal, call the `Object::emit_signal()` method by (mutably) accessing the base class.
+Staying with the `Monster` struct from the previous examples, you can emit its signal with:
 
 ```rust
 self.base_mut().emit_signal(
@@ -461,10 +470,11 @@ self.base_mut().emit_signal(
 );
 ```
 
-See [vslice!][api-vslice] docs for passing multiple variants in a slice.
+See [`vslice!`][api-vslice] docs for passing multiple variants in a slice.
 
-Certain typed-signal features are still planned and will make working with signals even more streamlined. Other features are likely not going
-to be ported to godot-rust, e.g. a `Callable::bind()` equivalent for typed Rust methods. Just use closures instead.
+Certain untyped-signal functionality may still be ported typed signals, while others such as `Callable::bind()` will likely not be available.
+Just use closures instead. Generally speaking, the [`TypedSignal`][api-typedsignal] and [`ConnectBuilder`][api-connectbuilder] APIs are designed
+to be extensible for your own workflows.
 
 
 ## Conclusion
@@ -483,6 +493,7 @@ Rust function references or closures can be directly connected to signals, and e
 [api-typedsignal-builder]: https://godot-rust.github.io/docs/gdext/master/godot/register/struct.TypedSignal.html#method.builder
 [api-connectbuilder]: https://godot-rust.github.io/docs/gdext/master/godot/register/struct.ConnectBuilder.html
 [api-object-connect]: https://godot-rust.github.io/docs/gdext/master/godot/classes/struct.Object.html#method.connect
+[api-object-connect-ex]: https://godot-rust.github.io/docs/gdext/master/godot/classes/struct.Object.html#method.connect_ex
 [api-object-emitsignal]: https://godot-rust.github.io/docs/gdext/master/godot/classes/struct.Object.html#method.emit_signal
 [api-signal-connect]: https://godot-rust.github.io/docs/gdext/master/godot/builtin/struct.Signal.html#method.connect
 [api-signal-emit]: https://godot-rust.github.io/docs/gdext/master/godot/builtin/struct.Signal.html#method.emit
