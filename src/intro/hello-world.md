@@ -449,7 +449,7 @@ impl Player {
     #[func]
     fn increase_speed(&mut self, amount: f64) {
         self.speed += amount;
-        self.base_mut().emit_signal(stringify!(speed_increased), &[]);
+        self.signals().speed_increased().emit();
     }
 
     #[signal]
