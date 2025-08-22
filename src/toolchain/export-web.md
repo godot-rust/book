@@ -37,11 +37,13 @@ git clone https://github.com/emscripten-core/emsdk.git
 cd emsdk
 ./emsdk install 3.1.74
 ./emsdk activate 3.1.74
-source ./emsdk.sh # On Windows: `run ./emsdk.bat`
+
+source ./emsdk_env.sh  # on Linux
+run ./emsdk_env.bat    # on Windows
 ```
 
 It would also be **highly** recommended to follow the instructions in the terminal to add `emcc`[^emcc-def] to your `PATH`.
-If not, it is necessary to manually `source` the `emsdk.sh` file in every new terminal prior to compilation.
+If not, it is necessary to manually `source` the `emsdk_env.sh` file in every new terminal prior to compilation.
 This is platform-specific.
 
 [flag-build-std]: https://doc.rust-lang.org/cargo/reference/unstable.html#list-of-unstable-features
