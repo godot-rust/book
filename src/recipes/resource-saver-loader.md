@@ -130,21 +130,15 @@ impl IResourceFormatSaver for MyAssetSaver {
     ) -> PackedStringArray {
         let mut array = PackedStringArray::new();
         
-        // Even though the Godot docs state that you don't need this check, it is
-        // in fact necessary.
-        if Self::is_recognized_resource(res) {
-            // It is also possible to add multiple extensions per Saver.
-            array.push("myextension");
-        }
-        
+        // It is also possible to add multiple extensions per Saver.
+        array.push("myextension");
         array
     }
 
     // All resource types that this saver should handle must return true.
-    fn is_recognized_resource(res: Option<Gd<Resource>>) -> bool {
+    fn recognize(&self, res: Option<Gd<Resource>>) -> bool {
         // It is also possible to add multible resource types per Saver.
-        res.expect("Godot called this without an input resource?")
-            .is_class("MyResourceType")
+        res.is_some_and(|r| r.is_class("MyResourceType"))
     }
 
     // This defines your logic for actually saving your resource.
