@@ -64,7 +64,7 @@ Most builtins have a 1:1 equivalent (e.g. `Vector2f`, `Color` etc.). The followi
 | `NodePath`                | `NodePath`                            | `"Nodes/MyNode"` [^str-types] |
 | `Array[T]`                | `Array<T>`                            | `array![1, 2, 3]`             |
 | `Array`                   | `VariantArray`<br>or `Array<Variant>` | `varray![1, "two", true]`     |
-| `Dictionary`              | `Dictionary`                          | `dict!{"key": "value"}`       |
+| `Dictionary`              | `Dictionary`                          | `vdict!{"key": "value"}`      |
 | `AABB`                    | `Aabb`                                | `Aabb::new(pos, size)`        |
 | `Object`                  | `Gd<Object>`                          | `Object::new_alloc()`         |
 | `SomeClass`               | `Gd<SomeClass>`                       | `Resource::new_gd()`          |
@@ -107,15 +107,15 @@ Godot's linear collection type is [`Array<T>`][api-array]. It is generic over it
 (generally anything that can be represented by `Variant`). A special type `VariantArray` is provided as an alias for `Array<Variant>`, which is
 used when the element type is dynamically typed.
 
-[`Dictionary`][api-dictionary] is a key-value store, where both keys and values are `Variant`. Godot currently does not support generic
-dictionaries, although this feature is [under discussion][godot-generic-dicts].
+[`Dictionary`][api-dictionary] is a key-value store, where both keys and values are `Variant`. Generic dictionaries are not currently supported
+in godot-rust.
 
 Arrays and dictionaries can be constructed using three macros:
 
 ```rust
 let a = array![1, 2, 3];          // Array<i64>
 let b = varray![1, "two", true];  // Array<Variant>
-let c = dict!{"key": "value"};    // Dictionary
+let c = vdict!{"key": "value"};   // Dictionary
 ```
 
 Their API is similar, but not identical to Rust's standard types `Vec` and `HashMap`. An important difference is that `Array` and `Dictionary`
@@ -140,7 +140,7 @@ assert_eq!(b, Array::new()); // new() creates an empty array.
 ```
 
 ```rust
-let c = dict! {
+let c = vdict! {
     "str": "hello",
     "int": 42,
     "bool": true,
@@ -162,7 +162,7 @@ data inconsistencies).
 
 ```rust
 let a = array!["one", "two", "three"];
-let d = dict!{"one": 1, "two": 2.0, "three": Vector3::ZERO};
+let d = vdict!{"one": 1, "two": 2.0, "three": Vector3::ZERO};
 
 for elem in a.iter_shared() {
     // elem has type GString.
@@ -230,7 +230,6 @@ See [API docs][api-stringname] and [issue #531][issue-stringname-perf] for more 
 [api-packed-array]: https://godot-rust.github.io/docs/gdext/master/godot/builtin/index.html#structs
 [api-stringname]: https://godot-rust.github.io/docs/gdext/master/godot/builtin/struct.StringName.html
 [godot-docs-builtins]: https://docs.godotengine.org/en/stable/tutorials/scripting/gdscript/gdscript_basics.html#basic-built-in-types
-[godot-generic-dicts]: https://github.com/godotengine/godot/pull/78656
 [godot-nullability-issue]: https://github.com/godotengine/godot-proposals/issues/162
 [godot-packed-vector4]: https://github.com/godotengine/godot/pull/85474
 [issue-stringname-perf]: https://github.com/godot-rust/gdext/issues/531
