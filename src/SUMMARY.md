@@ -46,3 +46,4 @@
   - [Migrating to v0.2](migrate/v0.2.md)
   - [Migrating to v0.3](migrate/v0.3.md)
   - [Migrating to v0.4](migrate/v0.4.md)
+  - [FEATURES](migrate/v0.4-features.md)
