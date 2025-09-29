@@ -17,37 +17,21 @@ The godot-rust library supports multiple stable Godot releases at a time.
 When developing extension libraries (or just "extensions"), you need to consider which engine version you want to target.
 There are two conceptually different versions:
 
-- **API version** is the version of GDExtension against which godot-rust (and the code of your extension) is compiled.
-- **Runtime version** is the version of Godot in which the library built with godot-rust is run.
+- **API version** is the version of GDExtension against which your extension is **compiled**.
+- **Runtime version** is the version of Godot in which the library built with godot-rust is **run**.
 
-The two versions can be different, but there are certain constraints (see [below](#current-guarantees)).
-
-
-### Philosophy
-
-We take compatibility with the engine seriously, in an attempt to build an ecosystem of extensions that are interoperable with multiple
-Godot versions. Nothing is more annoying than updating the engine and recompiling 10 plugins/extensions.
-
-This is sometimes difficult, because:
-
-- Godot may introduce subtle breaking changes of which we are not aware.
-- Some changes that are non-breaking in C++ and GDScript are breaking in Rust (e.g. providing a default value for a previously required parameter).
-- Using newer features needs to come with a fallback/polyfill for older Godot versions.
-
-We run CI jobs against multiple Godot versions, to get a certain level of confidence that updates do not break compatibility.
-Nevertheless, the number of possible combinations is large and only growing, so we may miss certain issues.
-If you find incompatibilities or violations of the rules stated below, please let us know.
+The two versions can be different, with the following rules:
 
 
 ### Current guarantees
 
 Latest godot-rust requires at least **Godot 4.2**.
 
-Starting from that version's official release, extensions can be loaded by any Godot version, as long as
-_runtime version **>=** API version_.
+Starting from that version's official release, extensions can be loaded by any Godot version, as long as _runtime version **>=** API version_.
+In other words, you can run existing extensions in newer Godot versions without needing to change anything.
 
-- You can run a `4.2` extension in Godot `4.2.1` or `4.3`.
-- You cannot run a `4.3` extension in Godot `4.2.1`.
+- You **can** run a `4.2` extension in Godot `4.2.1` or `4.3`.
+- You **cannot** run a `4.3` extension in Godot `4.2.1`.
 
 As long as the GDExtension API evolves in a backward-compatible manner -- which it has remarkably achieved since Godot 4.1 -- we will try our
 best to keep up this guarantee. If you notice any discrepancies, please report them to us.
@@ -67,6 +51,22 @@ These won't receive any more updates however, not even for critical bugs.
 | 0.4+               | 4.2                   | November 2023                       |
 | 0.2, 0.3           | 4.1                   | July 2023                           |
 | 0.1                | 4.0[^Godot-4-0]       | March 2023                          |
+
+
+### Philosophy
+
+We take compatibility with the engine seriously, in an attempt to build an ecosystem of extensions that are interoperable with multiple
+Godot versions. Nothing is more annoying than updating the engine and recompiling 10 plugins/extensions.
+
+This is sometimes difficult, because:
+
+- Godot may introduce subtle breaking changes of which we are not aware.
+- Some changes that are non-breaking in C++ and GDScript are breaking in Rust (e.g. providing a default value for a previously required parameter).
+- Using newer features needs to come with a fallback/polyfill for older Godot versions.
+
+We run CI jobs against multiple Godot versions, to get a certain level of confidence that updates do not break compatibility.
+Nevertheless, the number of possible combinations is large and only growing, so we may miss certain issues.
+If you find incompatibilities or violations of the rules stated below, please let us know.
 
 
 ### Out of scope
