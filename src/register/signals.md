@@ -130,6 +130,8 @@ For typed signals to be available, you need:
   - This must be an inherent impl, the `I*` trait `impl` won't be enough.
   - Leave the impl empty if necessary.
 - A `Base<T>` field.
+- The Latest version of the `godot` dependency.
+  - You may need to specify `godot = { branch = "master", git = "https://github.com/godot-rust/gdext" }` in your `Cargo.toml`.
 
 Signals, typed or not, **cannot** be declared in secondary `impl` blocks (those annotated with `#[godot_api(secondary)]` attribute).
 ```
