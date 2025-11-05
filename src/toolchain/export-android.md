@@ -9,10 +9,10 @@
 
 Exporting with godot-rust for Godot requires some of the same pieces that are required for building Godot from source.
 Specifically, the Android SDK Command Line Tools and JDK 17 as mentioned in Godot's documentation
-[here](https://docs.godotengine.org/en/stable/contributing/development/compiling/compiling_for_android.html#requirements).
+[here][requirements].
 
 Once you have those installed, you then need to follow Godot's instructions for setting up the build system
-[here](https://docs.godotengine.org/en/stable/contributing/development/compiling/compiling_for_android.html#setting-up-the-buildsystem).
+[here][setting-up-buildsystem].
 
 To find the JDK and NDK versions that are needed, reference the Godot configuration that your version of Godot is using.  For example:
 
@@ -109,3 +109,6 @@ Make sure to update your `.gdextension` file to point to the compiled lib. Examp
 ```text
 android.debug.arm64="res://path/to/rust/lib/target/aarch64-linux-android/debug/{YourCrate}.so
 ```
+
+[setting-up-buildsystem]: https://docs.godotengine.org/en/stable/engine_details/development/compiling/compiling_for_android.html#setting-up-the-buildsystem
+[requirements]: https://docs.godotengine.org/en/stable/engine_details/development/compiling/compiling_for_android.html#requirements
