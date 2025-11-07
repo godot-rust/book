@@ -32,6 +32,7 @@ A list for games is also planned, and will be showcased on a separate page.
 | ___________________________________________________                            |                                                                          |                                               |
 | 🏗️ _**Project workflow**_                                                     |                                                                          |                                               |
 | **[gd-rehearse]**<br/>Unit tests for godot-rust code.                          | [Discord][gd-rehearse-discord]                                           | ![gd-rehearse][gd-rehearse-badge]             |
+| **[godot-testability-runtime]**<br/>Unit tests for godot-rust code.            | [Discord][godot-testability-runtime-discord]                             | ![godot-testability-runtime][godot-testability-runtime-badge]             |
 | **[gd-props]**<br/>Resource serialization using `serde`.                       | [Discord][gd-props-discord]                                              | ![gd-props][gd-props-badge]                   |
 | **[gdext-generation]**<br/>Auto-generate the `.gdextension` file.              | [Discord][gdext-generation-discord]                                      | ![gdext-generation][gdext-generation-badge]   |
 | **[godot-rust-cli]**<br/>CLI scripts for Godot with Rust.                      | [Discord][godot-rust-cli-discord]                                        | ![godot-rust-cli][godot-rust-cli-badge]   |
@@ -57,6 +58,10 @@ A list for games is also planned, and will be showcased on a separate page.
 [gd-rehearse]: https://github.com/StatisMike/gd-rehearse
 [gd-rehearse-discord]: https://discord.com/channels/723850269347283004/1179891414474178661/1179891414474178661
 [gd-rehearse-badge]: https://img.shields.io/github/last-commit/StatisMike/gd-rehearse
+
+[godot-testability-runtime]: https://github.com/bytemeadow/godot-testability-runtime
+[godot-testability-runtime-discord]: https://discord.gg/gqkeBsH93H
+[godot-testability-runtime-badge]: https://img.shields.io/github/last-commit/bytemeadow/godot-testability-runtime
 
 [gd-props]: https://github.com/StatisMike/gd-props
 [gd-props-discord]: https://discord.com/channels/723850269347283004/1166451642145701989/1166451642145701989
