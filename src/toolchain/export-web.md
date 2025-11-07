@@ -52,6 +52,9 @@ This is platform-specific.
 
 ## Project Configuration
 
+Prebuilts for wasm32 are not provided – consult [Custom Godot versions][custom-godot-version]
+to configure your project with [`api-custom`][api-cargo-features] feature.
+
 Enable the [`experimental-wasm`][api-cargo-features] feature on godot-rust in the `Cargo.toml` file.
 It is also recommended to enable the [`lazy-function-tables`][api-cargo-features] feature to avoid long compile times with release builds
 (this might be a bug and not necessary in the future). Edit the line to something like the following:
@@ -60,7 +63,7 @@ It is also recommended to enable the [`lazy-function-tables`][api-cargo-features
 [dependencies.godot]
 git = "https://github.com/godot-rust/gdext"
 branch = "master"
-features = ["experimental-wasm", "lazy-function-tables"]
+features = ["api-custom", "experimental-wasm", "lazy-function-tables"]
 ```
 
 Next, begin configuring the `emcc` flags and export targets as below. These initial settings will assume that your extension needs multi-threading
@@ -286,6 +289,7 @@ called `build.sh` which invokes both builds in order (including the binary file 
 in a [Justfile](https://github.com/casey/just) (useful if you need to build from Windows), Makefile or similar.
 
 [api-cargo-features]: https://godot-rust.github.io/docs/gdext/master/godot/#cargo-features
+[custom-godot-version]: godot-version.md#custom-godot-versions
 
 
 ## Godot editor setup
