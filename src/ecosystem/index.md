@@ -12,7 +12,7 @@ The projects are grouped by type of project and their respective domain (althoug
 
 If you'd like to add a project, please read [Contributing](#contributing)!
 
-A list for games is also planned, and will be showcased on a separate page.
+Games made with godot-rust are available on [a separate page](games.md).
 
 
 ## Table of contents
@@ -22,7 +22,7 @@ A list for games is also planned, and will be showcased on a separate page.
 ## List of 3rd-party projects
 
 
-### 🏛️ Rust libraries
+### Rust libraries
 
 | Project                                                                        | Further links                                                            | Activity                                      |
 |--------------------------------------------------------------------------------|--------------------------------------------------------------------------|-----------------------------------------------|
@@ -85,7 +85,7 @@ A list for games is also planned, and will be showcased on a separate page.
 [gridforge-badge]: https://img.shields.io/github/last-commit/StatisMike/grid-forge
 
 
-### 🧩 Editor plugins
+### Editor plugins
 
 | Project                                                                       | Further links                           | Activity                                            |
 |-------------------------------------------------------------------------------|-----------------------------------------|-----------------------------------------------------|
@@ -146,7 +146,7 @@ A list for games is also planned, and will be showcased on a separate page.
 [stagtoolkit-badge]: https://img.shields.io/github/last-commit/arocull/stag-toolkit
 
 
-### 🖥️ Applications
+### Applications
 
 | Project                                                                 | Further links                          | Activity                                          |
 |-------------------------------------------------------------------------|----------------------------------------|---------------------------------------------------|

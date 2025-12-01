@@ -38,6 +38,7 @@
   - [`Resource` savers and loaders](recipes/resource-saver-loader.md)
   - [Custom node icons](recipes/custom-icons.md)
 - [Ecosystem](ecosystem/index.md)
+  - [Games](ecosystem/games.md)
 - [Contributing to godot-rust](contribute/index.md)
   - [Philosophy](contribute/philosophy.md)
   - [Dev tools and testing](contribute/dev-tools.md)
