@@ -153,6 +153,7 @@ A list for games is also planned, and will be showcased on a separate page.
 | 🎛️ _**Software platforms**_                                            |                                        |                                                   |
 | **[Godot Boy]**<br/>Game boy emulator in Godot, written in Rust.        | [Discord][godot-boy-discord]           | ![Godot Boy][godot-boy-badge]                     |
 | **[GDScript Transpiler]**<br/>Reimplements parts of GDScript in Rust.   | [Discord][gdscript-transpiler-discord] | ![GDScript Transpiler][gdscript-transpiler-badge] |
+| **[godot_rust_mapgen]**<br/>Procedural 3D map generator.                | [Discord][godot-rust-mapgen-discord]   | ![godot_rust_mapgen][godot-rust-mapgen-badge]     |
 | ___________________________________________________                     |                                        |                                                   |
 | 🛸 _**Tech demos**_                                                     |                                        |                                                   |
 | **[Godot boids]**<br/>Addon for Godot that adds 2D/3D boids (flocking). | [Discord][godot-boids-discord]         | ???                                               |
@@ -164,6 +165,10 @@ A list for games is also planned, and will be showcased on a separate page.
 [GDScript Transpiler]: https://gitlab.com/the-SSD/gdscript-transpiler
 [gdscript-transpiler-badge]: https://img.shields.io/gitlab/last-commit/the-SSD/gdscript-transpiler
 [gdscript-transpiler-discord]: https://discord.com/channels/723850269347283004/1237464552384499833/1237464552384499833
+
+[godot_rust_mapgen]: https://github.com/PhantasmaCora/godot_rust_mapgen
+[godot-rust-mapgen-badge]: https://img.shields.io/github/last-commit/PhantasmaCora/godot_rust_mapgen
+[godot-rust-mapgen-discord]: https://discord.com/channels/723850269347283004/1442706876289515590/1442706876289515590
 
 [Godot boids]: https://git.gaze.systems/dusk/godot_boids
 [godot-boids-discord]: https://discord.com/channels/723850269347283004/1279645654439821393/1279645654439821393
