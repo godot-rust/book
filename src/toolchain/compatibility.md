@@ -20,7 +20,7 @@ There are two conceptually different versions:
 - **API version** is the version of GDExtension against which your extension is **compiled**.
 - **Runtime version** is the version of Godot in which the library built with godot-rust is **run**.
 
-The two versions can be different, with the following rules:
+The two versions can be different, with some constraints elaborated below.
 
 
 ### Current guarantees
@@ -51,6 +51,8 @@ These won't receive any more updates however, not even for critical bugs.
 | 0.4+               | 4.2                   | November 2023                       |
 | 0.2, 0.3           | 4.1                   | July 2023                           |
 | 0.1                | 4.0[^Godot-4-0]       | March 2023                          |
+
+Make sure to use the appropriate `api-4-*` feature flag, see [_Selecting a Godot version_](godot-version.md).
 
 
 ### Philosophy
@@ -114,8 +116,8 @@ Our [crates.io releases](https://crates.io/crates/godot) adhere to SemVer, but m
 
 **Footnotes**
 
+[^Godot-versions]: See _Release history_ on [Wikipedia](https://en.wikipedia.org/wiki/Godot_(game_engine)#Release_history).
+
 [^Godot-4-0]: Every extension developed with API version `4.0.x` **MUST** be run with the same runtime version.
     In particular, it is not possible to run an extension compiled with API version `4.0.x` in Godot 4.1 or later.
     This is due to breaking changes in Godot's GDExtension API.
-
-[^Godot-versions]: See _Release history_ on [Wikipedia](https://en.wikipedia.org/wiki/Godot_(game_engine)#Release_history).
