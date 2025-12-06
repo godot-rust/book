@@ -17,7 +17,7 @@ you will only have symbols for stack frames in Rust code.
 
 ## Launching with VS Code
 
-Here is an example debugger setup for Visual Studio Code. Launch configurations and tasks should be placed in`./.vscode/launch.json` and 
+Here is an example debugger setup for Visual Studio Code. Launch configurations and tasks should be placed in`./.vscode/launch.json` and
 `./.vscode/tasks.json` respectively, relative to your project's root.
 
 This example assumes you have the [CodeLLDB] extension installed, which is common for Rust development.
