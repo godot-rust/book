@@ -17,32 +17,43 @@ you will only have symbols for stack frames in Rust code.
 
 ## Launching with VS Code
 
-Here is an example launch configuration for Visual Studio Code. Launch configurations should be added to  `./.vscode/launch.json`, relative
-to your project's root. This example assumes you have the [CodeLLDB] extension installed, which is common for Rust development.
+Here is an example debugger setup for Visual Studio Code. Launch configurations and tasks should be placed in`./.vscode/launch.json` and
+`./.vscode/tasks.json` respectively, relative to your project's root.
+
+This example assumes you have the [CodeLLDB] extension installed, which is common for Rust development.
 
 ```json
+// ./.vscode/launch.json
 {
     "configurations": [
         {
             "name": "Debug Project (Godot 4)",
             "type": "lldb", // type provided by CodeLLDB extension
             "request": "launch",
-            "preLaunchTask": "rust: cargo build",
-            "cwd": "${workspaceFolder}",
+            "cwd": "${workspaceFolder}/godot",
+            "preLaunchTask": "build-rust",
             "args": [
-                "-e", // run editor (remove this to launch the scene directly)
-                "-w", // windowed mode
+                "-w" // windowed mode
             ],
-            "linux": {
-                "program": "/usr/local/bin/godot4",
-            },
-            "windows": {
-                "program": "C:\\Program Files\\Godot\\Godot_v4.1.X.exe",
-            },
-            "osx": {
-                // NOTE: on macOS the Godot.app needs to be manually re-signed 
-                // to enable debugging (see below)
-                "program": "/Applications/Godot.app/Contents/MacOS/Godot",
+            "program": "PATH/TO/GODOT"
+        }
+    ]
+}
+```
+
+```json
+// ./.vscode/tasks.json
+{
+    "version": "2.0.0",
+    "tasks": [
+        {
+            "label": "build-rust",
+            "command": "cargo",
+            "args": [
+                "build"
+            ],
+            "options": {
+                "cwd": "${workspaceFolder}/rust"
             }
         }
     ]
