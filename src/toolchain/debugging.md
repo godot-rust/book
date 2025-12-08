@@ -22,18 +22,18 @@ Here is an example debugger setup for Visual Studio Code. Launch configurations 
 
 This example assumes you have the [CodeLLDB] extension installed, which is common for Rust development.
 
-```jsonc
+```json
 // ./.vscode/launch.json
 {
     "configurations": [
         {
             "name": "Debug Project (Godot 4)",
-            "type": "lldb",
+            "type": "lldb", // type provided by CodeLLDB extension
             "request": "launch",
             "cwd": "${workspaceFolder}/godot",
             "preLaunchTask": "build-rust",
             "args": [
-                "-w"
+                "-w" // windowed mode
             ],
             "program": "PATH/TO/GODOT"
         }
@@ -41,7 +41,7 @@ This example assumes you have the [CodeLLDB] extension installed, which is commo
 }
 ```
 
-```jsonc
+```json
 // ./.vscode/tasks.json
 {
     "version": "2.0.0",
