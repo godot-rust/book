@@ -240,6 +240,85 @@ impl INode3D for Monster {
 ```
 
 
+## Disconnecting
+
+Connecting a signal in any aforementioned way returns a [`ConnectHandle`][api-connecthandle], which can be used for disconnecting.
+
+```rust
+#[derive(GodotClass)]
+#[class(init, base=Node3D)]
+struct Monster {
+    handle: Option<ConnectHandle>,
+    base: Base<Node3D>,
+}
+
+#[godot_api]
+impl INode3D for Monster {
+    fn ready(&mut self) {
+        self.handle = Some(self.signals()
+            .damage_taken()
+            .connect(Self::on_damage_taken));
+    }
+}
+
+impl Monster {
+    fn make_invulnerable(&mut self) {
+        if let Some(connection) = self.handle.take()
+        {
+            connection.disconnect();
+        }
+    }
+}
+```
+
+Disconnecting a signal will result in panic if given connection does not exist.
+Use `is_connected()` when there is no clear ownership of the signal or connected object is expected to be freed.
+
+```rust
+#[derive(GodotClass)]
+#[class(init, base=Node3D)]
+struct Commentator {
+    handle: Option<ConnectHandle>,
+    base: Base<Node3D>,
+}
+
+impl Commentator {
+    fn watch_monster(&mut self, monster: Gd<Monster>) {
+        if let Some(connection) = self.handle.take()
+            && connection.is_connected()
+        {
+            connection.disconnect();
+        }
+
+        monster
+            .signals()
+            .damage_taken()
+            .connect_other(&self.to_gd(), Self::comment);
+    }
+
+    fn comment(&mut self, damage_taken: i32) {
+        match damage_taken {
+            ..0 => {
+                return;
+            }
+            0..3 => {
+                godot_print!("Oh!");
+            }
+            3..10 => {
+                godot_print!("That must hurt!");
+            }
+            10.. => {
+                self.handle
+                    .take()
+                    .expect("Signal mustn't be connected without the handle!")
+                    .disconnect();
+            }
+        }
+    }
+}
+```
+
+
 ## Emitting signals
 
 We already saw that `#[signal]` attributes generate a signal type with several methods: `connect()`, `connect_self()` and `connect_other()`.
@@ -498,3 +577,4 @@ Rust function references or closures can be directly connected to signals, and e
 [api-signal-connect]: https://godot-rust.github.io/docs/gdext/master/godot/builtin/struct.Signal.html#method.connect
 [api-signal-emit]: https://godot-rust.github.io/docs/gdext/master/godot/builtin/struct.Signal.html#method.emit
 [api-vslice]: https://godot-rust.github.io/docs/gdext/master/godot/builtin/macro.vslice.html
+[api-connecthandle]: https://godot-rust.github.io/docs/gdext/master/godot/register/struct.ConnectHandle.html
