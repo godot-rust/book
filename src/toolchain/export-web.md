@@ -86,6 +86,7 @@ rustflags = [
     "-C", "link-args=-sSIDE_MODULE=2",
     "-Zlink-native-libraries=no",
     "-Cllvm-args=-enable-emscripten-cxx-exceptions=0",
+    "-Z", "emscripten-wasm-eh=false",
 ]
 ```
 
@@ -144,7 +145,7 @@ Ensure you're using recommended versions of Emscripten and nightly Rust (at leas
 This is because earlier versions of Emscripten expected `link-args=-sUSE_PTHREADS=1` instead of `link-args=-pthread`, but this flag has
 been deprecated.
 
-In addition, earlier Rust versions required additional `+bulk-memory,+mutable-globals` target features, but they appear to not be needed anymore. 
+In addition, earlier Rust versions required additional `+bulk-memory,+mutable-globals` target features, but they appear to not be needed anymore.
 ```
 
 
@@ -182,6 +183,7 @@ Here's how this can be done:
         "-C", "link-args=-sSIDE_MODULE=2",
         "-Zlink-native-libraries=no",
         "-Cllvm-args=-enable-emscripten-cxx-exceptions=0",
+        "-Z", "emscripten-wasm-eh=false",
     ]
     ```
 
@@ -239,7 +241,8 @@ Here's how this can be done:
         -C target-feature=+atomics \
         -C link-args=-sSIDE_MODULE=2 \
         -Zlink-native-libraries=no \
-        -Cllvm-args=-enable-emscripten-cxx-exceptions=0" cargo +nightly build -Zbuild-std --target wasm32-unknown-emscripten
+        -Cllvm-args=-enable-emscripten-cxx-exceptions=0 \
+        -Z emscripten-wasm-eh=false" cargo +nightly build -Zbuild-std --target wasm32-unknown-emscripten
 
         mv target/wasm32-unknown-emscripten/debug/{YourCrate}.wasm target/wasm32-unknown-emscripten/debug/{YourCrate}.threads.wasm
         # On Batch (Windows), use instead: REN target\wasm32-unknown-emscripten\debug\{YourCrate}.wasm {YourCrate}.threads.wasm
@@ -399,6 +402,19 @@ as otherwise your extension's `.wasm` file may be overwritten, leading to confus
 
     In addition, please note that **godot-rust 0.3 or later** is required to fix this error.
 
+4. `LinkError: WebAssembly.instantiate(): Import #6 "env" "__cpp_exception": tag import requires a WebAssembly.Tag`
+
+    This is caused by Rust's WASM exception handling system, used for panics, which was enabled by default for Emscripten targets in `rustc` v1.93.0
+    (see [the relevant PR][wasm-eh-rustc-pr]). It unfortunately seems to be incompatible with Godot.
+
+    To fix, disable the feature by adding `-Z emscripten-wasm-eh=false` to `RUSTFLAGS` or to `.cargo/config.toml` as suggested in the previous steps
+    (copying the suggested list of flags should be enough). This requires using a nightly compiler.
+
+    Further discussion can be found at [godot-rust issue #1119][godot-rust-wasm-eh-issue].
+
+[wasm-eh-rustc-pr]: https://github.com/rust-lang/rust/pull/147224
+[godot-rust-wasm-eh-issue]: https://github.com/godot-rust/gdext/issues/1119
+
 
 ### Customizing `emcc` flags
 
@@ -441,7 +457,8 @@ RUSTFLAGS="-C link-args=-g \
 -C target-feature=+atomics \
 -C link-args=-sSIDE_MODULE=2 \
 -Zlink-native-libraries=no \
--Cllvm-args=-enable-emscripten-cxx-exceptions=0" cargo +nightly build -Zbuild-std --target wasm32-unknown-emscripten
+-Cllvm-args=-enable-emscripten-cxx-exceptions=0 \
+-Z emscripten-wasm-eh=false" cargo +nightly build -Zbuild-std --target wasm32-unknown-emscripten
 ```
 
 <br>
