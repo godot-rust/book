@@ -478,7 +478,7 @@ That's it for the _Hello World_ tutorial! The following chapters will go into mo
 [directory-setup]: https://godot-rust.github.io/book/intro/hello-world.html#directory-setup
 [gd-ignore]: https://docs.godotengine.org/en/stable/tutorials/best_practices/project_organization.html#ignoring-specific-folders
 [gdextension-reloadable]: https://github.com/godotengine/godot/pull/80284
-[godot-build-targets]: https://docs.godotengine.org/en/stable/tutorials/scripting/gdextension/gdextension_cpp_example.html#using-the-gdextension-module
+[godot-build-targets]: https://docs.godotengine.org/en/stable/tutorials/scripting/gdextension/gdextension_file.html#libraries-section
 [godot-command-line]: https://docs.godotengine.org/en/stable/tutorials/editor/command_line_tutorial.html
 [godot-resource-paths]: https://docs.godotengine.org/en/stable/tutorials/scripting/resources.html#external-vs-built-in
 [img-sprite-moving]: https://docs.godotengine.org/en/stable/_images/scripting_first_script_rotating_godot.gif
