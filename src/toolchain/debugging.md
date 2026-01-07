@@ -22,6 +22,8 @@ Here is an example debugger setup for Visual Studio Code. Launch configurations 
 
 This example assumes you have the [CodeLLDB] extension installed, which is common for Rust development.
 
+For commands like `-w` (windowed mode) or `-e` (editor), refer to Godot's [command line tutorial][godot-command-line].
+
 ```json
 // ./.vscode/launch.json
 {
@@ -34,6 +36,7 @@ This example assumes you have the [CodeLLDB] extension installed, which is commo
             "preLaunchTask": "build-rust",
             "args": [
                 "-w" // windowed mode
+                // "-e": editor does not keep breakpoints; thus not listed here.
             ],
             "program": "PATH/TO/GODOT"
         }
@@ -108,3 +111,4 @@ in Terminal to complete the re-signing process. It is recommended to check this 
 re-sign their local installation if you have a team. This process should only be necessary once per Godot installation though.
 
 [CodeLLDB]: https://marketplace.visualstudio.com/items?itemName=vadimcn.vscode-lldb
+[godot-command-line]: https://docs.godotengine.org/en/latest/tutorials/editor/command_line_tutorial.html#command-line-reference
