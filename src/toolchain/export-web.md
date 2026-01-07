@@ -52,8 +52,8 @@ This is platform-specific.
 
 ## Project Configuration
 
-Prebuilts for wasm32 are not provided – consult [Custom Godot versions][custom-godot-version]
-to configure your project with [`api-custom`][api-cargo-features] feature.
+At the moment, you'll need to use [`api-custom`][api-cargo-features] to export to the web. In the future, we will provide a "prebuilt"
+target (like Linux, macOS and Windows) directly for Wasm32. For now, see [Custom Godot versions][custom-godot-version].
 
 Enable the [`experimental-wasm`][api-cargo-features] feature on godot-rust in the `Cargo.toml` file.
 It is also recommended to enable the [`lazy-function-tables`][api-cargo-features] feature to avoid long compile times with release builds
@@ -84,11 +84,24 @@ rustflags = [
     "-C", "link-args=-pthread", # /!\ Read 'Thread support' below regarding this flag
     "-C", "target-feature=+atomics", # /!\ Read 'Thread support' below regarding this flag
     "-C", "link-args=-sSIDE_MODULE=2",
-    "-Zlink-native-libraries=no",
-    "-Cllvm-args=-enable-emscripten-cxx-exceptions=0",
+    "-C", "llvm-args=-enable-emscripten-cxx-exceptions=0",
+    "-Z", "default-visibility=hidden",
+    "-Z", "link-native-libraries=no",
     "-Z", "emscripten-wasm-eh=false",
 ]
 ```
+
+A bit of background: The compiled Wasm binary is a _side module_ which is dynamically loaded by Godot's _main module_ at runtime.
+This is very similar to how dynamic libraries and executables work.
+
+The [`default-visibility=hidden` flag][rustc-visibility] ensures that symbols of each side module are private to that module.
+Without it, it's possible that global variables of multiple extensions are merged together, causing very confusing bugs.
+This flag is essential when you have multiple Rust extensions loaded in the same Godot game.
+If you need to selectively disable this flag (not recommended), you can remove it from the `rustflags` list in `.cargo/config.toml` or `RUSTFLAGS`.
+See also [this GitHub discussion][github-visibility] for more information.
+
+[rustc-visibility]: https://doc.rust-lang.org/nightly/unstable-book/compiler-flags/default-visibility.html
+[github-visibility]: https://github.com/godot-rust/gdext/issues/968#issuecomment-3712268752
 
 Edit the project's `.gdextension` file to include support for web exports.
 This file will probably be at `godot/{YourCrate}.gdextension`.
@@ -181,8 +194,9 @@ Here's how this can be done:
     [target.wasm32-unknown-emscripten]
     rustflags = [
         "-C", "link-args=-sSIDE_MODULE=2",
-        "-Zlink-native-libraries=no",
-        "-Cllvm-args=-enable-emscripten-cxx-exceptions=0",
+        "-C", "llvm-args=-enable-emscripten-cxx-exceptions=0",
+        "-Z", "default-visibility=hidden",
+        "-Z", "link-native-libraries=no",
         "-Z", "emscripten-wasm-eh=false",
     ]
     ```
@@ -240,8 +254,9 @@ Here's how this can be done:
         RUSTFLAGS="-C link-args=-pthread \
         -C target-feature=+atomics \
         -C link-args=-sSIDE_MODULE=2 \
-        -Zlink-native-libraries=no \
-        -Cllvm-args=-enable-emscripten-cxx-exceptions=0 \
+        -C llvm-args=-enable-emscripten-cxx-exceptions=0 \
+        -Z default-visibility=hidden \
+        -Z link-native-libraries=no \
         -Z emscripten-wasm-eh=false" cargo +nightly build -Zbuild-std --target wasm32-unknown-emscripten
 
         mv target/wasm32-unknown-emscripten/debug/{YourCrate}.wasm target/wasm32-unknown-emscripten/debug/{YourCrate}.threads.wasm
@@ -456,8 +471,9 @@ RUSTFLAGS="-C link-args=-g \
 -C link-args=-pthread \
 -C target-feature=+atomics \
 -C link-args=-sSIDE_MODULE=2 \
--Zlink-native-libraries=no \
--Cllvm-args=-enable-emscripten-cxx-exceptions=0 \
+-C llvm-args=-enable-emscripten-cxx-exceptions=0 \
+-Z default-visibility=hidden \
+-Z link-native-libraries=no \
 -Z emscripten-wasm-eh=false" cargo +nightly build -Zbuild-std --target wasm32-unknown-emscripten
 ```
 
