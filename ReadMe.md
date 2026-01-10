@@ -1,8 +1,7 @@
 # The godot-rust book
 
-This book is a user guide for **godot-rust**, the Rust bindings to Godot 4.
-It covers a large part of the concepts and complements [the API docs][gdext-docs].
-There is also [gdnative-book] for Godot 3.
+This book is a user guide for **godot-rust**, the Rust bindings to Godot 4.[^gdnative-book]  
+It covers a large part of the concepts and complements [the API docs][api-docs].
 
 > [!Tip]
 > The book is deployed at **[godot-rust.github.io/book][book-web]**.
@@ -10,10 +9,11 @@ There is also [gdnative-book] for Godot 3.
 
 ## Local setup
 
-The book is built with [mdBook] and the plugins [mdbook-toc] and [mdbook-admonish]. To install them and build the book locally, you can run:
+The book is built with [mdBook] and the plugins [mdbook-toc] and [mdbook-admonish].[^mdbook]  
+To install them and build the book locally, you can run:
 
 ```bash
-cargo install mdbook mdbook-toc mdbook-admonish
+cargo install mdbook@^0.4 mdbook-toc@^0.14 mdbook-admonish@1.18.0
 mdbook build
 ```
 
@@ -51,7 +51,7 @@ oxipng --strip safe --alpha -r src
 ## Contributing
 
 This repository is for documentation only. For changes in the library itself, please open pull requests and issues in the [main repo][gdext],
-and read the [contributing guidelines][gdext-contribute].
+and read the [contributing guidelines][contribute].
 
 
 ## License
@@ -60,8 +60,8 @@ Like godot-rust itself, the godot-rust book is licensed under [MPL 2.0][mpl].
 
 [book-web]: https://godot-rust.github.io/book
 [gdext]: https://github.com/godot-rust/gdext
-[gdext-docs]: https://godot-rust.github.io/docs/gdext/master/godot
-[gdext-contribute]: https://github.com/godot-rust/gdext/blob/master/Contributing.md
+[api-docs]: https://godot-rust.github.io/docs/gdext/master/godot
+[contribute]: https://github.com/godot-rust/gdext/blob/master/Contributing.md
 [gdnative-book]: https://github.com/godot-rust/gdnative-book
 [markdownlint]: https://github.com/DavidAnson/markdownlint
 [mdbook-admonish]: https://github.com/tommilligan/mdbook-admonish
@@ -70,3 +70,7 @@ Like godot-rust itself, the godot-rust book is licensed under [MPL 2.0][mpl].
 [mpl]: https://www.mozilla.org/en-US/MPL
 [oxipng]: https://github.com/shssoichiro/oxipng
 
+<br>
+
+[^gdnative-book]: For Godot 3, there is the older [gdnative-book].
+[^mdbook]: mdBook 0.5 contains breaking changes, and we can't support it until plugins catch up. Right now it offers no features that would benefit us.
