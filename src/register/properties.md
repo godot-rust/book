@@ -105,12 +105,19 @@ You can also declare both attributes on the same field. This is in fact necessar
 
 ## Enums
 
-You can export Rust enums as properties. An exported enum appears as a drop-down field in the editor, with all available options.
+You can export Rust enums as properties, as long as they are C style enums (no associated data per variant).
+An exported enum appears as a drop-down field in the editor, with all available options.
 In order to do that, you need to derive three traits:
 
-- `GodotConvert` to define how the type is converted from/to Godot.
-- `Var` to allow using it as a `#[var]` property, so it can be accessed from Godot.
-- `Export` to allow using it as a `#[export]` property, so it appears in the editor UI.
+- [`GodotConvert`][api-godotconvert] to define how the type is converted from/to Godot.
+- [`Var`][api-var] to allow using it as a `#[var]` property, so it can be accessed from Godot.
+- [`Export`][api-export] to allow using it as a `#[export]` property, so it appears in the editor UI.
+
+Additionally, it can make sense to derive following standard traits:
+
+- `Clone`: it is possible without, but then you need to implement `Var` manually. The reason is that `Var` also provides Rust getters when
+  used with `#[var(pub)]`, which require cloning the value.
+- `Default`: if there is a meaningful default value. If not, use `#[init(val = ...)]` on the field declarations to provide an initial value.
 
 Godot does not have dedicated enum types, so you can map them either as integers (e.g. `i64`) or strings (`GString`). This can be
 configured using the `via` key of the `#[godot]` attribute.
@@ -118,10 +125,11 @@ configured using the `via` key of the `#[godot]` attribute.
 Exporting an enum can be done as follows:
 
 ```rust
-#[derive(GodotConvert, Var, Export)]
+#[derive(GodotConvert, Var, Export, Default, Clone)]
 #[godot(via = GString)]
 pub enum Planet {
-    Earth, // first enumerator is default.
+    #[default] // Rust standard attribute, not godot-rust.
+    Earth,
     Mars,
     Venus,
 }
@@ -210,6 +218,9 @@ As a general rule, try to stay close to Godot's own types, e.g. `Array`, `Dictio
 ```
 
 
+[api-godotconvert]: https://godot-rust.github.io/docs/gdext/master/godot/meta/trait.GodotConvert.html
+[api-var]: https://godot-rust.github.io/docs/gdext/master/godot/register/property/trait.Var.html
+[api-export]: https://godot-rust.github.io/docs/gdext/master/godot/register/property/trait.Export.html
 [api-derive-export]: https://godot-rust.github.io/docs/gdext/master/godot/register/derive.Export.html
 [api-derive-var]: https://godot-rust.github.io/docs/gdext/master/godot/register/derive.Var.html
 [api-var-export]: https://godot-rust.github.io/docs/gdext/master/godot/register/derive.GodotClass.html#properties-and-exports
