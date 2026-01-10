@@ -31,12 +31,13 @@ Games made with godot-rust are available on [a separate page](games.md).
 | **[godot-tokio]**<br/>Create Tokio runtime for use with godot-rust.            | [crates.io][godot-tokio-crate], [Discord][godot-tokio-discord]           | ![godot-tokio][godot-tokio-badge]             |
 | ___________________________________________________                            |                                                                          |                                               |
 | 🏗️ _**Project workflow**_                                                     |                                                                          |                                               |
+| **[godot_rust_tools]**<br/>Tools and utilities for godot-rust development.     | [Asset Library][grt-assetlib], [Discord][grt-discord]                    | ![godot_rust_tools][grt-badge]                |
 | **[gd-rehearse]**<br/>Unit tests for godot-rust code.                          | [Discord][gd-rehearse-discord]                                           | ![gd-rehearse][gd-rehearse-badge]             |
 | **[gd-props]**<br/>Resource serialization using `serde`.                       | [Discord][gd-props-discord]                                              | ![gd-props][gd-props-badge]                   |
 | **[gdext-generation]**<br/>Auto-generate the `.gdextension` file.              | [Discord][gdext-generation-discord]                                      | ![gdext-generation][gdext-generation-badge]   |
-| **[godot-rust-cli]**<br/>CLI scripts for Godot with Rust.                      | [Discord][godot-rust-cli-discord]                                        | ![godot-rust-cli][godot-rust-cli-badge]   |
+| **[godot-rust-cli]**<br/>CLI scripts for Godot with Rust.                      | [Discord][godot-rust-cli-discord]                                        | ![godot-rust-cli][godot-rust-cli-badge]       |
 | **[gdext-cli]**<br/>A CLI tool to generate godot-rust projects and scripts.    |                                                                          | ![gdext-cli][gdext-cli-badge]                 |
-| ___________________________________________________|                            |                                      |
+| ___________________________________________________                            |                                                                          |                                               |
 | 📜 _**Scripting**_                                                             |                                                                          |                                               |
 | **[godot-rust-script]**<br/>Allows Rust scripts to be added to nodes.          |                                                                          | ![godot-rust-script][godot-rust-script-badge] |
 | ___________________________________________________                            |                                                                          |                                               |
@@ -53,6 +54,11 @@ Games made with godot-rust are available on [a separate page](games.md).
 [godot-tokio-discord]: https://discord.com/channels/723850269347283004/1312490414762364928/1312490414762364928
 [godot-tokio-crate]: https://crates.io/crates/godot_tokio
 [godot-tokio-badge]: https://img.shields.io/github/last-commit/2-3-5-41/godot_tokio
+
+[godot_rust_tools]: https://github.com/ttencate/godot_rust_tools
+[grt-assetlib]: https://godotengine.org/asset-library/asset/4365
+[grt-discord]: https://discord.com/channels/723850269347283004/1424651912749252673/1424652703664967802
+[grt-badge]: https://img.shields.io/github/last-commit/ttencate/godot_rust_tools
 
 [gd-rehearse]: https://github.com/StatisMike/gd-rehearse
 [gd-rehearse-discord]: https://discord.com/channels/723850269347283004/1179891414474178661/1179891414474178661
