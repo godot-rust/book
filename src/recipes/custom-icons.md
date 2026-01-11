@@ -49,7 +49,7 @@ light and dark themed colors.
 Details on how to use her reference page is included [here][qos-info].
 ```
 
-[godot-icons]: https://docs.godotengine.org/en/stable/contributing/development/editor/creating_icons.html
+[godot-icons]: https://docs.godotengine.org/en/stable/engine_details/editor/creating_icons.html#creating-icons
 [gh-godot-colors]: https://github.com/godotengine/godot/blob/master/editor/themes/editor_color_map.cpp
 [qos-colors]: https://queenofsquiggles.github.io/tech/godot-icon-colours/
 [qos-info]: https://queenofsquiggles.github.io/tech/godot-icon-colours/#how-to-use-this
