@@ -124,6 +124,14 @@ For people with only a few minutes to spare. Run godot-rust directly inside the 
 These games are developed using [Godot's HTML5 Export](../toolchain/export-web.md).
 
 
+### Iced Heist
+
+[**Itch.io**](https://carrotgamescorp.itch.io/iced-heist-wgj25) |
+_by Carrot Games_ | 🥇 1st place in [Winter Game Jam 2025](https://itch.io/jam/wgj25/results)
+
+![Iced Heist](images/2026-01-iced-heist.png)
+
+
 ### Stickyban
 
 [**Itch.io**](https://flowvix.itch.io/stickyban) |
