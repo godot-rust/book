@@ -40,7 +40,7 @@ let path = node.get_path();
 // Call with &mut self receiver.
 let mut node = Node::new_alloc();
 let other: Gd<Node> = ...;
-node.add_child(other);
+node.add_child(&other);
 ```
 
 Whether a method requires a shared reference (`&T`) or an exclusive one (`&mut T`) depends on how the method is declared in the GDExtension API
