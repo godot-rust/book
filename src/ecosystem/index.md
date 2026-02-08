@@ -97,6 +97,7 @@ Games made with godot-rust are available on [a separate page](games.md).
 |-------------------------------------------------------------------------------|-----------------------------------------|-----------------------------------------------------|
 | 📐 _**User interface**_                                                       |                                         |                                                     |
 | **[Godot-Tour]**<br/>UI tours/tutorials for editor and in-game.               | [Discord][godot-tour-discord]           | ![Godot-Tour][godot-tour-badge]                     |
+| **[Godot-VSCode]**<br/>VSCode running inside the Godot game engine.           | [Discord][godot-vscode-discord]         | ![Godot-VSCode][godot-vscode-badge]                     |
 | ___________________________________________________                           |                                         |                                                     |
 | 🎨 _**Graphics**_                                                             |                                         |                                                     |
 | **[Godot Trail 3D]**<br/>Adds a `Trail3D` node to Godot.                      | [Discord][godot-trail-3d-discord]       | ![Godot Trail 3D][godot-trail-3d-badge]             |
@@ -119,6 +120,10 @@ Games made with godot-rust are available on [a separate page](games.md).
 [Godot-Tour]: https://github.com/Decapitated/Godot-Tour
 [godot-tour-discord]: https://discord.com/channels/723850269347283004/1272688558070698037/1272688558070698037
 [godot-tour-badge]: https://img.shields.io/github/last-commit/Decapitated/Godot-Tour
+
+[Godot-VSCode]: https://github.com/appsinacup/godot_vscode_ide
+[godot-vscode-discord]: https://discord.com/channels/723850269347283004/1470063879466778758
+[godot-vscode-badge]: https://img.shields.io/github/last-commit/appsinacup/godot_vscode_ide
 
 [Godot Trail 3D]: https://github.com/SomeRanDev/Godot-Trail3D
 [godot-trail-3d-discord]: https://discord.com/channels/723850269347283004/1246199893043974247/1246199893043974247
