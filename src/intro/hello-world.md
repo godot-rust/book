@@ -460,12 +460,13 @@ impl Player {
 `#[godot_api]` takes again the role of exposing the API to the Godot engine. But there are also two new attributes:
 
 - `#[func]` exposes a function to Godot. The parameters and return types are mapped to their corresponding GDScript types.
-- `#[signal]` declares a signal. A signal can be emitted with the `emit_signal` method (which every Godot class provides, since it is inherited
-  from `Object`).
+  Functions are elaborated in the [Functions][functions] chapter.
+- `#[signal]` declares a signal. These are later explained in the [Signals][signals] chapter.
 
 API attributes typically follow the GDScript keyword names: `class`, `func`, `signal`, `export`, `var`, ...
 
 That's it for the _Hello World_ tutorial! The following chapters will go into more detail about the various features that godot-rust provides.
+We recommend following in chronological order, as important concepts are introduced along the way.
 
 
 [api-class-engine]: https://godot-rust.github.io/docs/gdext/master/godot/classes/index.html
@@ -476,6 +477,7 @@ That's it for the _Hello World_ tutorial! The following chapters will go into mo
 [api-prelude]: https://godot-rust.github.io/docs/gdext/master/godot/prelude/index.html
 [compatibility]: ../toolchain/compatibility.md
 [directory-setup]: https://godot-rust.github.io/book/intro/hello-world.html#directory-setup
+[functions]: ../register/functions.md
 [gd-ignore]: https://docs.godotengine.org/en/stable/tutorials/best_practices/project_organization.html#ignoring-specific-folders
 [gdextension-reloadable]: https://github.com/godotengine/godot/pull/80284
 [godot-build-targets]: https://docs.godotengine.org/en/stable/tutorials/scripting/gdextension/gdextension_file.html#libraries-section
@@ -484,6 +486,7 @@ That's it for the _Hello World_ tutorial! The following chapters will go into mo
 [img-sprite-moving]: https://docs.godotengine.org/en/stable/_images/scripting_first_script_rotating_godot.gif
 [img-sprite-rotating]: https://docs.godotengine.org/en/stable/_images/scripting_first_script_godot_turning_in_place.gif
 [issue-no-reload]: https://github.com/godotengine/godot/issues/66231
+[signals]: ../register/signals.md
 [tutorial-begin]: https://docs.godotengine.org/en/stable/getting_started/step_by_step/scripting_first_script.html
 [tutorial-full-script]: https://docs.godotengine.org/en/stable/getting_started/step_by_step/scripting_first_script.html#complete-script
 [versioning]: https://godot-rust.github.io/book/toolchain/godot-version.html
