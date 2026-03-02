@@ -228,6 +228,7 @@ that should solve the most common problems.
 
 - Have you run `cargo build`?
 - In `Cargo.toml`, have you set `crate-type = ["cdylib"]`?
+- Does Godot crash immediately on opening your project? Run `godot4 path/to/project.godot` from the terminal to see the error output.
 - In `my-extension.gdextension`, have you set `entry_symbol = "gdext_rust_init"`?  No other symbol can work.
 - Are the paths set in `my-extension.gdextension` correct?
   - Are you sure?  Double check `/rust/target/debug/` to see if the name of the `.so`/`.dll`/`.dylib` is spelled the way you expect.
