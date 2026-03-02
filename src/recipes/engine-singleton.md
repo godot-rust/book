@@ -24,7 +24,7 @@ Custom engine singletons in Godot:
 
 - are `Object` types
 - are always accessible to GDScript and GDExtension languages
-- must be manually registered and unregistered in the `InitLevel::Scene` step
+- must be manually registered and unregistered in the `InitStage::Scene` step
 
 Godot provides _many_ built-in singletons in its API. You can find a full list [here][godot-singleton-list].
 
@@ -60,7 +60,7 @@ impl MyEditorSingleton {
 
 ## Registering a singleton
 
-Registering singletons is done during the `InitLevel::Scene` stage of initialization.
+Registering singletons is done during the `InitStage::Scene` stage of initialization.
 
 To achieve this, we can customize our init/shutdown routines by overriding `ExtensionLibrary` trait methods.
 
@@ -69,23 +69,23 @@ struct MyExtension;
 
 #[gdextension]
 unsafe impl ExtensionLibrary for MyExtension {
-    fn on_level_init(level: InitLevel) {
-        if level == InitLevel::Scene {
+    fn on_stage_init(stage: InitStage) {
+        if stage == InitStage::Scene {
             // The `&str` identifies your singleton and can be
             // used later to access it.
             Engine::singleton().register_singleton(
-                &MyEngineSingleton::class_name().to_string_name(),
+                &MyEngineSingleton::class_id().to_string_name(),
                 &MyEngineSingleton::new_alloc(),
             );
         }
     }
 
-    fn on_level_deinit(level: InitLevel) {
-        if level == InitLevel::Scene {
+    fn on_stage_deinit(stage: InitStage) {
+        if stage == InitStage::Scene {
             // Let's keep a variable of our Engine singleton instance,
             // and MyEngineSingleton name.
             let mut engine = Engine::singleton();
-            let singleton_name = &MyEngineSingleton::class_name().to_string_name();
+            let singleton_name = &MyEngineSingleton::class_id().to_string_name();
 
             // Here, we manually retrieve our singleton(s) that we've registered,
             // so we can unregister them and free them from memory - unregistering
