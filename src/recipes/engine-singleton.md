@@ -46,12 +46,12 @@ Defining a singleton is the same as registering a custom class.
 ```rust
 #[derive(GodotClass)]
 #[class(init, base=Object)]
-struct MyEditorSingleton {
+struct MySingleton {
     base: Base<Object>,
 }
 
 #[godot_api]
-impl MyEditorSingleton {
+impl MySingleton {
     #[func]
     fn foo(&mut self) {}
 }
@@ -74,8 +74,8 @@ unsafe impl ExtensionLibrary for MyExtension {
             // The `&str` identifies your singleton and can be
             // used later to access it.
             Engine::singleton().register_singleton(
-                &MyEditorSingleton::class_id().to_string_name(),
-                &MyEditorSingleton::new_alloc(),
+                &MySingleton::class_id().to_string_name(),
+                &MySingleton::new_alloc(),
             );
         }
     }
@@ -83,9 +83,9 @@ unsafe impl ExtensionLibrary for MyExtension {
     fn on_stage_deinit(stage: InitStage) {
         if stage == InitStage::Scene {
             // Let's keep a variable of our Engine singleton instance,
-            // and MyEditorSingleton name.
+            // and MySingleton name.
             let mut engine = Engine::singleton();
-            let singleton_name = &MyEditorSingleton::class_id().to_string_name();
+            let singleton_name = &MySingleton::class_id().to_string_name();
 
             // Here, we manually retrieve our singleton(s) that we've registered,
             // so we can unregister them and free them from memory - unregistering
@@ -121,7 +121,7 @@ Now that your singleton is available (and once you've recompiled and reloaded), 
 extends Node
 
 func _ready() -> void:
-    MyEditorSingleton.foo()
+    MySingleton.foo()
 ```
 
 
@@ -131,7 +131,7 @@ You may also want to access your singleton from Rust as well.
 
 ```rust
 godot::classes::Engine::singleton()
-    .get_singleton(StringName::from("MyEditorSingleton"));
+    .get_singleton(StringName::from("MySingleton"));
 ```
 
 For more information on this method, refer to [the API docs][method-get-singleton].
