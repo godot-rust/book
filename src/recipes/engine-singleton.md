@@ -83,7 +83,7 @@ unsafe impl ExtensionLibrary for MyExtension {
     fn on_stage_deinit(stage: InitStage) {
         if stage == InitStage::Scene {
             // Let's keep a variable of our Engine singleton instance,
-            // and MyEngineSingleton name.
+            // and MyEditorSingleton name.
             let mut engine = Engine::singleton();
             let singleton_name = &MyEditorSingleton::class_id().to_string_name();
 
