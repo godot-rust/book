@@ -5,7 +5,7 @@
   ~ file, You can obtain one at https://mozilla.org/MPL/2.0/.
 -->
 
-# Engine singletons
+# User singletons
 
 It is important for you to understand the [Singleton pattern][singleton] to
 properly utilize this system.
@@ -18,17 +18,15 @@ users as well.
 Read more about criticisms [here][singleton-crit].
 ```
 
-An engine singleton is registered through [`godot::classes::Engine`][api-class-engine].
-
-Custom engine singletons in Godot:
+Custom singletons in Godot:
 
 - are `Object` types
+- always run in the editor (implied `#[class(tool)]`)
 - are always accessible to GDScript and GDExtension languages
-- must be manually registered and unregistered in the `InitStage::Scene` step
+- must be registered and unregistered in the `InitStage::Scene` step
 
 Godot provides _many_ built-in singletons in its API. You can find a full list [here][godot-singleton-list].
 
-[api-class-engine]: https://godot-rust.github.io/docs/gdext/master/godot/classes/struct.Engine.html
 [godot-singleton-list]: https://docs.godotengine.org/en/stable/classes/class_@globalscope.html#properties
 [singleton-crit]: https://en.wikipedia.org/wiki/Singleton_pattern#Criticism
 [singleton]: https://en.wikipedia.org/wiki/Singleton_pattern
@@ -39,81 +37,21 @@ Godot provides _many_ built-in singletons in its API. You can find a full list [
 <!-- toc -->
 
 
-## Defining a singleton
+## Registering custom singleton
 
-Defining a singleton is the same as registering a custom class.
+You can register given class as a Singleton with `#[class(singleton)]`.
 
 ```rust
 #[derive(GodotClass)]
-#[class(init, base=Object)]
+#[class(init, singleton)]
 struct MySingleton {
+    // For `#[class(singleton)]`, the default base is Object, not RefCounted.
     base: Base<Object>,
 }
 
-#[godot_api]
-impl MySingleton {
-    #[func]
-    fn foo(&mut self) {}
-}
+// Can be accessed like any other singleton from the main thread.
+let val = MySingleton::singleton().bind().foo();
 ```
-
-
-## Registering a singleton
-
-Registering singletons is done during the `InitStage::Scene` stage of initialization.
-
-To achieve this, we can customize our init/shutdown routines by overriding `ExtensionLibrary` trait methods.
-
-```rust
-struct MyExtension;
-
-#[gdextension]
-unsafe impl ExtensionLibrary for MyExtension {
-    fn on_stage_init(stage: InitStage) {
-        if stage == InitStage::Scene {
-            // The `&str` identifies your singleton and can be
-            // used later to access it.
-            Engine::singleton().register_singleton(
-                &MySingleton::class_id().to_string_name(),
-                &MySingleton::new_alloc(),
-            );
-        }
-    }
-
-    fn on_stage_deinit(stage: InitStage) {
-        if stage == InitStage::Scene {
-            // Let's keep a variable of our Engine singleton instance,
-            // and MySingleton name.
-            let mut engine = Engine::singleton();
-            let singleton_name = &MySingleton::class_id().to_string_name();
-
-            // Here, we manually retrieve our singleton(s) that we've registered,
-            // so we can unregister them and free them from memory - unregistering
-            // singletons isn't handled automatically by the library.
-            if let Some(my_singleton) = engine.get_singleton(singleton_name) {
-                // Unregistering from Godot, and freeing from memory is required
-                // to avoid memory leaks, warnings, and hot reloading problems.
-                engine.unregister_singleton(singleton_name);
-                my_singleton.free();
-            } else {
-                // You can either recover, or panic from here.
-                godot_error!("Failed to get singleton");
-            }
-        }
-    }
-}
-```
-
-```admonish warning title="Singletons inheriting from *RefCounted*"
-Use a manually-managed class as a base (often `Object` will be enough) for custom singletons to avoid prematurely freeing the object.
-If for any reason you need to have an instance of a reference-counted object registered as a singleton, this
-[issue thread][refcounted-singleton-issue] presents some possible workarounds.
-```
-
-[refcounted-singleton-issue]: https://github.com/godot-rust/gdext/issues/522
-
-
-## Calling from GDScript
 
 Now that your singleton is available (and once you've recompiled and reloaded), you should be able to access it from GDScript like so:
 
@@ -125,18 +63,118 @@ func _ready() -> void:
 ```
 
 
-## Calling from Rust
+## Using a singleton with `on_main_loop_frame`
 
-You may also want to access your singleton from Rust as well.
+Since Godot4.5+ [`on_main_loop_frame`][api-main-loop-frame] can be used to invoke an user singleton:
 
-```rust
-godot::classes::Engine::singleton()
-    .get_singleton(StringName::from("MySingleton"));
+```rs
+fn global_delta() -> f64 {
+    let ticks = ProjectSettings::singleton()
+        .get("physics/common/physics_ticks_per_second")
+        .to::<i64>();
+    1.0 / (ticks as f64)
+}
+
+#[derive(GodotClass)]
+#[class(init, singleton)]
+struct MySingleton {
+    #[init(val = global_delta())]
+    delta: f64,
+    
+    #[init(val = true)]
+    paused: bool,
+    
+    #[init(val = Instant::now())]
+    time: Instant,
+    
+    base: Base<Object>,
+}
+
+#[gdextension]
+unsafe impl ExtensionLibrary for MyExtension {
+    fn on_main_loop_frame() {
+        if Engine::singleton().is_editor_hint() {
+            return;
+        }
+        MySingleton::singleton().bind_mut().frame();
+    }
+}
+
+impl MySingleton {
+    pub fn frame(&mut self) {
+        if self.paused {
+            return;
+        }
+
+        let elapsed = self.time.elapsed().as_secs_f64();
+        self.elapsed += elapsed;
+
+        if self.elapsed >= self.delta {
+            let time_scale = Engine::singleton().get_time_scale();
+            self.run_simulation(self.elapsed * time_scale);
+            self.elapsed = 0.0;
+        }
+        self.time = Instant::now();
+    }
+}
 ```
 
-For more information on this method, refer to [the API docs][method-get-singleton].
+[api-main-loop-frame]: https://godot-rust.github.io/docs/gdext/master/godot/init/trait.ExtensionLibrary.html#method.on_main_loop_frame
 
-[method-get-singleton]: https://godot-rust.github.io/docs/gdext/master/godot/classes/struct.Engine.html#method.get_singleton
+
+## Registering custom singleton without proc macro
+
+Custom singleton can be registered through [`godot::classes::Engine`][api-class-engine].
+Additionally, implementing [`UserSingleton`][api-user-singleton] allows accessing a registered singleton instance through `singleton()`.
+
+User singletons should be registered under their class name – otherwise some Godot components (for example GDScript before 4.4)
+might have trouble handling them, and the editor might crash when using `T::singleton()`.
+
+There should be only one instance of a given singleton class in the engine, valid as long as the library is loaded.
+Therefore, user singletons are limited to classes with manual memory management (ones not inheriting from RefCounted).
+
+```rs
+#[derive(GodotClass)]
+#[class(init, base = Object)]
+struct MySingleton {}
+
+// Provides blanket implementation allowing to use MySingleton::singleton().
+// Ensures that `MySingleton` is a valid singleton 
+// (i.e., a non-refcounted GodotClass).
+impl UserSingleton for MySingleton {}
+
+struct MyExtension;
+
+#[gdextension]
+unsafe impl ExtensionLibrary for MyExtension {
+    fn on_stage_init(stage: InitStage) {
+        // Singleton should be registered before the MainLoop startup;
+        // otherwise it won't be recognized by the GDScriptParser.
+        if stage == InitStage::Scene {
+            let obj = MySingleton::new_alloc();
+            Engine::singleton()
+                .register_singleton(
+                    &MySingleton::class_id().to_string_name(), 
+                    &obj
+                );
+        }
+    }
+
+    fn on_stage_deinit(stage: InitStage) {
+        if stage == InitStage::Scene {
+            let obj = MySingleton::singleton();
+            Engine::singleton()
+                .unregister_singleton(
+                    &MySingleton::class_id().to_string_name()
+                );
+            obj.free();
+        }
+    }
+}
+```
+
+[api-user-singleton]: https:/godot-rust.github.io/docs/gdext/master/godot/obj/trait.UserSingleton.html
+[api-class-engine]: https://godot-rust.github.io/docs/gdext/master/godot/classes/struct.Engine.html
 
 
 ## Singletons and the `SceneTree`
