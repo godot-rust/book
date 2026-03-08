@@ -126,7 +126,7 @@ The signal type is implementation-defined. Besides the `#[signal]`-specific cust
 ```admonish note title="Availability of signal API"
 For typed signals to be available, you need:
 
-- A `#[godot_api] impl MyClass {}` block.  
+- A `#[godot_api] impl MyClass {}` block.
   - This must be an inherent impl, the `I*` trait `impl` won't be enough.
   - Leave the impl empty if necessary.
 - A `Base<T>` field.
@@ -200,7 +200,7 @@ impl INode3D for Monster {
         // Let's say damage is deflected to a shield object.
         // That one is stored as field `shield: OnReady<Gd<Shield>>`.
         // &*self.shield is thus the `&Gd<Shield>` we need.
-        
+
         self.signals()
             .damage_taken()
             .connect_other(&*self.shield, Shield::on_damage_taken);
@@ -228,7 +228,7 @@ impl INode3D for Monster {
         self.signals()
             .damage_taken()
             .connect(Self::on_damage_taken);
-        
+
         // Or with closures:
         self.signals()
             .damage_taken()
@@ -392,7 +392,7 @@ impl INode3D for Monster {
         self.signals()
             .damage_taken()
             .connect_other(&*self.shield, Shield::on_damage_taken);
-        
+
         // Connect to the `Node::renamed` signal, which is invoked
         // when a node name changes.
         self.signals()
@@ -556,12 +556,68 @@ Just use closures instead. Generally speaking, the [`TypedSignal`][api-typedsign
 to be extensible for your own workflows.
 
 
+### Signals in the editor – hot reload interaction
+
+Typed signals use custom [callables][api-callable] for connections, which contain a vtable – a set of function pointers pointing
+to Godot FFI functions. After hot reload, all these function pointers become invalid, and invoking any of them results
+in undefined behavior, usually leading to crash.
+
+To prevent unsoundness, godot-rust automatically disconnects all typed signal connections (i.e. created using anything other
+than the untyped signals API) before a hot reload.
+These connections can be recreated afterwards, typically using the [`EXTENSION_RELOADED`][api-extension-reloaded-notification] notification.
+
+```rs
+#[derive(GodotClass)]
+#[class(init, base = Node)]
+struct InEditorMonster {
+    // Properties are being preserved by the hot reload,
+    // allowing us to recrate signals afterward.
+    #[var]
+    managed_editor_objects: Array<Gd<Object>>,
+
+    base: Base<Node>
+}
+
+#[godot_api]
+impl INode for InEditorMonster {
+    fn on_notification(&mut self, what: NodeNotification) {
+        if what == NodeNotification::EXTENSION_RELOADED {
+            // Clone the pointer to the array to avoid partial borrow issues – `signals()` require &mut reference.
+            // Do it only when you can ensure that nothing will modify the array during iteration.
+            for obj in self.managed_editor_objects.clone().iter_shared() {
+                self.signals().my_signal().builder().connect_other_gd(&obj, some_fn);
+            }
+        }
+    }
+}
+```
+
+Alternatively, untyped signals – which are preserved during hot reload – with **standard** (non-custom) callables can be used.
+At the moment [`Callable::from_object_method`][api-callable-from-object-method] or [`Gd::callable()`][api-gd-callable] can
+be used to create standard callables.
+
+```rs
+let monster: Gd<InEditorMonster> = ...;
+let non_custom_callable: Callable = monster.callable("damage_taken");
+
+// Will not cause any problems upon hot reload.
+monster.connect("damage_taken", &non_custom_callable);
+
+let custom_callable: Callable = Callable::from_fn(
+    "my custom callable",
+    |_| godot_print!("hello world!")
+);
+
+// Invoking this signal after hot reload will lead to UB!
+monster.connect("damage_taken", &custom_callable);
+```
+
+
 ## Conclusion
 
 In this chapter, we saw how godot-rust's **typed signals** provide an intuitive and resilient way to deal with Godot's observer pattern
 and avoid certain pitfalls of GDScript.
 Rust function references or closures can be directly connected to signals, and emitting is achieved with regular function calls.
-
 
 [api-asarg]: https://godot-rust.github.io/docs/gdext/master/godot/meta/trait.AsArg.html
 [api-withsignals]: https://godot-rust.github.io/docs/gdext/master/godot/obj/trait.WithSignals.html
@@ -578,3 +634,7 @@ Rust function references or closures can be directly connected to signals, and e
 [api-signal-emit]: https://godot-rust.github.io/docs/gdext/master/godot/builtin/struct.Signal.html#method.emit
 [api-vslice]: https://godot-rust.github.io/docs/gdext/master/godot/builtin/macro.vslice.html
 [api-connecthandle]: https://godot-rust.github.io/docs/gdext/master/godot/register/struct.ConnectHandle.html
+[api-callable]: https://godot-rust.github.io/docs/gdext/master/godot/prelude/struct.Callable.html
+[api-callable-from-object-method]: https://godot-rust.github.io/docs/gdext/master/godot/prelude/struct.Callable.html#method.from_object_method
+[api-gd-callable]: https://godot-rust.github.io/docs/gdext/master/godot/prelude/struct.Gd.html#method.callable
+[api-extension-reloaded-notification]: https://godot-rust.github.io/docs/gdext/master/godot/classes/notify/enum.ObjectNotification.html#variant.EXTENSION_RELOADED
