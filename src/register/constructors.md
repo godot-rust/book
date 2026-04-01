@@ -28,6 +28,11 @@ It is invoked by the scene tree or when you write `Monster.new()` in GDScript.
 There are two options to define the constructor: let godot-rust generate it or define it manually. It is also possible to opt out of `init` if you
 don't need Godot to default-construct your object.
 
+```admonish note title="No parameters in <code>init</code>"
+Unlike GDScript, GDExtension does not support additional parameters in the `init` constructor.
+However, you can achieve the same with [Custom constructors](#custom-constructors) below.
+```
+
 
 ### Library-generated `init`
 
@@ -92,9 +97,6 @@ just forwarded to its corresponding field in the struct, here `base`.
 The `init` method always returns `Self`. You may notice that this is currently the only way to construct a `Monster` instance. As soon as your
 struct contains a base field, you can no longer provide your own constructor, as you can't provide a value for that field. This is by design and
 ensures that _if_ you need access to the base, that base comes from Godot directly.
-
-However, fear not: you can still provide all sorts of constructors, they just need to go through dedicated functions that internally call `init`.
-More on this in the next section.
 
 
 ### Disabled `init`
