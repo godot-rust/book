@@ -85,11 +85,6 @@ We envision the following core principles as a guideline for API design:
 
 See these as guidelines, not hard rules. If you are unsure, please don't hesitate to ask questions and discuss different ideas :)
 
-```admonish tip
-We highly appreciate if contributors propose a rough design before spending large effort on implementation.
-This aligns ideas early and saves time on approaches that may not work.
-```
-
 [wiki-premature-opt]: https://en.wikipedia.org/wiki/Program_optimization#When_to_optimize
 [wiki-yagni]: https://en.wikipedia.org/wiki/YAGNI
 [lib-ergonomics-panics]: https://godot-rust.github.io/docs/gdext/master/godot/#ergonomics-and-panics
