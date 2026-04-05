@@ -199,11 +199,14 @@ impl INode3D for Monster {
     fn ready(&mut self) {
         // Let's say damage is deflected to a shield object.
         // That one is stored as field `shield: OnReady<Gd<Shield>>`.
-        // &*self.shield is thus the `&Gd<Shield>` we need.
+        
+        // We clone it into a pointer to not have borrow errors later, as `self`
+        // is already borrowed by `self.signals()`. The * is OnReady deref.
+        let shield: Gd<Shield> = (*self.shield).clone();
 
         self.signals()
             .damage_taken()
-            .connect_other(&*self.shield, Shield::on_damage_taken);
+            .connect_other(&shield, Shield::on_damage_taken);
     }
 }
 ```
