@@ -210,7 +210,7 @@ ios.release = "res://../rust/target/release/lib{YourCrate}.ios.framework"
 
 ```admonish note title="Optional Step"
 This step is only needed if you want to share the library.
-If you are building the whole game, you will sign everything and don't need to sign the library. You can skip to [Godot Build](#godot-build) step.
+If you are building the whole game, you will sign everything and don't need to sign the library. You can skip to [Godot export](#godot-export) step.
 ```
 
 In order to code-sign and notarize your app, you will first need to gather some information from your enrolled Apple Developer account.
