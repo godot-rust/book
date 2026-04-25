@@ -49,7 +49,7 @@ For an up-to-date overview of implementation status, consult [issue #24][feature
 To avoid confusion, here is an explanation of names and technologies you may encounter over the course of this book:
 
 - [**godot-rust**][ref-godot-rust]: The Godot 4 Rust bindings, and sometimes also the entire project (book, community, website etc.).
-- [**gdext**][github-gdext] (lowercase): explicitly just Rust 4 bindings. We prefer the term "godot-rust" which is more recognizable
+- [**gdext**][github-gdext] (lowercase): explicitly just the Rust bindings for Godot 4. We prefer the term "godot-rust" which is more recognizable
   outside this specific ecosystem.
 - [**gdnative**][github-gdnative] (lowercase): the Rust binding for GDNative (Godot 3), no longer actively maintained.
 - [**GDExtension**][ref-godot-gdext]: C API provided by Godot 4.
