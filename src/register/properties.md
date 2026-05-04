@@ -221,10 +221,10 @@ As a general rule, try to stay close to Godot's own types, e.g. `Array`, `Dictio
 [api-godotconvert]: https://godot-rust.github.io/docs/gdext/master/godot/meta/trait.GodotConvert.html
 [api-var]: https://godot-rust.github.io/docs/gdext/master/godot/register/property/trait.Var.html
 [api-export]: https://godot-rust.github.io/docs/gdext/master/godot/register/property/trait.Export.html
-[api-derive-export]: https://godot-rust.github.io/docs/gdext/master/godot/register/derive.Export.html
-[api-derive-var]: https://godot-rust.github.io/docs/gdext/master/godot/register/derive.Var.html
+[api-derive-export]: https://godot-rust.github.io/docs/gdext/master/godot/register/property/derive.Export.html
+[api-derive-var]: https://godot-rust.github.io/docs/gdext/master/godot/register/property/derive.Var.html
 [api-var-export]: https://godot-rust.github.io/docs/gdext/master/godot/register/derive.GodotClass.html#properties-and-exports
-[godot-gdscript-properties]: https://docs.godotengine.org/en/stable/tutorials/scripting/gdscript/gdscript_basics.html#properties
+[godot-gdscript-properties]: https://docs.godotengine.org/en/stable/tutorials/scripting/gdscript/gdscript_exports.html#
 [gh-godot-packedarray]: https://github.com/godotengine/godot/issues/76150
 [godot-gdscript-enums]: https://docs.godotengine.org/en/stable/tutorials/scripting/gdscript/gdscript_basics.html#enums
 
