@@ -526,7 +526,7 @@ The builder methods need to be called in the correct order ("stages"). See [API 
 Godot's low-level APIs for dealing with untyped signals are still available:
 
 - [`Object::connect()`][api-object-connect]
-- [`Object::connect_ex()`][api-object-connect-ex]
+- [`Object::connect_flags()`][api-object-connect-flags]
 - [`Object::emit_signal()`][api-object-emitsignal]
 - [`Signal::connect()`][api-signal-connect]
 - [`Signal::emit()`][api-signal-emit]
@@ -627,16 +627,16 @@ Rust function references or closures can be directly connected to signals, and e
 [api-withusersignals]: https://godot-rust.github.io/docs/gdext/master/godot/obj/trait.WithUserSignals.html
 [api-gd-signals]: https://godot-rust.github.io/docs/gdext/master/godot/obj/struct.Gd.html#method.signals
 [godot-gdscript-signals]: https://docs.godotengine.org/en/stable/tutorials/scripting/gdscript/gdscript_basics.html#signals
-[api-typedsignal]: https://godot-rust.github.io/docs/gdext/master/godot/register/struct.TypedSignal.html
-[api-typedsignal-builder]: https://godot-rust.github.io/docs/gdext/master/godot/register/struct.TypedSignal.html#method.builder
-[api-connectbuilder]: https://godot-rust.github.io/docs/gdext/master/godot/register/struct.ConnectBuilder.html
+[api-typedsignal]: https://godot-rust.github.io/docs/gdext/master/godot/signal/struct.TypedSignal.html
+[api-typedsignal-builder]: https://godot-rust.github.io/docs/gdext/master/godot/signal/struct.TypedSignal.html#method.builder
+[api-connectbuilder]: https://godot-rust.github.io/docs/gdext/master/godot/signal/struct.ConnectBuilder.html
 [api-object-connect]: https://godot-rust.github.io/docs/gdext/master/godot/classes/struct.Object.html#method.connect
-[api-object-connect-ex]: https://godot-rust.github.io/docs/gdext/master/godot/classes/struct.Object.html#method.connect_ex
+[api-object-connect-flags]: https://godot-rust.github.io/docs/gdext/master/godot/classes/struct.Object.html#method.connect_flags
 [api-object-emitsignal]: https://godot-rust.github.io/docs/gdext/master/godot/classes/struct.Object.html#method.emit_signal
 [api-signal-connect]: https://godot-rust.github.io/docs/gdext/master/godot/builtin/struct.Signal.html#method.connect
 [api-signal-emit]: https://godot-rust.github.io/docs/gdext/master/godot/builtin/struct.Signal.html#method.emit
 [api-vslice]: https://godot-rust.github.io/docs/gdext/master/godot/builtin/macro.vslice.html
-[api-connecthandle]: https://godot-rust.github.io/docs/gdext/master/godot/register/struct.ConnectHandle.html
+[api-connecthandle]: https://godot-rust.github.io/docs/gdext/master/godot/signal/struct.ConnectHandle.html
 [api-callable]: https://godot-rust.github.io/docs/gdext/master/godot/prelude/struct.Callable.html
 [api-callable-from-object-method]: https://godot-rust.github.io/docs/gdext/master/godot/prelude/struct.Callable.html#method.from_object_method
 [api-gd-callable]: https://godot-rust.github.io/docs/gdext/master/godot/prelude/struct.Gd.html#method.callable
