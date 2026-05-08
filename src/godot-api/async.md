@@ -54,7 +54,7 @@ struct Game {
 #[godot_api]
 impl INode for Game {
     fn ready(&mut self) {
-        // Connect a signal.
+        // Connect signal: $Player.body_entered -> Self::show_messages.
         self.base()
             .get_node_as::<Area2D>("Player")
             .signals()
