@@ -43,7 +43,7 @@ is called with a Godot pointer is to use the signal builder.
 
 ```rust
 use godot::prelude::*;
-use godot::classes::{ Area2D };
+use godot::classes::Area2D;
 
 #[derive(GodotClass)]
 #[class(init, base=Node)]
