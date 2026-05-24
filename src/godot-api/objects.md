@@ -48,7 +48,7 @@ Each Rust class has a Godot base class.
 You cannot inherit other Rust classes or user-defined classes declared in GDScript.
 
 To create relations between Rust classes, use composition and traits. The library still undergoes [some exploration in this area][issue-traits],
-so best practices for absracting over Rust classes might change in the future.
+so best practices for abstracting over Rust classes might change in the future.
 ```
 
 
