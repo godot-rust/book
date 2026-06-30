@@ -27,6 +27,33 @@ Depending on the number of entries, it may be necessary to remove/archive older 
 Games with regular updates on social media or devlogs. If they are abandoned, they may be removed from this section or archived.
 
 
+### Flame Up
+
+[**Steam**](https://store.steampowered.com/app/4536730/Flame_Up/) |
+[Discord](https://discord.com/channels/723850269347283004/1516011864889364651/1516011864889364651) |
+_by Charming Moon_
+
+![Flame Up](images/2026-06-flame-up.png)
+
+
+### One More Gem
+
+[**Steam**](https://store.steampowered.com/app/3871180/One_more_gem/) |
+[Discord](https://discord.com/channels/723850269347283004/1495513717599895723/1495513717599895723) |
+_by Cosmin Munteanu_
+
+![One More Gem](images/2026-06-one-more-gem.png)
+
+
+### Hadalyth Zero
+
+[**Steam**](https://store.steampowered.com/app/4459350/HADALYTH_ZERO) |
+[Discord](https://discord.com/channels/723850269347283004/1503581571767337061/1503581571767337061) |
+_by CLAYMORE_DEV_
+
+![Hadalyth Zero](images/2026-06-hadalyth-zero.png)
+
+
 ### Law of Entropy
 
 
@@ -47,7 +74,16 @@ _by Clementine Games_
 ![Allyon: Battlecry](images/2025-09-allyon-battlecry.png)
 
 
-### Voxel game
+### Voxel game (MountainLabz)
+
+[**YouTube**](https://www.youtube.com/@MountainLabz) |
+[Discord](https://discord.com/channels/723850269347283004/1471698740002820334/1471698740002820334) |
+_by MountainLabz_
+
+![MountainLabz Voxel game](images/2026-02-mountainlabz-voxel.png)
+
+
+### Voxel game (Ayrton)
 
 [**YouTube**](https://www.youtube.com/@ayrton-dev) |
 [**BlueSky**](https://bsky.app/profile/aj213.bsky.social) |
@@ -55,6 +91,25 @@ _by Clementine Games_
 _by Ayrton_
 
 ![Ayrton Voxel game](images/2025-03-ayrton-voxel.png)
+
+
+### Neon Grand Prix
+
+[**Steam**](https://store.steampowered.com/app/4530590/Neon_Grand_Prix/) |
+[Discord](https://discord.com/channels/723850269347283004/1491554536815595571/1491554536815595571) |
+_by DMTE Consulting_
+
+![Neon Grand Prix](images/2026-04-neon-grandprix.png)
+
+
+### Super Space Crystals
+
+[**Steam**](https://store.steampowered.com/app/4174550/Super_Space_Crystals/) |
+[**YouTube**](https://www.youtube.com/watch?v=Iy2CzkaYj6g) |
+[Discord](https://discord.com/channels/723850269347283004/1451842954460135534/1451842954460135534) |
+_by Benji Flaming_
+
+![Super Space Crystals](images/2026-06-super-space-crystals.png)
 
 
 ## Commercially released games
