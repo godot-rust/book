@@ -79,8 +79,7 @@ Android target, as of the writing of this.
 Assuming the following things:
 
 1. Android CLI is installed in the `$HOME` folder.
-2. Godot is still relying on Android NDK version 23.2.8568313. Check
-[here](https://github.com/godotengine/godot/blob/master/platform/android/java/app/config.gradle).
+2. The NDK version is [here](https://github.com/godotengine/godot/blob/master/platform/android/java/app/config.gradle).
 3. The downloaded Android CLI version is: 11076708_latest (update this to be the version you downloaded).
 4. This is being run on Linux. Change the `linux-x86_64` folder in `CLANG_PATH` and `CARGO_TARGET_AARCH64_LINUX_ANDROID_LINKER`
 to be your host machine's operating system.
