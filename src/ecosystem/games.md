@@ -45,15 +45,6 @@ _by Cosmin Munteanu_
 ![One More Gem](images/2026-06-one-more-gem.png)
 
 
-### Hadalyth Zero
-
-[**Steam**](https://store.steampowered.com/app/4459350/HADALYTH_ZERO) |
-[Discord](https://discord.com/channels/723850269347283004/1503581571767337061/1503581571767337061) |
-_by CLAYMORE_DEV_
-
-![Hadalyth Zero](images/2026-06-hadalyth-zero.png)
-
-
 ### Law of Entropy
 
 
