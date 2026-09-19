@@ -29,6 +29,7 @@ Games made with godot-rust are available on [a separate page](games.md).
 | 🌀 _**Async**_                                                                 |                                                                          |                                               |
 | **[gdext-coroutines]**<br/>Integrate Rust coroutines with Godot's async/await. | [crates.io][gdext-coroutines-crate], [Discord][gdext-coroutines-discord] | ![gdext-coroutines][gdext-coroutines-badge]   |
 | **[godot-tokio]**<br/>Create Tokio runtime for use with godot-rust.            | [crates.io][godot-tokio-crate], [Discord][godot-tokio-discord]           | ![godot-tokio][godot-tokio-badge]             |
+| **[gdext-async]**<br/>Compatibility macros between Rust `await` and Godot `await` | [crates.io][gdext-async-crate]                                        | ![gdext-async][gdext-async-badge]             |
 | ___________________________________________________                            |                                                                          |                                               |
 | 🏗️ _**Project workflow**_                                                     |                                                                          |                                               |
 | **[godot_rust_tools]**<br/>Tools and utilities for godot-rust development.     | [Asset Library][grt-assetlib], [Discord][grt-discord]                    | ![godot_rust_tools][grt-badge]                |
@@ -54,6 +55,10 @@ Games made with godot-rust are available on [a separate page](games.md).
 [godot-tokio-discord]: https://discord.com/channels/723850269347283004/1312490414762364928/1312490414762364928
 [godot-tokio-crate]: https://crates.io/crates/godot_tokio
 [godot-tokio-badge]: https://img.shields.io/github/last-commit/2-3-5-41/godot_tokio
+
+[gdext-async]: https://github.com/Mercerenies/gdext-async
+[gdext-async-crate]: https://crates.io/crates/gdext-async/0.1.0
+[gdext-async-badge]: https://img.shields.io/github/last-commit/mercerenies/gdext-async
 
 [godot_rust_tools]: https://github.com/ttencate/godot_rust_tools
 [grt-assetlib]: https://godotengine.org/asset-library/asset/4365
