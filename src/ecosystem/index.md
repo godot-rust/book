@@ -38,6 +38,7 @@ Games made with godot-rust are available on [a separate page](games.md).
 | **[gdext-generation]**<br/>Auto-generate the `.gdextension` file.              | [Discord][gdext-generation-discord]                                      | ![gdext-generation][gdext-generation-badge]   |
 | **[godot-rust-cli]**<br/>CLI scripts for Godot with Rust.                      | [Discord][godot-rust-cli-discord]                                        | ![godot-rust-cli][godot-rust-cli-badge]       |
 | **[gdext-cli]**<br/>A CLI tool to generate godot-rust projects and scripts.    |                                                                          | ![gdext-cli][gdext-cli-badge]                 |
+| **[godust]**<br/>Opinionated CLI tool for Godot template generation in gdext.| [crates.io][godust-crate]                                                | ![godust][godust-badge]                       |
 | ___________________________________________________                            |                                                                          |                                               |
 | 📜 _**Scripting**_                                                             |                                                                          |                                               |
 | **[godot-rust-script]**<br/>Allows Rust scripts to be added to nodes.          |                                                                          | ![godot-rust-script][godot-rust-script-badge] |
@@ -83,6 +84,10 @@ Games made with godot-rust are available on [a separate page](games.md).
 
 [gdext-cli]: https://github.com/FrankCasanova/gdext-cli
 [gdext-cli-badge]: https://img.shields.io/github/last-commit/FrankCasanova/gdext-cli
+
+[godust]: https://codeberg.org/viniciusmorgado/godust
+[godust-crate]: https://crates.io/crates/godust
+[godust-badge]: https://img.shields.io/gitea/last-commit/viniciusmorgado/godust?gitea_url=https%3A%2F%2Fcodeberg.org
 
 [godot-rust-script]: https://github.com/titannano/godot-rust-script
 [godot-rust-script-badge]: https://img.shields.io/github/last-commit/titannano/godot-rust-script
