@@ -201,13 +201,13 @@ the GDExtension. Setting this up requires quite some low-level [FFI][wikipedia-f
 
 In your `lib.rs`, replace the template with the following:
 
+```admonish tip
+When hovering over a rust code block, click the eye icon in the top right to see how the snippet fits
+within the entire file.
+```
+
 ```rust
-use godot::prelude::*;
-
-struct MyExtension;
-
-#[gdextension]
-unsafe impl ExtensionLibrary for MyExtension {}
+{{#rustdoc_include code/hello-world.rs:entry-point}}
 ```
 
 There are multiple things going on here:
@@ -271,17 +271,7 @@ This can be either defined in `lib.rs` or in a separate file `player.rs`.
 In case you go for the latter, don't forget to declare `mod player;` in your `lib.rs` file.
 
 ```rust
-use godot::prelude::*;
-use godot::classes::Sprite2D;
-
-#[derive(GodotClass)]
-#[class(base=Sprite2D)]
-struct Player {
-    speed: f64,
-    angular_speed: f64,
-
-    base: Base<Sprite2D>
-}
+{{#rustdoc_include code/hello-world.rs:class-declaration}}
 ```
 
 Let's break this down.
@@ -322,20 +312,7 @@ Now let's add some logic. We start with overriding the `init` method, also known
 This corresponds to GDScript's `_init()` function.
 
 ```rust
-use godot::classes::ISprite2D;
-
-#[godot_api]
-impl ISprite2D for Player {
-    fn init(base: Base<Sprite2D>) -> Self {
-        godot_print!("Hello, world!"); // Prints to the Godot console
-        
-        Self {
-            speed: 400.0,
-            angular_speed: std::f64::consts::PI,
-            base,
-        }
-    }
-}
+{{#rustdoc_include code/hello-world.rs:init}}
 ```
 
 Again, those are multiple pieces working together, let's go through them one by one.
@@ -355,22 +332,7 @@ Now that initialization is sorted out, we can move on to actual logic. We would 
 the `process()` method. This corresponds to GDScript's `_process()`. If you need a fixed framerate, use `physics_process()` instead.
 
 ```rust
-use godot::classes::ISprite2D;
-
-#[godot_api]
-impl ISprite2D for Player {
-    fn init(base: Base<Sprite2D>) -> Self { /* as before */ }
-
-    fn physics_process(&mut self, delta: f64) {
-        // In GDScript, this would be: 
-        // rotation += angular_speed * delta
-        
-        let radians = (self.angular_speed * delta) as f32;
-        self.base_mut().rotate(radians);
-        // The 'rotate' method requires a f32, 
-        // therefore we convert 'self.angular_speed * delta' which is a f64 to a f32
-    }
-}
+{{#rustdoc_include code/hello-world.rs:physics-process}}
 ```
 
 GDScript uses property syntax here; Rust requires explicit method calls instead. Also, access to base class methods -- such as `rotate()`
@@ -403,33 +365,7 @@ Check out the [command-line tutorial][godot-command-line] for more information.
 We now add a translation component to the sprite, following [the upstream tutorial][tutorial-full-script].
 
 ```rust
-use godot::classes::ISprite2D;
-
-#[godot_api]
-impl ISprite2D for Player {
-    fn init(base: Base<Sprite2D>) -> Self { /* as before */ }
-
-    fn physics_process(&mut self, delta: f64) {
-        // GDScript code:
-        //
-        // rotation += angular_speed * delta
-        // var velocity = Vector2.UP.rotated(rotation) * speed
-        // position += velocity * delta
-        
-        let radians = (self.angular_speed * delta) as f32;
-        self.base_mut().rotate(radians);
-
-        let rotation = self.base().get_rotation();
-        let velocity = Vector2::UP.rotated(rotation) * self.speed as f32;
-        self.base_mut().translate(velocity * delta as f32);
-        
-        // or verbose: 
-        // let this = self.base_mut();
-        // this.set_position(
-        //     this.position() + velocity * delta as f32
-        // );
-    }
-}
+{{#rustdoc_include code/hello-world-phpr-update.rs:physics-process}}
 ```
 
 The result should be a sprite that rotates with an offset.
@@ -445,17 +381,7 @@ annotated with `#[godot_api]`. However, this time we are using an _inherent_ `im
 Concretely, we add a function to increase the speed, and a signal to notify other objects of the speed change.
 
 ```rust
-#[godot_api]
-impl Player {
-    #[func]
-    fn increase_speed(&mut self, amount: f64) {
-        self.speed += amount;
-        self.signals().speed_increased().emit();
-    }
-
-    #[signal]
-    fn speed_increased();
-}
+{{#rustdoc_include code/hello-world-phpr-update.rs:custom-api}}
 ```
 
 `#[godot_api]` takes again the role of exposing the API to the Godot engine. But there are also two new attributes:

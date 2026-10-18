@@ -26,6 +26,11 @@ additional-css = ["config/mdbook-admonish.css", "config/tomorrow-noon.css"]
 default-theme = "godot-rust-light"
 preferred-dark-theme = "godot-rust-dark"
 
+# Disable play.rust-lang.org and the play button on code examples
+# by extension.
+[output.html.playground]
+runnable = false
+
 
 [output.html.redirect]
 
