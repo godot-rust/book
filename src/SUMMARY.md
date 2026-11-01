@@ -44,6 +44,7 @@
   - [Dev tools and testing](contribute/dev-tools.md)
   - [Code and API conventions](contribute/conventions.md)
 - [Migration guides](migrate/index.md)
+  - [Migrating to v0.6](migrate/v0.6.md)
   - [Migrating to v0.5](migrate/v0.5.md)
   - [Migrating to v0.4](migrate/v0.4.md)
   - [Migrating to v0.3](migrate/v0.3.md)
