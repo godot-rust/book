@@ -118,7 +118,7 @@ First, add an empty `.gdextension` file anywhere in your `godot` subfolder. In c
 
 ```ini
 [configuration]
-entry_symbol = "gdext_rust_init"
+entry_symbol = "godot_rust_init"
 compatibility_minimum = 4.1
 reloadable = true
 
@@ -135,8 +135,8 @@ macos.release.arm64 =    "res://../rust/target/release/lib{YourCrate}.dylib"
 
 The `[configuration]` section should be copied as-is.
 
-- Key `entry_symbol` refers to the entry point function that **godot-rust** exposes. We choose `"gdext_rust_init"`, which is the library's default
-  (but can be configured if needed).
+- Key `entry_symbol` refers to the entry point function that **godot-rust** exposes. We choose `"godot_rust_init"`, which is the library's default
+  (but can be configured if needed). Versions before v0.5.6 use `"gdext_rust_init"` instead.
 - Key `compatibility_minimum` specifies the minimum version of **Godot** required by your extension to work.
   Opening the project with a version of Godot lower than this will prevent your extension from running.
   - If you build a plugin to be used by others, set this as low as possible for maximum ecosystem compatibility. This might however limit
@@ -222,14 +222,15 @@ The last point declares the actual GDExtension entry point, and the proc-macro a
 
 ### Troubleshooting
 
-It's common that there are some issues with first-time setup.  Particularly, errors related to the library not being found or the `gdext_rust_init`
+It's common that there are some issues with first-time setup.  Particularly, errors related to the library not being found or the `godot_rust_init`
 entry point symbol being missing or impossible to resolve come up, usually due to an incorrect initial setup.  Here are a few troubleshooting steps
 that should solve the most common problems.
 
 - Have you run `cargo build`?
 - In `Cargo.toml`, have you set `crate-type = ["cdylib"]`?
 - Does Godot crash immediately on opening your project? Run `godot4 path/to/project.godot` from the terminal to see the error output.
-- In `my-extension.gdextension`, have you set `entry_symbol = "gdext_rust_init"`?  No other symbol can work.
+- In `my-extension.gdextension`, have you set `entry_symbol = "godot_rust_init"`?  No other symbol can work, unless you configured one with
+  `#[gdextension(entry_symbol = ...)]`. Before v0.5.6, the symbol is `"gdext_rust_init"`.
 - Are the paths set in `my-extension.gdextension` correct?
   - Are you sure?  Double check `/rust/target/debug/` to see if the name of the `.so`/`.dll`/`.dylib` is spelled the way you expect.
   - The paths must also be relative to the directory that `project.godot` is in.  Typically it'll be `res://../rust/...`.
